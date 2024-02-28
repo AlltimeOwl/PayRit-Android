@@ -1,7 +1,8 @@
-package com.alltimeowl.payrit
+package com.alltimeowl.payrit.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.alltimeowl.payrit.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
