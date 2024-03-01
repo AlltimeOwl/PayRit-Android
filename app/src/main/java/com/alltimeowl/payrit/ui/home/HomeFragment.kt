@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.databinding.FragmentHomeBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
@@ -41,6 +42,11 @@ class HomeFragment : Fragment() {
 
             spinnerHome.run {
                 adapter = SpinnerAdapter(mainActivity, R.layout.item_spinner, category)
+            }
+
+            recyclerViewHome.run {
+                recyclerViewHome.layoutManager = LinearLayoutManager(context)
+                adapter = HomeAdapter()
             }
         }
     }
