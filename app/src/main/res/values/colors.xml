@@ -5,4 +5,8 @@
 
     <color name="mint">#37D9BC</color>
     <color name="gray">#989293</color>
+    <color name="gray100">#666666</color>
+    <color name="gray150">#767676</color>
+    <color name="gray200">#CCCCCC</color>
+    <color name="gray250">#F2F2F2</color>
 </resources>
