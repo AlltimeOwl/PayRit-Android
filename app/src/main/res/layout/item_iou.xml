@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/gray300"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp">
+
+                <TextView
+                    android:id="@+id/textView_period_iou"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="2024.02.26 ~ 2024.03.26"
+                    android:textAppearance="@style/Typography.Regular15"
+                    android:textColor="@color/gray100" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/imageView_edit_iou"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="6dp"
+                    android:src="@drawable/ic_edit" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <TextView
+                android:id="@+id/textView_total_amount_iou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:text="30,000,000원"
+                android:textColor="@color/black100"
+                android:textSize="28sp" />
+
+            <TextView
+                android:id="@+id/textView_name_iou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:text="정주성"
+                android:textColor="@color/gray100"
+                android:textSize="18sp" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_day_iou"
+                    android:layout_width="50dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/bg_semicircle_day_r16"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="2dp"
+                    android:stateListAnimator="@null"
+                    android:text="D - 29"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_state_iou"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:background="@drawable/bg_semicircle_iou_state_r16"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="10dp"
+                    android:stateListAnimator="@null"
+                    android:text="승인 대기중"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
