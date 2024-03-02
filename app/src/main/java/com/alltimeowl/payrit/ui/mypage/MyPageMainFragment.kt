@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.alltimeowl.payrit.databinding.FragmentMyPageMainBinding
+import com.alltimeowl.payrit.databinding.ItemUserLogoutBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class MyPageMainFragment : Fragment() {
 
@@ -21,7 +23,30 @@ class MyPageMainFragment : Fragment() {
         mainActivity = activity as MainActivity
         binding = FragmentMyPageMainBinding.inflate(layoutInflater)
 
+        moveToLogOut()
+
         return binding.root
+    }
+
+    private fun moveToLogOut() {
+        binding.linearLayoutLogoutMyPageMain.setOnClickListener {
+            val itemUserLogoutBinding = ItemUserLogoutBinding.inflate(layoutInflater)
+            val builder = MaterialAlertDialogBuilder(mainActivity)
+            builder.setView(itemUserLogoutBinding.root)
+            val dialog = builder.create()
+
+            // 로그아웃 - 네
+            itemUserLogoutBinding.textViewYesLogout.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            // 로그아웃 - 아니오
+            itemUserLogoutBinding.textViewNoLogout.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            dialog.show()
+        }
     }
 
 }
