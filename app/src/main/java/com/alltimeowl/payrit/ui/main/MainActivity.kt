@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.databinding.ActivityMainBinding
 import com.alltimeowl.payrit.ui.home.HomeFragment
+import com.alltimeowl.payrit.ui.mypage.MyPageMainFragment
 import com.alltimeowl.payrit.ui.write.WriteMainFragment
 
 class MainActivity : AppCompatActivity() {
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         newFragment = when(name){
             HOME_FRAGMENT -> HomeFragment()
             WRITE_MAIN_FRAGMENT -> WriteMainFragment()
+            MY_PAGE_MAIN_FRAGMENT -> MyPageMainFragment()
 
             else -> Fragment()
         }
@@ -67,6 +69,7 @@ class MainActivity : AppCompatActivity() {
                         return@setOnItemSelectedListener true
                     }
                     R.id.my_menu -> {
+                        replaceFragment(MY_PAGE_MAIN_FRAGMENT, false, null)
                         return@setOnItemSelectedListener true
                     }
 
@@ -81,5 +84,6 @@ class MainActivity : AppCompatActivity() {
 
         const val HOME_FRAGMENT = "HomeFragment"
         const val WRITE_MAIN_FRAGMENT = "WriteMainFragment"
+        const val MY_PAGE_MAIN_FRAGMENT = "MyPageMainFragment"
     }
 }
