@@ -23,9 +23,20 @@ class MyPageMainFragment : Fragment() {
         mainActivity = activity as MainActivity
         binding = FragmentMyPageMainBinding.inflate(layoutInflater)
 
+        mainActivity.showBottomNavigationView()
+
+        moveToAccountInformation()
         moveToLogOut()
 
         return binding.root
+    }
+
+    // 계정 정보 클릭
+    private fun moveToAccountInformation() {
+        binding.linearLayoutAccountInformationMyPageMain.setOnClickListener {
+            mainActivity.replaceFragment(MainActivity.ACCOUNT_INFORMATION_FRAGMENT, true, null)
+        }
+
     }
 
     private fun moveToLogOut() {
