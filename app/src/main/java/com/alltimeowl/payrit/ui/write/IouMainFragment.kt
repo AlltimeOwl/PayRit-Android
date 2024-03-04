@@ -6,21 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.alltimeowl.payrit.R
-import com.alltimeowl.payrit.databinding.FragmentWriteMainBinding
+import com.alltimeowl.payrit.databinding.FragmentIouMainBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 
-class WriteMainFragment : Fragment() {
+class IouMainFragment : Fragment() {
 
     private lateinit var mainActivity: MainActivity
-    private lateinit var binding: FragmentWriteMainBinding
-
+    lateinit var binding: FragmentIouMainBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         mainActivity = activity as MainActivity
-        binding = FragmentWriteMainBinding.inflate(layoutInflater)
+        binding = FragmentIouMainBinding.inflate(layoutInflater)
 
         initUI()
 
@@ -30,15 +29,15 @@ class WriteMainFragment : Fragment() {
     private fun initUI() {
         binding.run {
 
-            mainActivity.showBottomNavigationView()
+            mainActivity.hideBottomNavigationView()
 
-            // 차용증 작성하기 클릭
-            cardViewWriteIouWriteMain.setOnClickListener {
-                mainActivity.replaceFragment(MainActivity.IOU_MAIN_FRAGMENT, true, null)
+            materialToolbarIouMain.run {
+                setNavigationOnClickListener {
+                    mainActivity.removeFragment(MainActivity.IOU_MAIN_FRAGMENT)
+                }
             }
 
         }
-
     }
 
 }
