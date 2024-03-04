@@ -1,5 +1,7 @@
 package com.alltimeowl.payrit.ui.mypage
 
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,7 +11,12 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.databinding.FragmentWithdrawalBinding
+import com.alltimeowl.payrit.databinding.ItemUserLogoutBinding
+import com.alltimeowl.payrit.databinding.ItemUserWithdrawalBinding
+import com.alltimeowl.payrit.databinding.ItemUserWithdrawalCompleteBinding
+import com.alltimeowl.payrit.ui.login.LoginActivity
 import com.alltimeowl.payrit.ui.main.MainActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class WithdrawalFragment : Fragment() {
 
@@ -53,6 +60,7 @@ class WithdrawalFragment : Fragment() {
                         if (position == 0) {
                             spinnerAdapter.isDropdownOpen = true
                         }
+                        checkWithdrawal(position)
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -64,5 +72,63 @@ class WithdrawalFragment : Fragment() {
 
         }
     }
+
+    private fun checkWithdrawal(position: Int) {
+
+        if (position == 0) {
+            binding.buttonWithdrawal.setBackgroundResource(R.drawable.bg_gray450_r12)
+            binding.buttonWithdrawal.setTextColor(Color.parseColor("#999999"))
+
+            // 버튼에 대한 클릭 리스너 제거
+            binding.buttonWithdrawal.setOnClickListener(null)
+        } else {
+            binding.buttonWithdrawal.setBackgroundResource(R.drawable.bg_mint_r12)
+            binding.buttonWithdrawal.setTextColor(Color.parseColor("#FFFFFF"))
+
+            // 탈퇴하기 버튼 클릭
+            binding.buttonWithdrawal.setOnClickListener {
+                showAlertDialog()
+            }
+        }
+
+    }
+
+    private fun showAlertDialog() {
+        val itemUserWithdrawalBinding = ItemUserWithdrawalBinding.inflate(layoutInflater)
+        val builder = MaterialAlertDialogBuilder(mainActivity)
+        builder.setView(itemUserWithdrawalBinding.root)
+        val dialog = builder.create()
+
+        // 회원탈퇴 - 네
+        itemUserWithdrawalBinding.textViewYesWithdrawal.setOnClickListener {
+            dialog.dismiss()
+            showCompleteAlertDialog()
+        }
+
+        // 회원탈퇴 - 아니오
+        itemUserWithdrawalBinding.textViewNoWithdrawal.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun showCompleteAlertDialog() {
+        val itemUserWithdrawalCompleteBinding = ItemUserWithdrawalCompleteBinding.inflate(layoutInflater)
+        val builder = MaterialAlertDialogBuilder(mainActivity)
+        builder.setView(itemUserWithdrawalCompleteBinding.root)
+        val dialog = builder.create()
+
+        // 회원탈퇴 - 확인
+        itemUserWithdrawalCompleteBinding.textViewWithdrawalComplete.setOnClickListener {
+            dialog.dismiss()
+
+            val intent = Intent(mainActivity, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        dialog.show()
+    }
+
 
 }
