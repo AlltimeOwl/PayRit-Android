@@ -2,11 +2,15 @@ package com.alltimeowl.payrit.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.databinding.ActivityMainBinding
 import com.alltimeowl.payrit.ui.home.HomeFragment
+import com.alltimeowl.payrit.ui.mypage.AccountInformationFragment
+import com.alltimeowl.payrit.ui.mypage.MyPageMainFragment
+import com.alltimeowl.payrit.ui.mypage.WithdrawalFragment
 import com.alltimeowl.payrit.ui.write.WriteMainFragment
 
 class MainActivity : AppCompatActivity() {
@@ -30,6 +34,9 @@ class MainActivity : AppCompatActivity() {
         newFragment = when(name){
             HOME_FRAGMENT -> HomeFragment()
             WRITE_MAIN_FRAGMENT -> WriteMainFragment()
+            MY_PAGE_MAIN_FRAGMENT -> MyPageMainFragment()
+            ACCOUNT_INFORMATION_FRAGMENT -> AccountInformationFragment()
+            WITHDRAWAL_FRAGMENT -> WithdrawalFragment()
 
             else -> Fragment()
         }
@@ -52,6 +59,14 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
+    fun showBottomNavigationView() {
+        activityMainBinding.bottomNavigationViewMain.visibility = View.VISIBLE
+    }
+
+    fun hideBottomNavigationView() {
+        activityMainBinding.bottomNavigationViewMain.visibility = View.GONE
+    }
+
     fun bottomNavigation() {
 
         activityMainBinding.bottomNavigationViewMain.run {
@@ -67,6 +82,7 @@ class MainActivity : AppCompatActivity() {
                         return@setOnItemSelectedListener true
                     }
                     R.id.my_menu -> {
+                        replaceFragment(MY_PAGE_MAIN_FRAGMENT, false, null)
                         return@setOnItemSelectedListener true
                     }
 
@@ -81,5 +97,8 @@ class MainActivity : AppCompatActivity() {
 
         const val HOME_FRAGMENT = "HomeFragment"
         const val WRITE_MAIN_FRAGMENT = "WriteMainFragment"
+        const val MY_PAGE_MAIN_FRAGMENT = "MyPageMainFragment"
+        const val ACCOUNT_INFORMATION_FRAGMENT = "AccountInformationFragment"
+        const val WITHDRAWAL_FRAGMENT = "WithdrawalFragment"
     }
 }

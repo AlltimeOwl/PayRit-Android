@@ -5,4 +5,13 @@
         <item>오래된 순</item>
         <item>기간 만료 순</item>
     </string-array>
+
+    <string-array name="reason_withdrawal">
+        <item>선택해주세요</item>
+        <item>사용을 잘 안하게 돼요</item>
+        <item>다른 계정이 있어요</item>
+        <item>개인정보 보호를 위해 삭제하고 싶어요</item>
+        <item>기타</item>
+    </string-array>
+    
 </resources>
