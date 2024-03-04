@@ -36,6 +36,11 @@ class AccountInformationFragment : Fragment() {
                     mainActivity.removeFragment(MainActivity.ACCOUNT_INFORMATION_FRAGMENT)
                 }
             }
+
+            // 회원탈퇴
+            textViewUserWithdrawalAccountInformation.setOnClickListener {
+                mainActivity.replaceFragment(MainActivity.WITHDRAWAL_FRAGMENT, true, null)
+            }
         }
     }
 
