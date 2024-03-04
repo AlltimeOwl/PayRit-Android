@@ -26,6 +26,7 @@ class MyPageMainFragment : Fragment() {
         mainActivity.showBottomNavigationView()
 
         moveToAccountInformation()
+        moveToNotificationSetting()
         moveToLogOut()
 
         return binding.root
@@ -37,6 +38,13 @@ class MyPageMainFragment : Fragment() {
             mainActivity.replaceFragment(MainActivity.ACCOUNT_INFORMATION_FRAGMENT, true, null)
         }
 
+    }
+
+    // 알림 설정 클릭
+    private fun moveToNotificationSetting() {
+        binding.linearLayoutNotificationSettingMyPageMain.setOnClickListener {
+            mainActivity.replaceFragment(MainActivity.NOTIFICATION_SETTING_FRAGMENT, true, null)
+        }
     }
 
     private fun moveToLogOut() {

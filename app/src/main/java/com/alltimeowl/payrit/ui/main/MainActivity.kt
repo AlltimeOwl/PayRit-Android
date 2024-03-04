@@ -10,6 +10,7 @@ import com.alltimeowl.payrit.databinding.ActivityMainBinding
 import com.alltimeowl.payrit.ui.home.HomeFragment
 import com.alltimeowl.payrit.ui.mypage.AccountInformationFragment
 import com.alltimeowl.payrit.ui.mypage.MyPageMainFragment
+import com.alltimeowl.payrit.ui.mypage.NotificationSettingFragment
 import com.alltimeowl.payrit.ui.mypage.WithdrawalFragment
 import com.alltimeowl.payrit.ui.write.WriteMainFragment
 
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
             MY_PAGE_MAIN_FRAGMENT -> MyPageMainFragment()
             ACCOUNT_INFORMATION_FRAGMENT -> AccountInformationFragment()
             WITHDRAWAL_FRAGMENT -> WithdrawalFragment()
+            NOTIFICATION_SETTING_FRAGMENT -> NotificationSettingFragment()
 
             else -> Fragment()
         }
@@ -100,5 +102,6 @@ class MainActivity : AppCompatActivity() {
         const val MY_PAGE_MAIN_FRAGMENT = "MyPageMainFragment"
         const val ACCOUNT_INFORMATION_FRAGMENT = "AccountInformationFragment"
         const val WITHDRAWAL_FRAGMENT = "WithdrawalFragment"
+        const val NOTIFICATION_SETTING_FRAGMENT = "NotificationSettingFragment"
     }
 }
