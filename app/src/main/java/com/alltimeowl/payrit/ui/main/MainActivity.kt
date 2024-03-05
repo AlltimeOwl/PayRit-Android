@@ -13,6 +13,7 @@ import com.alltimeowl.payrit.ui.mypage.MyPageMainFragment
 import com.alltimeowl.payrit.ui.mypage.NotificationSettingFragment
 import com.alltimeowl.payrit.ui.mypage.WithdrawalFragment
 import com.alltimeowl.payrit.ui.write.IouMainFragment
+import com.alltimeowl.payrit.ui.write.IouTransactionalInformationFragment
 import com.alltimeowl.payrit.ui.write.WriteMainFragment
 
 class MainActivity : AppCompatActivity() {
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity() {
             ACCOUNT_INFORMATION_FRAGMENT -> AccountInformationFragment()
             WITHDRAWAL_FRAGMENT -> WithdrawalFragment()
             NOTIFICATION_SETTING_FRAGMENT -> NotificationSettingFragment()
+            IOU_TRANSACTIONAL_INFORMATION_FRAGMENT -> IouTransactionalInformationFragment()
 
             else -> Fragment()
         }
@@ -96,6 +98,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun removeAllBackStack() {
+        val fragmentManager = supportFragmentManager
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+
 
     companion object {
 
@@ -106,5 +113,6 @@ class MainActivity : AppCompatActivity() {
         const val WITHDRAWAL_FRAGMENT = "WithdrawalFragment"
         const val NOTIFICATION_SETTING_FRAGMENT = "NotificationSettingFragment"
         const val IOU_MAIN_FRAGMENT = "IouMainFragment"
+        const val IOU_TRANSACTIONAL_INFORMATION_FRAGMENT = "IouTransactionalInformationFragment"
     }
 }

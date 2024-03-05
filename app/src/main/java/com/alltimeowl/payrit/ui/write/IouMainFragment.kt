@@ -37,6 +37,16 @@ class IouMainFragment : Fragment() {
                 }
             }
 
+            // 빌려줄 예정
+            cardViewLendIouMain.setOnClickListener {
+                mainActivity.replaceFragment(MainActivity.IOU_TRANSACTIONAL_INFORMATION_FRAGMENT, true, null)
+            }
+
+            // 빌릴 예정
+            cardViewBorrowIouMain.setOnClickListener {
+                mainActivity.replaceFragment(MainActivity.IOU_TRANSACTIONAL_INFORMATION_FRAGMENT, true, null)
+            }
+
         }
     }
 
