@@ -14,6 +14,8 @@ import com.alltimeowl.payrit.ui.mypage.NotificationSettingFragment
 import com.alltimeowl.payrit.ui.mypage.WithdrawalFragment
 import com.alltimeowl.payrit.ui.write.IouMainFragment
 import com.alltimeowl.payrit.ui.write.IouTransactionalInformationFragment
+import com.alltimeowl.payrit.ui.write.IouWriteMyFragment
+import com.alltimeowl.payrit.ui.write.KakaoZipCodeFragment
 import com.alltimeowl.payrit.ui.write.WriteMainFragment
 
 class MainActivity : AppCompatActivity() {
@@ -43,6 +45,8 @@ class MainActivity : AppCompatActivity() {
             WITHDRAWAL_FRAGMENT -> WithdrawalFragment()
             NOTIFICATION_SETTING_FRAGMENT -> NotificationSettingFragment()
             IOU_TRANSACTIONAL_INFORMATION_FRAGMENT -> IouTransactionalInformationFragment()
+            IOU_WRITE_MY_FRAGMENT -> IouWriteMyFragment()
+            KAKAO_ZIP_CODE_FRAGMENT -> KakaoZipCodeFragment()
 
             else -> Fragment()
         }
@@ -114,5 +118,7 @@ class MainActivity : AppCompatActivity() {
         const val NOTIFICATION_SETTING_FRAGMENT = "NotificationSettingFragment"
         const val IOU_MAIN_FRAGMENT = "IouMainFragment"
         const val IOU_TRANSACTIONAL_INFORMATION_FRAGMENT = "IouTransactionalInformationFragment"
+        const val IOU_WRITE_MY_FRAGMENT = "IouWriteMyFragment"
+        const val KAKAO_ZIP_CODE_FRAGMENT = "KakaoZipCodeFragment"
     }
 }

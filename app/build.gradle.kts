@@ -50,4 +50,7 @@ dependencies {
 
     // circleimageview
     implementation("de.hdodenhof:circleimageview:3.1.0")
+
+    // fragment
+    implementation("androidx.fragment:fragment-ktx:1.5.5")
 }

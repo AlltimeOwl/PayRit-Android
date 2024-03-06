@@ -1,28 +1,33 @@
 package com.alltimeowl.payrit.ui.write
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResultListener
 import com.alltimeowl.payrit.R
-import com.alltimeowl.payrit.databinding.FragmentIouTransactionalInformationBinding
+import com.alltimeowl.payrit.databinding.FragmentIouWriteMyBinding
 import com.alltimeowl.payrit.databinding.ItemCancelBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.json.JSONObject
 
-class IouTransactionalInformationFragment : Fragment() {
+class IouWriteMyFragment : Fragment() {
 
     private lateinit var mainActivity: MainActivity
-    lateinit var binding: FragmentIouTransactionalInformationBinding
+    lateinit var binding: FragmentIouWriteMyBinding
+
+    val TAG = "IouWriteMyFragment"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
 
         mainActivity = activity as MainActivity
-        binding = FragmentIouTransactionalInformationBinding.inflate(layoutInflater)
+        binding = FragmentIouWriteMyBinding.inflate(layoutInflater)
 
         initUI()
 
@@ -32,10 +37,9 @@ class IouTransactionalInformationFragment : Fragment() {
     private fun initUI() {
         binding.run {
             materialToolbarIouTransactionalInformation.run {
-
                 // 뒤로가기 버튼
                 setNavigationOnClickListener {
-                    mainActivity.removeFragment(MainActivity.IOU_TRANSACTIONAL_INFORMATION_FRAGMENT)
+                    mainActivity.removeFragment(MainActivity.IOU_WRITE_MY_FRAGMENT)
                 }
 
                 // X 버튼
@@ -48,20 +52,24 @@ class IouTransactionalInformationFragment : Fragment() {
 
             }
 
-            // switch
-            switchIouTransactionalInformation.setOnCheckedChangeListener { _, isChecked ->
+            // 우편번호 검색해서 받아온 값 (우편번호, 주소)
+            setFragmentResultListener("addressDetailsInfo") { _, bundle ->
+                val address = bundle.getString("address")
 
-                if (isChecked) {
-                    linearLayoutInterestIouTransactionalInformation.visibility = View.VISIBLE
-                } else {
-                    linearLayoutInterestIouTransactionalInformation.visibility = View.GONE
-                }
+                // String -> Json 형태로 형변환
+                val addressJson = JSONObject(address)
 
+                val zonecode = addressJson.getString("zonecode")
+                val roadAddress = addressJson.getString("roadAddress")
+                val jibunAddress = addressJson.getString("jibunAddress")
+
+                editTextZipCodeIouWriteMy.setText(zonecode)
+                editTextAddressIouWriteMy.setText(roadAddress)
             }
 
-            // 다음 버튼
-            buttonNextIouTransactionalInformation.setOnClickListener {
-                mainActivity.replaceFragment(MainActivity.IOU_WRITE_MY_FRAGMENT, true, null)
+            // 우편번호 검색
+            buttonAddressSearchIouWriteMy.setOnClickListener {
+                mainActivity.replaceFragment(MainActivity.KAKAO_ZIP_CODE_FRAGMENT, true, null)
             }
 
         }
