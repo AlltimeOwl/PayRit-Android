@@ -8,18 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.setFragmentResultListener
 import com.alltimeowl.payrit.R
-import com.alltimeowl.payrit.databinding.FragmentIouWriteMyBinding
+import com.alltimeowl.payrit.databinding.FragmentIouWriteOpponentBinding
 import com.alltimeowl.payrit.databinding.ItemCancelBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.json.JSONObject
 
-class IouWriteMyFragment : Fragment() {
+class IouWriteOpponentFragment : Fragment() {
 
-    private lateinit var mainActivity: MainActivity
-    lateinit var binding: FragmentIouWriteMyBinding
+    lateinit var mainActivity: MainActivity
+    lateinit var binding: FragmentIouWriteOpponentBinding
 
-    val TAG = "IouWriteMyFragment"
+    val TAG = "IouWriteOpponentFragment"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +27,7 @@ class IouWriteMyFragment : Fragment() {
     ): View? {
 
         mainActivity = activity as MainActivity
-        binding = FragmentIouWriteMyBinding.inflate(layoutInflater)
+        binding = FragmentIouWriteOpponentBinding.inflate(layoutInflater)
 
         initUI()
 
@@ -36,10 +36,10 @@ class IouWriteMyFragment : Fragment() {
 
     private fun initUI() {
         binding.run {
-            materialToolbarIouTransactionalInformation.run {
+            materialToolbarIouWriteOpponent.run {
                 // 뒤로가기 버튼
                 setNavigationOnClickListener {
-                    mainActivity.removeFragment(MainActivity.IOU_WRITE_MY_FRAGMENT)
+                    mainActivity.removeFragment(MainActivity.IOU_WRITE_OPPONENT_FRAGMENT)
                 }
 
                 // X 버튼
@@ -63,18 +63,13 @@ class IouWriteMyFragment : Fragment() {
                 val roadAddress = addressJson.getString("roadAddress")
                 val jibunAddress = addressJson.getString("jibunAddress")
 
-                editTextZipCodeIouWriteMy.setText(zonecode)
-                editTextAddressIouWriteMy.setText(roadAddress)
+                editTextZipCodeIouWriteOpponent.setText(zonecode)
+                editTextAddressIouWriteOpponent.setText(roadAddress)
             }
 
             // 우편번호 검색
-            buttonAddressSearchIouWriteMy.setOnClickListener {
+            buttonAddressSearchIouWriteOpponent.setOnClickListener {
                 mainActivity.replaceFragment(MainActivity.KAKAO_ZIP_CODE_FRAGMENT, true, null)
-            }
-
-            // 다음 버튼 클릭
-            buttonNextIouWriteMy.setOnClickListener {
-                mainActivity.replaceFragment(MainActivity.IOU_WRITE_OPPONENT_FRAGMENT, true, null)
             }
 
         }
