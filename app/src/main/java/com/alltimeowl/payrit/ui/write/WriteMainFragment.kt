@@ -22,7 +22,23 @@ class WriteMainFragment : Fragment() {
         mainActivity = activity as MainActivity
         binding = FragmentWriteMainBinding.inflate(layoutInflater)
 
+        initUI()
+
         return binding.root
+    }
+
+    private fun initUI() {
+        binding.run {
+
+            mainActivity.showBottomNavigationView()
+
+            // 차용증 작성하기 클릭
+            cardViewWriteIouWriteMain.setOnClickListener {
+                mainActivity.replaceFragment(MainActivity.IOU_MAIN_FRAGMENT, true, null)
+            }
+
+        }
+
     }
 
 }

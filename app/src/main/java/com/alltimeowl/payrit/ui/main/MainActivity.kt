@@ -12,6 +12,12 @@ import com.alltimeowl.payrit.ui.mypage.AccountInformationFragment
 import com.alltimeowl.payrit.ui.mypage.MyPageMainFragment
 import com.alltimeowl.payrit.ui.mypage.NotificationSettingFragment
 import com.alltimeowl.payrit.ui.mypage.WithdrawalFragment
+import com.alltimeowl.payrit.ui.write.IouContentCheckFragment
+import com.alltimeowl.payrit.ui.write.IouMainFragment
+import com.alltimeowl.payrit.ui.write.IouTransactionalInformationFragment
+import com.alltimeowl.payrit.ui.write.IouWriteMyFragment
+import com.alltimeowl.payrit.ui.write.IouWriteOpponentFragment
+import com.alltimeowl.payrit.ui.write.KakaoZipCodeFragment
 import com.alltimeowl.payrit.ui.write.WriteMainFragment
 
 class MainActivity : AppCompatActivity() {
@@ -35,10 +41,16 @@ class MainActivity : AppCompatActivity() {
         newFragment = when(name){
             HOME_FRAGMENT -> HomeFragment()
             WRITE_MAIN_FRAGMENT -> WriteMainFragment()
+            IOU_MAIN_FRAGMENT -> IouMainFragment()
             MY_PAGE_MAIN_FRAGMENT -> MyPageMainFragment()
             ACCOUNT_INFORMATION_FRAGMENT -> AccountInformationFragment()
             WITHDRAWAL_FRAGMENT -> WithdrawalFragment()
             NOTIFICATION_SETTING_FRAGMENT -> NotificationSettingFragment()
+            IOU_TRANSACTIONAL_INFORMATION_FRAGMENT -> IouTransactionalInformationFragment()
+            IOU_WRITE_MY_FRAGMENT -> IouWriteMyFragment()
+            KAKAO_ZIP_CODE_FRAGMENT -> KakaoZipCodeFragment()
+            IOU_WRITE_OPPONENT_FRAGMENT -> IouWriteOpponentFragment()
+            IOU_CONTENT_CHECK_FRAGMENT -> IouContentCheckFragment()
 
             else -> Fragment()
         }
@@ -94,6 +106,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun removeAllBackStack() {
+        val fragmentManager = supportFragmentManager
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+
 
     companion object {
 
@@ -103,5 +120,11 @@ class MainActivity : AppCompatActivity() {
         const val ACCOUNT_INFORMATION_FRAGMENT = "AccountInformationFragment"
         const val WITHDRAWAL_FRAGMENT = "WithdrawalFragment"
         const val NOTIFICATION_SETTING_FRAGMENT = "NotificationSettingFragment"
+        const val IOU_MAIN_FRAGMENT = "IouMainFragment"
+        const val IOU_TRANSACTIONAL_INFORMATION_FRAGMENT = "IouTransactionalInformationFragment"
+        const val IOU_WRITE_MY_FRAGMENT = "IouWriteMyFragment"
+        const val KAKAO_ZIP_CODE_FRAGMENT = "KakaoZipCodeFragment"
+        const val IOU_WRITE_OPPONENT_FRAGMENT = "IouWriteOpponentFragment"
+        const val IOU_CONTENT_CHECK_FRAGMENT = "IouContentCheckFragment"
     }
 }
