@@ -72,6 +72,11 @@ class IouWriteOpponentFragment : Fragment() {
                 mainActivity.replaceFragment(MainActivity.KAKAO_ZIP_CODE_FRAGMENT, true, null)
             }
 
+            // 다음 버튼
+            buttonNextIouWriteOpponent.setOnClickListener {
+                mainActivity.replaceFragment(MainActivity.IOU_CONTENT_CHECK_FRAGMENT, true, null)
+            }
+
         }
     }
 
