@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alltimeowl.payrit.R
+import com.alltimeowl.payrit.data.sampleDataList
 import com.alltimeowl.payrit.databinding.FragmentHomeBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 
@@ -37,6 +38,7 @@ class HomeFragment : Fragment() {
     private fun initUI() {
         binding.run {
             mainActivity.bottomNavigation()
+            mainActivity.showBottomNavigationView()
 
             val category = resources.getStringArray(R.array.array_home_time_category)
 
@@ -46,7 +48,7 @@ class HomeFragment : Fragment() {
 
             recyclerViewHome.run {
                 recyclerViewHome.layoutManager = LinearLayoutManager(context)
-                adapter = HomeAdapter()
+                adapter = HomeAdapter(mainActivity, sampleDataList)
             }
         }
     }
