@@ -3,6 +3,7 @@ package com.alltimeowl.payrit.ui.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.alltimeowl.payrit.R
@@ -24,6 +25,10 @@ import com.alltimeowl.payrit.ui.write.WriteMainFragment
 class MainActivity : AppCompatActivity() {
 
     lateinit var activityMainBinding: ActivityMainBinding
+
+    private var lastBackPressedTime: Long = 0
+    private val BACK_PRESS_INTERVAL: Long = 2000
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -31,6 +36,28 @@ class MainActivity : AppCompatActivity() {
         setContentView(activityMainBinding.root)
 
         replaceFragment(HOME_FRAGMENT, false, null)
+    }
+
+    override fun onBackPressed() {
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView_main)
+
+        when (currentFragment) {
+            is HomeFragment, is WriteMainFragment, is MyPageMainFragment -> handleBackPressed()
+            else -> super.onBackPressed()
+        }
+    }
+
+    private fun handleBackPressed() {
+        val currentTime = System.currentTimeMillis()
+
+        if (currentTime - lastBackPressedTime > BACK_PRESS_INTERVAL) {
+            lastBackPressedTime = currentTime
+
+            Toast.makeText(this, "뒤로 가기를 한 번 더 누르면 종료됩니다", Toast.LENGTH_SHORT).show()
+        } else {
+            // 해당 Fragment에서 두 번의 뒤로 가기 버튼이 BACK_PRESS_INTERVAL 안에 눌렸으므로 앱을 종료
+            finish()
+        }
     }
 
     fun replaceFragment(name:String, addToBackStack:Boolean, bundle:Bundle?){
@@ -90,14 +117,17 @@ class MainActivity : AppCompatActivity() {
             setOnItemSelectedListener {
                 when(it.itemId) {
                     R.id.home_menu -> {
+                        removeAllBackStack()
                         replaceFragment(HOME_FRAGMENT, false, null)
                         return@setOnItemSelectedListener true
                     }
                     R.id.write_menu -> {
+                        removeAllBackStack()
                         replaceFragment(WRITE_MAIN_FRAGMENT, false, null)
                         return@setOnItemSelectedListener true
                     }
                     R.id.my_menu -> {
+                        removeAllBackStack()
                         replaceFragment(MY_PAGE_MAIN_FRAGMENT, false, null)
                         return@setOnItemSelectedListener true
                     }
