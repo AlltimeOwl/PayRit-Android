@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.databinding.ActivityMainBinding
 import com.alltimeowl.payrit.ui.home.HomeFragment
+import com.alltimeowl.payrit.ui.home.IouDetailFragment
 import com.alltimeowl.payrit.ui.mypage.AccountInformationFragment
 import com.alltimeowl.payrit.ui.mypage.MyPageMainFragment
 import com.alltimeowl.payrit.ui.mypage.NotificationSettingFragment
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity() {
             KAKAO_ZIP_CODE_FRAGMENT -> KakaoZipCodeFragment()
             IOU_WRITE_OPPONENT_FRAGMENT -> IouWriteOpponentFragment()
             IOU_CONTENT_CHECK_FRAGMENT -> IouContentCheckFragment()
+            IOU_DETAIL_FRAGMENT -> IouDetailFragment()
 
             else -> Fragment()
         }
@@ -126,5 +128,6 @@ class MainActivity : AppCompatActivity() {
         const val KAKAO_ZIP_CODE_FRAGMENT = "KakaoZipCodeFragment"
         const val IOU_WRITE_OPPONENT_FRAGMENT = "IouWriteOpponentFragment"
         const val IOU_CONTENT_CHECK_FRAGMENT = "IouContentCheckFragment"
+        const val IOU_DETAIL_FRAGMENT = "IouDetailFragment"
     }
 }
