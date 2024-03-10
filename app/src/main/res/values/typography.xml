@@ -165,4 +165,279 @@
         <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 
+    <style name="Suit">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Suit.Bold10">
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/suit_bold</item>
+    </style>
+
+    <style name="Suit.Bold12">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/suit_bold</item>
+    </style>
+
+    <style name="Suit.Bold14">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/suit_bold</item>
+    </style>
+
+    <style name="Suit.Bold16">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/suit_bold</item>
+    </style>
+
+    <style name="Suit.Bold18">
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/suit_bold</item>
+    </style>
+
+    <style name="Suit.Bold20">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/suit_bold</item>
+    </style>
+
+    <style name="Suit.Bold22">
+        <item name="android:textSize">22sp</item>
+        <item name="fontFamily">@font/suit_bold</item>
+    </style>
+
+    <style name="Suit.Bold24">
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/suit_bold</item>
+    </style>
+
+    <style name="Suit.Bold26">
+        <item name="android:textSize">26sp</item>
+        <item name="fontFamily">@font/suit_bold</item>
+    </style>
+
+    <style name="Suit.ExtraBold10">
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/suit_extrabold</item>
+    </style>
+
+    <style name="Suit.ExtraBold12">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/suit_extrabold</item>
+    </style>
+
+    <style name="Suit.ExtraBold14">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/suit_extrabold</item>
+    </style>
+
+    <style name="Suit.ExtraBold16">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/suit_extrabold</item>
+    </style>
+
+    <style name="Suit.ExtraBold18">
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/suit_extrabold</item>
+    </style>
+
+    <style name="Suit.ExtraBold20">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/suit_extrabold</item>
+    </style>
+
+    <style name="Suit.ExtraBold22">
+        <item name="android:textSize">22sp</item>
+        <item name="fontFamily">@font/suit_extrabold</item>
+    </style>
+
+    <style name="Suit.ExtraBold24">
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/suit_extrabold</item>
+    </style>
+
+    <style name="Suit.ExtraBold26">
+        <item name="android:textSize">26sp</item>
+        <item name="fontFamily">@font/suit_extrabold</item>
+    </style>
+
+    <style name="Suit.Heavy10">
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/suit_heavy</item>
+    </style>
+
+    <style name="Suit.Heavy12">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/suit_heavy</item>
+    </style>
+
+    <style name="Suit.Heavy14">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/suit_heavy</item>
+    </style>
+
+    <style name="Suit.Heavy16">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/suit_heavy</item>
+    </style>
+
+    <style name="Suit.Heavy18">
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/suit_heavy</item>
+    </style>
+
+    <style name="Suit.Heavy20">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/suit_heavy</item>
+    </style>
+
+    <style name="Suit.Heavy22">
+        <item name="android:textSize">22sp</item>
+        <item name="fontFamily">@font/suit_heavy</item>
+    </style>
+
+    <style name="Suit.Heavy24">
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/suit_heavy</item>
+    </style>
+
+    <style name="Suit.Heavy26">
+        <item name="android:textSize">26sp</item>
+        <item name="fontFamily">@font/suit_heavy</item>
+    </style>
+
+    <style name="Suit.Medium10">
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/suit_medium</item>
+    </style>
+
+    <style name="Suit.Medium12">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/suit_medium</item>
+    </style>
+
+    <style name="Suit.Medium14">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/suit_medium</item>
+    </style>
+
+    <style name="Suit.Medium16">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/suit_medium</item>
+    </style>
+
+    <style name="Suit.Medium18">
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/suit_medium</item>
+    </style>
+
+    <style name="Suit.Medium20">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/suit_medium</item>
+    </style>
+
+    <style name="Suit.Medium22">
+        <item name="android:textSize">22sp</item>
+        <item name="fontFamily">@font/suit_medium</item>
+    </style>
+
+    <style name="Suit.Medium24">
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/suit_medium</item>
+    </style>
+
+    <style name="Suit.Medium26">
+        <item name="android:textSize">26sp</item>
+        <item name="fontFamily">@font/suit_medium</item>
+    </style>
+
+    <style name="Suit.Regular10">
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/suit_regular</item>
+    </style>
+
+    <style name="Suit.Regular12">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/suit_regular</item>
+    </style>
+
+    <style name="Suit.Regular14">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/suit_regular</item>
+    </style>
+
+    <style name="Suit.Regular16">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/suit_regular</item>
+    </style>
+
+    <style name="Suit.Regular18">
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/suit_regular</item>
+    </style>
+
+    <style name="Suit.Regular20">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/suit_regular</item>
+    </style>
+
+    <style name="Suit.Regular22">
+        <item name="android:textSize">22sp</item>
+        <item name="fontFamily">@font/suit_regular</item>
+    </style>
+
+    <style name="Suit.Regular24">
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/suit_regular</item>
+    </style>
+
+    <style name="Suit.Regular26">
+        <item name="android:textSize">26sp</item>
+        <item name="fontFamily">@font/suit_regular</item>
+    </style>
+
+    <style name="Suit.SemiBold10">
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/suit_semibold</item>
+    </style>
+
+    <style name="Suit.SemiBold12">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/suit_semibold</item>
+    </style>
+
+    <style name="Suit.SemiBold14">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/suit_semibold</item>
+    </style>
+
+    <style name="Suit.SemiBold16">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/suit_semibold</item>
+    </style>
+
+    <style name="Suit.SemiBold18">
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/suit_semibold</item>
+    </style>
+
+    <style name="Suit.SemiBold20">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/suit_semibold</item>
+    </style>
+
+    <style name="Suit.SemiBold22">
+        <item name="android:textSize">22sp</item>
+        <item name="fontFamily">@font/suit_semibold</item>
+    </style>
+
+    <style name="Suit.SemiBold24">
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/suit_semibold</item>
+    </style>
+
+    <style name="Suit.SemiBold26">
+        <item name="android:textSize">26sp</item>
+        <item name="fontFamily">@font/suit_semibold</item>
+    </style>
+
+
 </resources>

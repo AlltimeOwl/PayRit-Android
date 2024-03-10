@@ -7,11 +7,11 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/gray300"
+        android:backgroundTint="@color/white"
         app:cardCornerRadius="12dp"
-        app:cardElevation="0dp">
+        app:cardUseCompatPadding="true">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -32,22 +32,24 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
                     android:text="2024.02.26 ~ 2024.03.26"
-                    android:textAppearance="@style/Typography.Regular15"
-                    android:textColor="@color/gray100" />
+                    android:textAppearance="@style/Suit.SemiBold12"
+                    android:textColor="@color/grayScale02" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1" />
 
-                <ImageView
-                    android:id="@+id/imageView_edit_iou"
+                <TextView
+                    android:id="@+id/textView_type_iou"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="6dp"
-                    android:src="@drawable/ic_edit" />
+                    android:text="빌려준 돈"
+                    android:textAppearance="@style/Suit.SemiBold14"
+                    android:textColor="@color/primaryMint" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -56,58 +58,67 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:fontFamily="@font/pretendard_semibold"
                 android:text="30,000,000원"
-                android:textColor="@color/black100"
-                android:textSize="28sp" />
+                android:textAppearance="@style/Suit.SemiBold26"
+                android:textColor="@color/black100" />
 
             <TextView
                 android:id="@+id/textView_name_iou"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:fontFamily="@font/pretendard_semibold"
                 android:text="정주성"
-                android:textColor="@color/gray100"
+                android:textAppearance="@style/Suit.SemiBold18"
+                android:textColor="@color/grayScale02"
                 android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView_day_iou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="D - 29"
+                android:textAppearance="@style/Suit.Medium16"
+                android:textColor="@color/grayScale02" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_iou"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="3dp"
+                android:max="100"
+                android:progress="10"
+                android:progressDrawable="@drawable/bg_progress_bar_mint" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="8dp">
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_day_iou"
-                    android:layout_width="50dp"
-                    android:layout_height="28dp"
-                    android:background="@drawable/bg_semicircle_day_r16"
-                    android:fontFamily="@font/pretendard_semibold"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="2dp"
-                    android:stateListAnimator="@null"
-                    android:text="D - 29"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="14dp" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_state_iou"
+                <TextView
+                    android:id="@+id/textView_state_iou"
                     android:layout_width="wrap_content"
-                    android:layout_height="28dp"
-                    android:background="@drawable/bg_semicircle_iou_state_r16"
-                    android:fontFamily="@font/pretendard_semibold"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="10dp"
-                    android:stateListAnimator="@null"
+                    android:layout_height="wrap_content"
                     android:text="승인 대기중"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="14dp" />
+                    android:textAppearance="@style/Suit.SemiBold12"
+                    android:textColor="@color/grayScale04" />
+
+                <TextView
+                    android:id="@+id/textView_percent_iou"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text="(0%)"
+                    android:textAppearance="@style/Suit.SemiBold12"
+                    android:textColor="@color/grayScale04" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

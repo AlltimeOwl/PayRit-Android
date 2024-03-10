@@ -15,4 +15,24 @@
     <color name="gray350">#5F5F5F</color>
     <color name="gray400">#A5A5A5</color>
     <color name="gray450">#DBDBDB</color>
+    
+    <color name="white100">#FDFDFD</color>
+
+    <color name="primaryMint">#28D7D2</color>
+    <color name="lightMint">#CBF0EF</color>
+
+    <color name="pink">#FF7A90</color>
+
+    <color name="error">#FE1111</color>
+
+    <color name="grayScale00">#181818</color>
+    <color name="grayScale01">#212626</color>
+    <color name="grayScale02">#2E3636</color>
+    <color name="grayScale03">#3F4B4B</color>
+    <color name="grayScale04">#5E6969</color>
+    <color name="grayScale05">#7D8888</color>
+    <color name="grayScale06">#BCC7C7</color>
+    <color name="grayScale07">#D1DBDB</color>
+    <color name="grayScale08">#ECF0F0</color>
+    <color name="grayScale09">#ECF0F0</color>
 </resources>

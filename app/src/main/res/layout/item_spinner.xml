@@ -9,9 +9,9 @@
         android:id="@+id/textView_spinner_item_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/pretendard_semibold"
         android:text="최근 작성"
-        android:textColor="@color/gray150"
+        android:textAppearance="@style/Suit.SemiBold14"
+        android:textColor="@color/grayScale02"
         android:textSize="14dp" />
 </LinearLayout>
 

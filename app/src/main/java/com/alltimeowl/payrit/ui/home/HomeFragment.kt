@@ -30,7 +30,6 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
         initUI()
-        switchButton()
 
         return binding.root
     }
@@ -39,6 +38,10 @@ class HomeFragment : Fragment() {
         binding.run {
             mainActivity.bottomNavigation()
             mainActivity.showBottomNavigationView()
+
+            imageViewBannerCancelHome.setOnClickListener {
+                constraintLayoutBannerHome.visibility = View.GONE
+            }
 
             val category = resources.getStringArray(R.array.array_home_time_category)
 
@@ -53,24 +56,5 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun switchButton() {
-
-        // 빌려준 기록 클릭
-        binding.buttonLoanRecordHome.setOnClickListener {
-            binding.buttonLoanRecordHome.setBackgroundResource(R.drawable.bg_semicircle_mint_r12)
-            binding.buttonLoanRecordHome.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            binding.buttonBorrowedRecordHome.setBackgroundResource(R.drawable.bg_semicircle_white_r12)
-            binding.buttonBorrowedRecordHome.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray100))
-        }
-
-        // 빌린 기록 클릭
-        binding.buttonBorrowedRecordHome.setOnClickListener {
-            binding.buttonLoanRecordHome.setBackgroundResource(R.drawable.bg_semicircle_white_r12 )
-            binding.buttonLoanRecordHome.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray100))
-            binding.buttonBorrowedRecordHome.setBackgroundResource(R.drawable.bg_semicircle_mint_r12)
-            binding.buttonBorrowedRecordHome.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-        }
-
-    }
 
 }

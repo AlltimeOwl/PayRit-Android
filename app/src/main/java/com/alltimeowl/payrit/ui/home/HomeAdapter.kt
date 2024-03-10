@@ -2,6 +2,7 @@ package com.alltimeowl.payrit.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.data.sampleIou
@@ -26,24 +27,32 @@ class HomeAdapter(val mainActivity: MainActivity, val sampleIouList: MutableList
 
         fun bind(iou: sampleIou) {
             binding.textViewPeriodIou.text = iou.period
-            binding.textViewTotalAmountIou.text = iou.amount
+            binding.textViewTypeIou.text = iou.type
+            binding.textViewTotalAmountIou.text = "${iou.amount}원"
             binding.textViewNameIou.text = iou.name
-            binding.buttonDayIou.text = iou.day
+            binding.textViewDayIou.text = iou.day
+            binding.textViewStateIou.text = iou.state
 
-            // 차용증 상태에 따른 배경 변경
-            when (iou.state) {
-                "차용증 작성 완료" -> {
-                    binding.buttonStateIou.setBackgroundResource(R.drawable.bg_semicircle_iou_state_complete_r16)
+            // 차용증 타입 (빌려준 돈, 빌린 돈)에 따른 글자 색상, ProgressBar 색상 변경
+            when (iou.type) {
+                "빌려준 돈" -> {
+                    binding.textViewTypeIou.setTextColor(ContextCompat.getColor(mainActivity, R.color.primaryMint))
+                    binding.progressBarIou.progressDrawable = ContextCompat.getDrawable(mainActivity, R.drawable.bg_progress_bar_mint)
                 }
-                "기간 만료" -> {
-                    binding.buttonStateIou.setBackgroundResource(R.drawable.bg_semicircle_iou_state_expiration_r16)
-                }
-                else -> {
-                    binding.buttonStateIou.setBackgroundResource(R.drawable.bg_semicircle_iou_state_r16)
+                "빌린 돈" -> {
+                    binding.textViewTypeIou.setTextColor(ContextCompat.getColor(mainActivity, R.color.pink))
+                    binding.progressBarIou.progressDrawable = ContextCompat.getDrawable(mainActivity, R.drawable.bg_progress_bar_pink)
                 }
             }
 
-            binding.buttonStateIou.text = iou.state
+            // Repay와 Amount를 정수로 변환하여 계산하고, 그 결과를 문자열로 변환하여 TextView에 설정
+            val repay = iou.repay.replace(",", "").toDoubleOrNull() ?: 0.0
+            val amount = iou.amount.replace(",", "").toDoubleOrNull() ?: 0.0
+            val percent = (repay / amount) * 100
+            val formattedPercent = String.format("%d%%", percent.toInt())
+
+            binding.textViewPercentIou.text = "(${formattedPercent})"
+            binding.progressBarIou.progress = percent.toInt()
         }
 
     }
