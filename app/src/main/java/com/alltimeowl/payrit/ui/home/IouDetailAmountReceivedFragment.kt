@@ -57,7 +57,7 @@ class IouDetailAmountReceivedFragment : Fragment() {
 
             recyclerViewIouDetailAmountReceived.run {
                 recyclerViewIouDetailAmountReceived.layoutManager = LinearLayoutManager(context)
-                adapter = IouDetailAdapter()
+                adapter = IouDetailAmountReceivedAdapter()
             }
 
         }
