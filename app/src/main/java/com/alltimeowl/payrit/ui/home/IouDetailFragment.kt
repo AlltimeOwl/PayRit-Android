@@ -40,6 +40,11 @@ class IouDetailFragment : Fragment() {
                 }
             }
 
+            // 금액 입력하기 클릭
+            buttonRecordIouDetail.setOnClickListener {
+                mainActivity.replaceFragment(MainActivity.IOU_DETAIL_AMOUNT_RECEIVED_FRAGMENT, true, null)
+            }
+
             // 확대 클릭
             imageViewEnlargeIouDetail.setOnClickListener {
                 showAlertDialog()

@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.databinding.ActivityMainBinding
 import com.alltimeowl.payrit.ui.home.HomeFragment
+import com.alltimeowl.payrit.ui.home.IouDetailAmountReceivedFragment
 import com.alltimeowl.payrit.ui.home.IouDetailFragment
 import com.alltimeowl.payrit.ui.mypage.AccountInformationFragment
 import com.alltimeowl.payrit.ui.mypage.MyPageMainFragment
@@ -80,6 +81,7 @@ class MainActivity : AppCompatActivity() {
             IOU_WRITE_OPPONENT_FRAGMENT -> IouWriteOpponentFragment()
             IOU_CONTENT_CHECK_FRAGMENT -> IouContentCheckFragment()
             IOU_DETAIL_FRAGMENT -> IouDetailFragment()
+            IOU_DETAIL_AMOUNT_RECEIVED_FRAGMENT -> IouDetailAmountReceivedFragment()
 
             else -> Fragment()
         }
@@ -159,5 +161,6 @@ class MainActivity : AppCompatActivity() {
         const val IOU_WRITE_OPPONENT_FRAGMENT = "IouWriteOpponentFragment"
         const val IOU_CONTENT_CHECK_FRAGMENT = "IouContentCheckFragment"
         const val IOU_DETAIL_FRAGMENT = "IouDetailFragment"
+        const val IOU_DETAIL_AMOUNT_RECEIVED_FRAGMENT = "IouDetailAmountReceivedFragment"
     }
 }
