@@ -27,7 +27,7 @@ val sampleDataList = mutableListOf(
         repay = "0",
         name = "이순신",
         day = "D-39",
-        state = "결제 대기중"
+        state = "상환 진행중"
     ),
     sampleIou(
         period = "2024. 03.10 ~ 2024. 03.19",
