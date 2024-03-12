@@ -50,6 +50,11 @@ class IouDetailFragment : Fragment() {
                 showAlertDialog()
             }
 
+            // 개인 메모 클릭
+            imageViewMemoIouDetail.setOnClickListener {
+                mainActivity.replaceFragment(MainActivity.IOU_DETAIL_MEMO_FRAGMENT, true, null)
+            }
+
         }
     }
 
