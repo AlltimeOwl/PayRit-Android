@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".ui.home.IouDetailFragment">
+    tools:context=".ui.home.IouBorrowDetailFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/materialToolbar_iou_detail"
+        android:id="@+id/materialToolbar_iou_borrow_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
@@ -32,7 +32,7 @@
             android:paddingEnd="16dp">
 
             <TextView
-                android:id="@+id/textView_name_iou_detail"
+                android:id="@+id/textView_name_iou_borrow_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -52,12 +52,12 @@
                     android:textAppearance="@style/Suit.Bold22" />
 
                 <TextView
-                    android:id="@+id/textView_total_amount_iou_detail"
+                    android:id="@+id/textView_total_amount_iou_borrow_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="30,000"
                     android:textAppearance="@style/Suit.Bold22"
-                    android:textColor="@color/primaryMint" />
+                    android:textColor="@color/pink" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -66,10 +66,10 @@
                     android:textAppearance="@style/Suit.Bold22" />
 
                 <TextView
-                    android:id="@+id/textView_type_iou_detail"
+                    android:id="@+id/textView_type_iou_borrow_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="빌려 주었어요."
+                    android:text="빌려었요."
                     android:textAppearance="@style/Suit.Bold22" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -80,7 +80,7 @@
                 android:layout_marginTop="20dp">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView_function_iou_detail"
+                    android:id="@+id/cardView_function_iou_borrow_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="130dp"
@@ -92,111 +92,34 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="34dp"
-                        android:orientation="vertical">
+                        android:gravity="center"
+                        android:paddingBottom="16dp">
 
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:id="@+id/linearLayout_existence_transaction_iou_detail"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:orientation="vertical">
-
-                            <androidx.appcompat.widget.LinearLayoutCompat
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="10dp">
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="받은 날짜"
-                                    android:textAlignment="center"
-                                    android:textAppearance="@style/Suit.SemiBold18" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="상환 내역"
-                                    android:textAlignment="center"
-                                    android:textAppearance="@style/Suit.SemiBold18" />
-
-                            </androidx.appcompat.widget.LinearLayoutCompat>
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/recyclerView_iou_detail"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="16dp">
-
-                            <androidx.appcompat.widget.AppCompatButton
-                                android:id="@+id/button_document_iou_detail"
-                                android:layout_width="wrap_content"
-                                android:layout_height="34dp"
-                                android:layout_marginStart="10dp"
-                                android:layout_weight="1"
-                                android:background="@drawable/bg_gray_scale05_r20"
-                                android:drawableLeft="@drawable/ic_document"
-                                android:drawablePadding="4dp"
-                                android:paddingStart="10dp"
-                                android:paddingEnd="10dp"
-                                android:stateListAnimator="@null"
-                                android:text="PDF·메일"
-                                android:textAppearance="@style/Suit.SemiBold14"
-                                android:textColor="@color/white" />
-
-                            <androidx.appcompat.widget.AppCompatButton
-                                android:id="@+id/button_alarm_iou_detail"
-                                android:layout_width="wrap_content"
-                                android:layout_height="34dp"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:layout_weight="1"
-                                android:background="@drawable/bg_pink_r20"
-                                android:drawableLeft="@drawable/ic_send"
-                                android:drawablePadding="4dp"
-                                android:paddingStart="10dp"
-                                android:paddingEnd="10dp"
-                                android:stateListAnimator="@null"
-                                android:text="알림 전송"
-                                android:textAppearance="@style/Suit.SemiBold14"
-                                android:textColor="@color/white" />
-
-                            <androidx.appcompat.widget.AppCompatButton
-                                android:id="@+id/button_record_iou_detail"
-                                android:layout_width="wrap_content"
-                                android:layout_height="34dp"
-                                android:layout_marginEnd="10dp"
-                                android:layout_weight="1"
-                                android:background="@drawable/bg_primary_mint_r20"
-                                android:drawableLeft="@drawable/ic_tag"
-                                android:drawablePadding="4dp"
-                                android:paddingStart="10dp"
-                                android:paddingEnd="10dp"
-                                android:stateListAnimator="@null"
-                                android:text="금액 입력하기"
-                                android:textAppearance="@style/Suit.SemiBold14"
-                                android:textColor="@color/white" />
-
-                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/button_document_iou_borrow_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="34dp"
+                            android:layout_marginStart="10dp"
+                            android:background="@drawable/bg_gray_scale05_r20"
+                            android:drawableLeft="@drawable/ic_document"
+                            android:drawablePadding="4dp"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:stateListAnimator="@null"
+                            android:text="PDF·메일"
+                            android:textAppearance="@style/Suit.SemiBold14"
+                            android:textColor="@color/white" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView_summary_iou_detail"
+                    android:id="@+id/cardView_summary_iou_borrow_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:backgroundTint="@color/lightMint"
+                    android:backgroundTint="@color/lightPink"
                     app:cardCornerRadius="12dp"
                     app:cardUseCompatPadding="true">
 
@@ -213,7 +136,7 @@
                             android:layout_marginTop="12dp">
 
                             <TextView
-                                android:id="@+id/textView_period_iou_detail"
+                                android:id="@+id/textView_period_iou_borrow_detail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -233,7 +156,7 @@
                             android:textColor="@color/grayScale02" />
 
                         <TextView
-                            android:id="@+id/textView_remaining_amount_iou_detail"
+                            android:id="@+id/textView_remaining_amount_iou_borrow_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
@@ -242,7 +165,7 @@
                             android:textColor="@color/black100" />
 
                         <TextView
-                            android:id="@+id/textView_day_iou_detail"
+                            android:id="@+id/textView_day_iou_borrow_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
@@ -251,7 +174,7 @@
                             android:textColor="@color/grayScale02" />
 
                         <ProgressBar
-                            android:id="@+id/progressBar_iou_detail"
+                            android:id="@+id/progressBar_iou_borrow_detail"
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="match_parent"
                             android:layout_height="4dp"
@@ -259,7 +182,7 @@
                             android:layout_marginTop="3dp"
                             android:max="100"
                             android:progress="10"
-                            android:progressDrawable="@drawable/bg_progress_bar_mint" />
+                            android:progressDrawable="@drawable/bg_progress_bar_pink" />
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
@@ -273,7 +196,7 @@
                                 android:layout_weight="1" />
 
                             <TextView
-                                android:id="@+id/textView_state_iou_detail"
+                                android:id="@+id/textView_state_iou_borrow_detail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="상환 진행중"
@@ -281,7 +204,7 @@
                                 android:textColor="@color/grayScale04" />
 
                             <TextView
-                                android:id="@+id/textView_percent_iou_detail"
+                                android:id="@+id/textView_percent_iou_borrow_detail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="2dp"
@@ -302,26 +225,26 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/imageView_iou_detail"
+                    android:id="@+id/imageView_iou_borrow_detail"
                     android:layout_width="122dp"
                     android:layout_height="155dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginBottom="4dp"
-                    android:background="@drawable/bg_light_mint_r12"
+                    android:background="@drawable/bg_light_pink_r12"
                     android:elevation="2dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
-                    android:id="@+id/imageView_enlarge_iou_detail"
+                    android:id="@+id/imageView_enlarge_iou_borrow_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="14dp"
                     android:layout_marginBottom="14dp"
                     android:elevation="2dp"
                     android:src="@drawable/ic_enlarge"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView_iou_detail"
-                    app:layout_constraintEnd_toEndOf="@id/imageView_iou_detail" />
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView_iou_borrow_detail"
+                    app:layout_constraintEnd_toEndOf="@id/imageView_iou_borrow_detail" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -333,10 +256,10 @@
                     android:textAppearance="@style/Suit.Bold16"
                     android:textColor="@color/black100"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/imageView_iou_detail" />
+                    app:layout_constraintTop_toTopOf="@id/imageView_iou_borrow_detail" />
 
                 <ImageView
-                    android:id="@+id/imageView_memo_iou_detail"
+                    android:id="@+id/imageView_memo_iou_borrow_detail"
                     android:layout_width="223dp"
                     android:layout_height="105dp"
                     android:layout_marginStart="13dp"
@@ -344,7 +267,7 @@
                     android:background="@drawable/bg_memo"
                     android:elevation="2dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imageView_iou_detail"
+                    app:layout_constraintStart_toEndOf="@+id/imageView_iou_borrow_detail"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -355,8 +278,8 @@
                     android:elevation="2dp"
                     android:text="개인 메모"
                     android:textAppearance="@style/Suit.Bold16"
-                    app:layout_constraintStart_toStartOf="@+id/imageView_memo_iou_detail"
-                    app:layout_constraintTop_toTopOf="@+id/imageView_memo_iou_detail" />
+                    app:layout_constraintStart_toStartOf="@+id/imageView_memo_iou_borrow_detail"
+                    app:layout_constraintTop_toTopOf="@+id/imageView_memo_iou_borrow_detail" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -367,11 +290,11 @@
                     android:text="최근 날짜의 메모가 요약으로 보여\n집니다."
                     android:textAppearance="@style/Suit.SemiBold14"
                     android:textColor="@color/grayScale05"
-                    app:layout_constraintStart_toStartOf="@+id/imageView_memo_iou_detail"
-                    app:layout_constraintTop_toTopOf="@+id/imageView_memo_iou_detail" />
+                    app:layout_constraintStart_toStartOf="@+id/imageView_memo_iou_borrow_detail"
+                    app:layout_constraintTop_toTopOf="@+id/imageView_memo_iou_borrow_detail" />
 
                 <ImageView
-                    android:id="@+id/imageView_memo_count_iou_detail"
+                    android:id="@+id/imageView_memo_count_iou_borrow_detail"
                     android:layout_width="223dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="13dp"
@@ -380,11 +303,11 @@
                     android:elevation="2dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imageView_iou_detail"
-                    app:layout_constraintTop_toBottomOf="@id/imageView_memo_iou_detail" />
+                    app:layout_constraintStart_toEndOf="@+id/imageView_iou_borrow_detail"
+                    app:layout_constraintTop_toBottomOf="@id/imageView_memo_iou_borrow_detail" />
 
                 <TextView
-                    android:id="@+id/textView_memo_count_iou_detail"
+                    android:id="@+id/textView_memo_count_iou_borrow_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="13dp"
@@ -393,8 +316,8 @@
                     android:text="총 0개의 메모"
                     android:textAppearance="@style/Suit.SemiBold12"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/imageView_memo_count_iou_detail"
-                    app:layout_constraintTop_toTopOf="@+id/imageView_memo_count_iou_detail" />
+                    app:layout_constraintStart_toStartOf="@+id/imageView_memo_count_iou_borrow_detail"
+                    app:layout_constraintTop_toTopOf="@+id/imageView_memo_count_iou_borrow_detail" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -432,7 +355,7 @@
                             android:textAppearance="@style/Suit.Medium14" />
 
                         <TextView
-                            android:id="@+id/textView_lend_person_name_iou_detail"
+                            android:id="@+id/textView_lend_person_name_iou_borrow_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="30dp"
@@ -453,7 +376,7 @@
                             android:textAppearance="@style/Suit.Medium14" />
 
                         <TextView
-                            android:id="@+id/textView_lend_person_phone_number_iou_detail"
+                            android:id="@+id/textView_lend_person_phone_number_iou_borrow_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="18dp"
@@ -474,7 +397,7 @@
                             android:textAppearance="@style/Suit.Medium14" />
 
                         <TextView
-                            android:id="@+id/textView_lend_person_address_iou_detail"
+                            android:id="@+id/textView_lend_person_address_iou_borrow_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="30dp"
@@ -522,7 +445,7 @@
                             android:textAppearance="@style/Suit.Medium14" />
 
                         <TextView
-                            android:id="@+id/textView_borrow_person_name_iou_detail"
+                            android:id="@+id/textView_borrow_person_name_iou_borrow_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="30dp"
@@ -543,7 +466,7 @@
                             android:textAppearance="@style/Suit.Medium14" />
 
                         <TextView
-                            android:id="@+id/textView_borrow_person_phone_number_iou_detail"
+                            android:id="@+id/textView_borrow_person_phone_number_iou_borrow_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="18dp"
@@ -564,7 +487,7 @@
                             android:textAppearance="@style/Suit.Medium14" />
 
                         <TextView
-                            android:id="@+id/textView_borrow_person_address_iou_detail"
+                            android:id="@+id/textView_borrow_person_address_iou_borrow_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="30dp"

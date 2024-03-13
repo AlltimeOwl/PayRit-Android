@@ -22,6 +22,7 @@
     <color name="lightMint">#CBF0EF</color>
 
     <color name="pink">#FF7A90</color>
+    <color name="lightPink">#FFD7DD</color>
 
     <color name="error">#FE1111</color>
 
@@ -34,5 +35,5 @@
     <color name="grayScale06">#BCC7C7</color>
     <color name="grayScale07">#D1DBDB</color>
     <color name="grayScale08">#ECF0F0</color>
-    <color name="grayScale09">#ECF0F0</color>
+    <color name="grayScale09">#F9F9F9</color>
 </resources>

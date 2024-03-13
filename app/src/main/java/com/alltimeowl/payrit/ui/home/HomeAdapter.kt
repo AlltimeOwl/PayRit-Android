@@ -20,6 +20,8 @@ class HomeAdapter(val mainActivity: MainActivity, val sampleIouList: MutableList
                     val iou = sampleIouList[position]
                     if (iou.state == "차용증 작성 완료") {
                         mainActivity.replaceFragment(MainActivity.IOU_DETAIL_FRAGMENT, true, null)
+                    } else if (iou.type == "빌린 돈" && iou.state == "상환 진행중") {
+                        mainActivity.replaceFragment(MainActivity.IOU_BORROW_DETAIL_FRAGMENT, true, null)
                     }
                 }
             }
