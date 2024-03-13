@@ -92,56 +92,100 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="34dp"
-                        android:paddingBottom="16dp">
+                        android:orientation="vertical">
 
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/button_document_iou_detail"
-                            android:layout_width="wrap_content"
-                            android:layout_height="34dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/bg_gray_scale05_r20"
-                            android:drawableLeft="@drawable/ic_document"
-                            android:drawablePadding="4dp"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:stateListAnimator="@null"
-                            android:text="PDF·메일"
-                            android:textAppearance="@style/Suit.SemiBold14"
-                            android:textColor="@color/white" />
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/linearLayout_existence_transaction_iou_detail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:orientation="vertical">
 
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/button_alarm_iou_detail"
-                            android:layout_width="wrap_content"
-                            android:layout_height="34dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/bg_pink_r20"
-                            android:drawableLeft="@drawable/ic_send"
-                            android:drawablePadding="4dp"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:stateListAnimator="@null"
-                            android:text="알림 전송"
-                            android:textAppearance="@style/Suit.SemiBold14"
-                            android:textColor="@color/white" />
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp">
 
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/button_record_iou_detail"
-                            android:layout_width="wrap_content"
-                            android:layout_height="34dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/bg_primary_mint_r20"
-                            android:drawableLeft="@drawable/ic_tag"
-                            android:drawablePadding="4dp"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:stateListAnimator="@null"
-                            android:text="금액 입력하기"
-                            android:textAppearance="@style/Suit.SemiBold14"
-                            android:textColor="@color/white" />
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="받은 날짜"
+                                    android:textAlignment="center"
+                                    android:textAppearance="@style/Suit.SemiBold18" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="상환 내역"
+                                    android:textAlignment="center"
+                                    android:textAppearance="@style/Suit.SemiBold18" />
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerView_iou_detail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="16dp">
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/button_document_iou_detail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="34dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_gray_scale05_r20"
+                                android:drawableLeft="@drawable/ic_document"
+                                android:drawablePadding="4dp"
+                                android:paddingStart="10dp"
+                                android:paddingEnd="10dp"
+                                android:stateListAnimator="@null"
+                                android:text="PDF·메일"
+                                android:textAppearance="@style/Suit.SemiBold14"
+                                android:textColor="@color/white" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/button_alarm_iou_detail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="34dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_pink_r20"
+                                android:drawableLeft="@drawable/ic_send"
+                                android:drawablePadding="4dp"
+                                android:paddingStart="10dp"
+                                android:paddingEnd="10dp"
+                                android:stateListAnimator="@null"
+                                android:text="알림 전송"
+                                android:textAppearance="@style/Suit.SemiBold14"
+                                android:textColor="@color/white" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/button_record_iou_detail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="34dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_primary_mint_r20"
+                                android:drawableLeft="@drawable/ic_tag"
+                                android:drawablePadding="4dp"
+                                android:paddingStart="10dp"
+                                android:paddingEnd="10dp"
+                                android:stateListAnimator="@null"
+                                android:text="금액 입력하기"
+                                android:textAppearance="@style/Suit.SemiBold14"
+                                android:textColor="@color/white" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 

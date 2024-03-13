@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.databinding.FragmentIouDetailBinding
 import com.alltimeowl.payrit.databinding.ItemCancelBinding
@@ -38,6 +39,11 @@ class IouDetailFragment : Fragment() {
                 setNavigationOnClickListener {
                     mainActivity.removeFragment(MainActivity.IOU_DETAIL_FRAGMENT)
                 }
+            }
+
+            recyclerViewIouDetail.run {
+                recyclerViewIouDetail.layoutManager = LinearLayoutManager(context)
+                adapter = IouDetailAdapter()
             }
 
             // 금액 입력하기 클릭
