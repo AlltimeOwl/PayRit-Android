@@ -16,149 +16,185 @@
         android:theme="?attr/actionBarTheme"
         app:menu="@menu/menu_cancel"
         app:navigationIcon="@drawable/ic_back"
-        app:title="상대방 정보 작성하기"
+        app:title="페이릿 작성하기"
         app:titleCentered="true"
-        app:titleTextAppearance="@style/Typography.Bold18" />
+        app:titleTextAppearance="@style/Suit.SemiBold18" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="이름"
-            android:textAppearance="@style/Typography.Regular16"
-            android:textColor="#949494" />
-
-        <com.google.android.material.textfield.TextInputLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            app:boxStrokeColor="#CBCBCB"
-            app:endIconMode="clear_text"
-            app:hintEnabled="false">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editText_name_iou_write_opponent"
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#CBCBCB"
-                android:fontFamily="@font/pretendard_semibold"
-                android:hint="이름을 입력해주세요"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textColorHint="#E6E6E6"
-                android:textSize="16sp" />
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="상대방의\n정보를 입력해 주세요."
+                    android:textAppearance="@style/Suit.Bold22" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="연락처"
-            android:textAppearance="@style/Typography.Regular16"
-            android:textColor="#949494" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="이름"
+                    android:textAppearance="@style/Suit.Bold14"
+                    android:textColor="@color/grayScale04" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            app:boxStrokeColor="#CBCBCB"
-            app:endIconMode="clear_text"
-            app:hintEnabled="false">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    app:endIconMode="clear_text"
+                    app:hintEnabled="false">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editText_phone_number_iou_write_opponent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#CBCBCB"
-                android:fontFamily="@font/pretendard_semibold"
-                android:hint="연락처를 입력해주세요"
-                android:inputType="phone"
-                android:maxLines="1"
-                android:textColorHint="#E6E6E6"
-                android:textSize="16sp" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_name_iou_write_opponent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_edit_text"
+                        android:hint="이름을 입력해주세요"
+                        android:inputType="text"
+                        android:textAppearance="@style/Suit.Bold16"
+                        android:textColorHint="@color/grayScale07" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
-            android:text="주소(선택)"
-            android:textAppearance="@style/Typography.Regular16"
-            android:textColor="#949494" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="연락처"
+                    android:textAppearance="@style/Suit.Bold14"
+                    android:textColor="@color/grayScale04" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    app:endIconMode="clear_text"
+                    app:hintEnabled="false">
 
-            <EditText
-                android:id="@+id/editText_zip_code_iou_write_opponent"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="#CBCBCB"
-                android:enabled="false"
-                android:hint="우편번호"
-                android:textColor="@color/black" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_phone_number_iou_write_opponent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_edit_text"
+                        android:hint="연락처를 입력해주세요"
+                        android:inputType="phone"
+                        android:textAppearance="@style/Suit.Bold16"
+                        android:textColorHint="@color/grayScale07" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_address_search_iou_write_opponent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/bg_gray_r4"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
-                android:stateListAnimator="@null"
-                android:text="우편번호 검색"
-                android:textAppearance="@style/Typography.Regular16" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="주소(선택사항)"
+                    android:textAppearance="@style/Suit.Bold14"
+                    android:textColor="@color/grayScale04" />
 
-        <EditText
-            android:id="@+id/editText_address_iou_write_opponent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#CBCBCB"
-            android:enabled="false"
-            android:hint="주소"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
 
-        <EditText
-            android:id="@+id/editText_detail_address_iou_write_opponent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#CBCBCB"
-            android:hint="상세주소"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:endIconMode="clear_text"
+                        app:hintEnabled="false">
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editText_zip_code_iou_write_opponent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_edit_text"
+                            android:hint="우편번호"
+                            android:inputType="phone"
+                            android:textAppearance="@style/Suit.Bold16"
+                            android:textColorHint="@color/grayScale07" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button_address_search_iou_write_opponent"
+                        android:layout_width="136dp"
+                        android:layout_height="54dp"
+                        android:layout_marginStart="4dp"
+                        android:background="@drawable/bg_gray_scale05_r6"
+                        android:stateListAnimator="@null"
+                        android:text="우편번호 검색"
+                        android:textAppearance="@style/Suit.Medium14"
+                        android:textColor="@color/grayScale09" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    app:endIconMode="clear_text"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_address_iou_write_opponent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_edit_text"
+                        android:hint="주소"
+                        android:inputType="text"
+                        android:textAppearance="@style/Suit.Bold16"
+                        android:textColorHint="@color/grayScale07" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="80dp"
+                    app:endIconMode="clear_text"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_detail_address_iou_write_opponent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_edit_text"
+                        android:hint="상세주소를 적어주세요"
+                        android:inputType="text"
+                        android:textAppearance="@style/Suit.Bold16"
+                        android:textColorHint="@color/grayScale07" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </ScrollView>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_next_iou_write_opponent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/bg_mint_r12"
+            android:background="@drawable/bg_gray_scale07_r12"
             android:stateListAnimator="@null"
             android:text="다음"
             android:textAppearance="@style/Typography.Bold20"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

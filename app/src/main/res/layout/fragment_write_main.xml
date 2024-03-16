@@ -16,8 +16,8 @@
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
         app:title="작성하기"
-        app:titleTextAppearance="@style/Typography.Bold32"
-        app:titleTextColor="#121212" />
+        app:titleTextAppearance="@style/Suit.SemiBold26"
+        app:titleTextColor="@color/black100" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView_write_iou_write_main"
@@ -27,7 +27,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/gray300"
+        android:backgroundTint="@color/primaryMint"
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp">
 
@@ -45,21 +45,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/pretendard_semibold"
-                    android:text="차용증 작성하기"
-                    android:textSize="26sp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginEnd="20dp"
-                    android:src="@drawable/ic_next" />
+                    android:text="페이릿 작성하기"
+                    android:textAppearance="@style/Suit.SemiBold26"
+                    android:textColor="@color/white" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -67,10 +55,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="22dp"
-                android:layout_marginTop="42dp"
-                android:text="작성 시 본인인증이 필요해요."
-                android:textAppearance="@style/Typography.Medium16"
-                android:textColor="#777777" />
+                android:layout_marginTop="64dp"
+                android:text="차용증과 동일한 효력을 가지고 있어요"
+                android:textAppearance="@style/Suit.SemiBold14"
+                android:textColor="@color/white" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -84,7 +72,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="#30F5F5F5"
+        android:backgroundTint="#33FFFA86"
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp">
 
@@ -102,22 +90,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/pretendard_semibold"
                     android:text="약속 작성하기"
-                    android:textColor="#30000000"
-                    android:textSize="26sp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginEnd="20dp"
-                    android:src="@drawable/ic_next_blurred" />
+                    android:textAppearance="@style/Suit.SemiBold26"
+                    android:textColor="#30181818" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -125,10 +100,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="22dp"
-                android:layout_marginTop="42dp"
+                android:layout_marginTop="64dp"
                 android:text="곧 출시되요!"
-                android:textAppearance="@style/Typography.Medium16"
-                android:textColor="#30777777" />
+                android:textAppearance="@style/Suit.SemiBold14"
+                android:textColor="#30121212" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

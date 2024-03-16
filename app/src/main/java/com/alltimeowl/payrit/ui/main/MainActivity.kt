@@ -1,8 +1,10 @@
 package com.alltimeowl.payrit.ui.main
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -108,6 +110,10 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
+    fun selectBottomNavigationItem(itemId: Int) {
+        activityMainBinding.bottomNavigationViewMain.selectedItemId = itemId
+    }
+
     fun showBottomNavigationView() {
         activityMainBinding.bottomNavigationViewMain.visibility = View.VISIBLE
     }
@@ -147,6 +153,11 @@ class MainActivity : AppCompatActivity() {
     fun removeAllBackStack() {
         val fragmentManager = supportFragmentManager
         fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+
+    fun hideKeyboard() {
+        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
     }
 
 

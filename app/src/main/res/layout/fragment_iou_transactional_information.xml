@@ -16,9 +16,9 @@
         android:theme="?attr/actionBarTheme"
         app:menu="@menu/menu_cancel"
         app:navigationIcon="@drawable/ic_back"
-        app:title="거래 내역 작성하기"
+        app:title="페이릿 작성하기"
         app:titleCentered="true"
-        app:titleTextAppearance="@style/Typography.Bold18" />
+        app:titleTextAppearance="@style/Suit.SemiBold18" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -38,15 +38,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="금액"
-                    android:textAppearance="@style/Typography.Regular16"
-                    android:textColor="#949494" />
+                    android:text="얼마를 빌려주기로 했나요?"
+                    android:textAppearance="@style/Suit.SemiBold14"
+                    android:textColor="@color/grayScale04" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    app:boxStrokeColor="#CBCBCB"
                     app:endIconMode="clear_text"
                     app:hintEnabled="false">
 
@@ -54,56 +53,11 @@
                         android:id="@+id/editText_amount_iou_transactional_information"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="#CBCBCB"
-                        android:fontFamily="@font/pretendard_semibold"
-                        android:hint="숫자만 입력해주세요"
+                        android:background="@drawable/shape_edit_text"
+                        android:hint="금액을 입력해 주세요"
                         android:inputType="number"
-                        android:maxLines="1"
-                        android:textColorHint="#E6E6E6"
-                        android:textSize="24sp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="거래 날짜"
-                        android:textAppearance="@style/Typography.Regular16"
-                        android:textColor="#949494" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginTop="4dp"
-                        android:src="@drawable/ic_calendar" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    app:boxStrokeColor="#CBCBCB"
-                    app:endIconMode="clear_text"
-                    app:hintEnabled="false">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editText_date_iou_transactional_information"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="#CBCBCB"
-                        android:fontFamily="@font/pretendard_semibold"
-                        android:hint="YY.MM.DD"
-                        android:inputType="number"
-                        android:maxLines="1"
-                        android:textColorHint="#E6E6E6"
-                        android:textSize="24sp" />
+                        android:textAppearance="@style/Suit.Bold16"
+                        android:textColorHint="@color/grayScale07" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -111,29 +65,72 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="상환 마감일"
-                    android:textAppearance="@style/Typography.Regular16"
-                    android:textColor="#949494" />
+                    android:text="언제 빌려주기로 했나요?"
+                    android:textAppearance="@style/Suit.SemiBold14"
+                    android:textColor="@color/grayScale04" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout_start_iou_transactional_information"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    app:boxStrokeColor="#CBCBCB"
-                    app:endIconMode="clear_text"
+                    app:endIconDrawable="@drawable/ic_calendar"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/grayScale06"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_start_iou_transactional_information"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_edit_text"
+                        android:enabled="false"
+                        android:hint="날짜를 선택해 주세요"
+                        android:textAppearance="@style/Suit.Bold16"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grayScale07" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="언제까지 갚기로 했나요?"
+                    android:textAppearance="@style/Suit.SemiBold14"
+                    android:textColor="@color/grayScale04" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout_deadline_iou_transactional_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    app:endIconDrawable="@drawable/ic_calendar"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/grayScale06"
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editText_deadline_iou_transactional_information"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="#CBCBCB"
-                        android:fontFamily="@font/pretendard_semibold"
-                        android:hint="YY.MM.DD"
-                        android:inputType="number"
-                        android:maxLines="1"
-                        android:textColorHint="#E6E6E6"
-                        android:textSize="24sp" />
+                        android:background="@drawable/shape_edit_text"
+                        android:enabled="false"
+                        android:hint="날짜를 선택해 주세요"
+                        android:textAppearance="@style/Suit.Bold16"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grayScale07" />
+
+                    <TextView
+                        android:id="@+id/textView_error_message_iou_transactional_information"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="2dp"
+                        android:text="날짜를 제대로 선택해주세요"
+                        android:textAppearance="@style/Suit.Medium10"
+                        android:textColor="#B00020"
+                        android:visibility="gone" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -141,29 +138,44 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="특약사항이 있나요? (선택)"
-                    android:textAppearance="@style/Typography.Regular16"
-                    android:textColor="#949494" />
+                    android:text="특별히 추가할 내용이 있나요?(선택)"
+                    android:textAppearance="@style/Suit.SemiBold14"
+                    android:textColor="@color/grayScale04" />
 
-                <EditText
-                    android:id="@+id/editText_significant_iou_transactional_information"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:background="@drawable/shape_text"
-                    android:gravity="top|start"
-                    android:maxLines="5"
-                    android:padding="14dp" />
+                    app:endIconMode="clear_text"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_significant_iou_transactional_information"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_edit_text"
+                        android:hint="특별히 추가할 내용을 적어주세요"
+                        android:maxLines="5"
+                        android:textAppearance="@style/Suit.Bold16"
+                        android:textColorHint="@color/grayScale07" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linearLayout_interest_off_iou_transactional_information"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="60dp">
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/bg_interest"
+                    android:paddingStart="12dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="8dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="이자 계산기"
+                        android:text="이자 계산"
                         android:textAppearance="@font/pretendard_semibold"
                         android:textSize="16sp" />
 
@@ -181,75 +193,43 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/linearLayout_interest_iou_transactional_information"
+                <include
+                    android:id="@+id/include_iou_transactional_information"
+                    layout="@layout/layout_interest_on"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="32dp"
+                    android:visibility="gone" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linearLayout_summary_iou_transactional_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
                     android:layout_marginBottom="80dp"
-                    android:orientation="vertical"
                     android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="연 이자율"
-                        android:textAppearance="@style/Typography.Regular16"
-                        android:textColor="#949494" />
+                        android:text="총 "
+                        android:textAppearance="@style/Suit.SemiBold20"
+                        android:textColor="@color/black" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/text_total_amount_iou_transactional_information"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        app:boxStrokeColor="#CBCBCB"
-                        app:endIconMode="clear_text"
-                        app:hintEnabled="false">
+                        android:text="12,000원"
+                        android:textAppearance="@style/Suit.ExtraBold20"
+                        android:textColor="@color/primaryMint" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/editText_interest_iou_transactional_information"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:backgroundTint="#CBCBCB"
-                            android:fontFamily="@font/pretendard_semibold"
-                            android:hint="0%"
-                            android:inputType="number"
-                            android:maxLines="1"
-                            android:textColorHint="#E6E6E6"
-                            android:textSize="24sp" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/pretendard_semibold"
-                            android:text="총 "
-                            android:textColor="@color/black"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:id="@+id/text_total_amount_iou_transactional_information"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/pretendard_semibold"
-                            android:text="12,000원"
-                            android:textColor="#23E0BE"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/pretendard_semibold"
-                            android:text="을 상환해야해요!"
-                            android:textColor="@color/black"
-                            android:textSize="20sp" />
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                        android:text="을 상환해야해요!"
+                        android:textAppearance="@style/Suit.SemiBold20"
+                        android:textColor="@color/black" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -264,7 +244,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/bg_mint_r12"
+            android:background="@drawable/bg_gray_scale07_r12"
             android:stateListAnimator="@null"
             android:text="다음"
             android:textAppearance="@style/Typography.Bold20"

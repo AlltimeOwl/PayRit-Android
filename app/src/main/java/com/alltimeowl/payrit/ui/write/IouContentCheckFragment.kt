@@ -10,6 +10,8 @@ import com.alltimeowl.payrit.databinding.FragmentIouContentCheckBinding
 import com.alltimeowl.payrit.databinding.ItemCancelBinding
 import com.alltimeowl.payrit.databinding.ItemKakaolBinding
 import com.alltimeowl.payrit.databinding.ItemKakaolCompleteBinding
+import com.alltimeowl.payrit.databinding.ItemMmsBinding
+import com.alltimeowl.payrit.databinding.ItemMmsCompleteBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -47,9 +49,9 @@ class IouContentCheckFragment : Fragment() {
                     false
                 }
 
-                // 확인 버튼
-                buttonCheckIouContentCheck.setOnClickListener {
-                    showKakaoAlertDialog()
+                // 요청 전송하기
+                buttonSendIouContentCheck.setOnClickListener {
+                    showMmsAlertDialog()
                 }
 
             }
@@ -108,6 +110,44 @@ class IouContentCheckFragment : Fragment() {
             dialog.dismiss()
 
             mainActivity.removeAllBackStack()
+        }
+
+        dialog.setCancelable(false)
+        dialog.show()
+    }
+
+    private fun showMmsAlertDialog() {
+        val itemMmsBinding = ItemMmsBinding.inflate(layoutInflater)
+        val builder = MaterialAlertDialogBuilder(mainActivity)
+        builder.setView(itemMmsBinding.root)
+        val dialog = builder.create()
+
+        // MMS 요청 전송 - 아니오
+        itemMmsBinding.textViewNoMms.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        // MMS 요청 전송 - 네
+        itemMmsBinding.textViewYesMms.setOnClickListener {
+            dialog.dismiss()
+            showMmsCompleteAlertDialog()
+        }
+
+        dialog.show()
+    }
+
+    private fun showMmsCompleteAlertDialog() {
+        val itemMmsCompleteBinding = ItemMmsCompleteBinding.inflate(layoutInflater)
+        val builder = MaterialAlertDialogBuilder(mainActivity)
+        builder.setView(itemMmsCompleteBinding.root)
+        val dialog = builder.create()
+
+        // MMS 요청완료 - 확인
+        itemMmsCompleteBinding.textViewCompleteMms.setOnClickListener {
+            dialog.dismiss()
+
+            mainActivity.removeAllBackStack()
+            mainActivity.selectBottomNavigationItem(R.id.home_menu)
         }
 
         dialog.setCancelable(false)
