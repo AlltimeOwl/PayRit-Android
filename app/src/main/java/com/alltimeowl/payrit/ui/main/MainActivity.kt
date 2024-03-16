@@ -110,6 +110,10 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
+    fun selectBottomNavigationItem(itemId: Int) {
+        activityMainBinding.bottomNavigationViewMain.selectedItemId = itemId
+    }
+
     fun showBottomNavigationView() {
         activityMainBinding.bottomNavigationViewMain.visibility = View.VISIBLE
     }
