@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
-        android:background="@color/mint"
+        android:background="@color/primaryMint"
         android:fontFamily="@font/pretendard_bold"
         android:padding="11dp"
         android:text="확인"
