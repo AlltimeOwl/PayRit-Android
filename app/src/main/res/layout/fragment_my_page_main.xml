@@ -19,7 +19,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="86dp">
+            android:layout_marginTop="60dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imageView_user_profile_myPageMain"
@@ -37,7 +37,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="정주성"
-                android:textAppearance="@style/Typography.Bold24"
+                android:textAppearance="@style/Suit.SemiBold26"
                 app:layout_constraintStart_toEndOf="@+id/imageView_user_profile_myPageMain"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,7 +48,7 @@
                 android:layout_marginStart="16dp"
                 android:text="wjdwntjd55@naver.com"
                 android:textAppearance="@style/Typography.Regular16"
-                android:textColor="@color/gray100"
+                android:textColor="@color/grayScale05"
                 app:layout_constraintStart_toEndOf="@+id/imageView_user_profile_myPageMain"
                 app:layout_constraintTop_toBottomOf="@+id/textView_user_name_myPageMain" />
 
@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
                     android:text="계정 정보"
-                    android:textAppearance="@style/Typography.Medium18"
+                    android:textAppearance="@style/Suit.Medium16"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
                     android:text="결제 내역"
-                    android:textAppearance="@style/Typography.Medium18"
+                    android:textAppearance="@style/Suit.Medium16"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -146,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
                     android:text="알림 설정"
-                    android:textAppearance="@style/Typography.Medium18"
+                    android:textAppearance="@style/Suit.Medium16"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -184,7 +184,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
                     android:text="공지사항"
-                    android:textAppearance="@style/Typography.Medium18"
+                    android:textAppearance="@style/Suit.Medium16"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -222,7 +222,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
                     android:text="자주 묻는 질문"
-                    android:textAppearance="@style/Typography.Medium18"
+                    android:textAppearance="@style/Suit.Medium16"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -260,7 +260,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
                     android:text="서비스 이용 약관"
-                    android:textAppearance="@style/Typography.Medium18"
+                    android:textAppearance="@style/Suit.Medium16"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -298,7 +298,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
                     android:text="로그아웃"
-                    android:textAppearance="@style/Typography.Medium18"
+                    android:textAppearance="@style/Suit.Medium16"
                     android:textColor="@color/gray200"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
