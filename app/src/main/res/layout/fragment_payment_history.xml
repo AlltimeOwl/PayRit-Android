@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white100"
+    android:orientation="vertical"
+    tools:context=".ui.mypage.PaymentHistoryFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar_payment_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="결제 내역"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/Suit.SemiBold18" />
+
+    <Spinner
+        android:id="@+id/spinner_payment_history"
+        android:layout_width="108sp"
+        android:layout_height="36dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/selector_spinner_payment_history"
+        android:elevation="5sp"
+        android:popupBackground="@drawable/bg_white_r12_no" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_payment_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

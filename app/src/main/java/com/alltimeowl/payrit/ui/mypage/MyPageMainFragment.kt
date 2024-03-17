@@ -28,6 +28,7 @@ class MyPageMainFragment : Fragment() {
         mainActivity.showBottomNavigationView()
 
         moveToAccountInformation()
+        moveToPaymentHistory()
         moveToNotificationSetting()
         moveToLogOut()
 
@@ -40,6 +41,13 @@ class MyPageMainFragment : Fragment() {
             mainActivity.replaceFragment(MainActivity.ACCOUNT_INFORMATION_FRAGMENT, true, null)
         }
 
+    }
+
+    // 결재 내역 클릭
+    private fun moveToPaymentHistory() {
+        binding.linearLayoutPaymentHistoryMyPageMain.setOnClickListener {
+            mainActivity.replaceFragment(MainActivity.PAYMENT_HISTORY_FRAGMENT, true, null)
+        }
     }
 
     // 알림 설정 클릭
