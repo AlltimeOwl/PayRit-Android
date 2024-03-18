@@ -18,6 +18,8 @@ import com.alltimeowl.payrit.ui.home.IouDetailMemoFragment
 import com.alltimeowl.payrit.ui.mypage.AccountInformationFragment
 import com.alltimeowl.payrit.ui.mypage.MyPageMainFragment
 import com.alltimeowl.payrit.ui.mypage.NotificationSettingFragment
+import com.alltimeowl.payrit.ui.mypage.PaymentHistoryDetailFragment
+import com.alltimeowl.payrit.ui.mypage.PaymentHistoryFragment
 import com.alltimeowl.payrit.ui.mypage.WithdrawalFragment
 import com.alltimeowl.payrit.ui.write.IouContentCheckFragment
 import com.alltimeowl.payrit.ui.write.IouMainFragment
@@ -88,6 +90,8 @@ class MainActivity : AppCompatActivity() {
             IOU_DETAIL_AMOUNT_RECEIVED_FRAGMENT -> IouDetailAmountReceivedFragment()
             IOU_DETAIL_MEMO_FRAGMENT -> IouDetailMemoFragment()
             IOU_BORROW_DETAIL_FRAGMENT -> IouBorrowDetailFragment()
+            PAYMENT_HISTORY_FRAGMENT -> PaymentHistoryFragment()
+            PAYMENT_HISTORY_DETAIL_FRAGMENT -> PaymentHistoryDetailFragment()
 
             else -> Fragment()
         }
@@ -179,5 +183,7 @@ class MainActivity : AppCompatActivity() {
         const val IOU_DETAIL_AMOUNT_RECEIVED_FRAGMENT = "IouDetailAmountReceivedFragment"
         const val IOU_DETAIL_MEMO_FRAGMENT = "IouDetailMemoFragment"
         const val IOU_BORROW_DETAIL_FRAGMENT = "IouBorrowDetailFragment"
+        const val PAYMENT_HISTORY_FRAGMENT = "PaymentHistoryFragment"
+        const val PAYMENT_HISTORY_DETAIL_FRAGMENT = "PaymentHistoryDetailFragment"
     }
 }

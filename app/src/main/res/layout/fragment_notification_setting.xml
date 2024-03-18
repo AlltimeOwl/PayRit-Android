@@ -17,7 +17,7 @@
         app:navigationIcon="@drawable/ic_back"
         app:title="알림 설정"
         app:titleCentered="true"
-        app:titleTextAppearance="@style/Typography.Medium18" />
+        app:titleTextAppearance="@style/Suit.SemiBold18" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -25,7 +25,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/bg_gray300_r12">
+        android:background="@drawable/bg_white_r12_no"
+        android:elevation="5dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,7 +36,7 @@
             android:layout_marginBottom="30dp"
             android:text="앱 푸시알림 설정"
             android:textAppearance="@style/Typography.Medium18"
-            android:textColor="#333333" />
+            android:textColor="@color/black100" />
 
         <View
             android:layout_width="0dp"
@@ -49,7 +50,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="14dp"
             android:layout_marginBottom="30dp"
-            android:checked="true"
+            android:checked="false"
             app:trackTint="@color/selector_material_switch" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -60,7 +61,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/bg_gray300_r12">
+        android:background="@drawable/bg_white_r12_no"
+        android:elevation="5dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -70,7 +72,7 @@
             android:layout_marginBottom="30dp"
             android:text="마케팅 수신 동의"
             android:textAppearance="@style/Typography.Medium18"
-            android:textColor="#333333" />
+            android:textColor="@color/black100" />
 
         <View
             android:layout_width="0dp"

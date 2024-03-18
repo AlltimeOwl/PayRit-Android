@@ -13,5 +13,10 @@
         <item>개인정보 보호를 위해 삭제하고 싶어요</item>
         <item>기타</item>
     </string-array>
+
+    <string-array name="payment_history">
+        <item>최근 결제 순</item>
+        <item>오래된 결제 순</item>
+    </string-array>
     
 </resources>

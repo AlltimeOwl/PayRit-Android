@@ -76,14 +76,12 @@ class WithdrawalFragment : Fragment() {
     private fun checkWithdrawal(position: Int) {
 
         if (position == 0) {
-            binding.buttonWithdrawal.setBackgroundResource(R.drawable.bg_gray450_r12)
-            binding.buttonWithdrawal.setTextColor(Color.parseColor("#999999"))
+            binding.buttonWithdrawal.setBackgroundResource(R.drawable.bg_gray_scale07_r12)
 
             // 버튼에 대한 클릭 리스너 제거
             binding.buttonWithdrawal.setOnClickListener(null)
         } else {
-            binding.buttonWithdrawal.setBackgroundResource(R.drawable.bg_mint_r12)
-            binding.buttonWithdrawal.setTextColor(Color.parseColor("#FFFFFF"))
+            binding.buttonWithdrawal.setBackgroundResource(R.drawable.bg_primary_mint_r12)
 
             // 탈퇴하기 버튼 클릭
             binding.buttonWithdrawal.setOnClickListener {
@@ -127,6 +125,7 @@ class WithdrawalFragment : Fragment() {
             startActivity(intent)
         }
 
+        dialog.setCancelable(false)
         dialog.show()
     }
 

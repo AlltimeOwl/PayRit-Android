@@ -31,11 +31,27 @@ class WithdrawalSpinnerAdapter(context: Context, resource: Int, items: Array<Str
             }
 
             binding.textViewWithdrawalSpinner.text = getItem(position)
-            binding.textViewWithdrawalSpinner.setTextColor(Color.parseColor("#999999"))
+            binding.textViewWithdrawalSpinner.setTextColor(ContextCompat.getColor(context, R.color.grayScale06))
 
             return view
         } else {
-            return getCustomView(position, convertView, parent)
+
+            val binding: ItemWithdrawalSpinnerBinding
+            val view: View
+
+            if (convertView == null) {
+                binding = ItemWithdrawalSpinnerBinding.inflate(LayoutInflater.from(context), parent, false)
+                view = binding.root
+                view.tag = binding
+            } else {
+                view = convertView
+                binding = convertView.tag as ItemWithdrawalSpinnerBinding
+            }
+
+            binding.textViewWithdrawalSpinner.text = getItem(position)
+            binding.textViewWithdrawalSpinner.setTextColor(ContextCompat.getColor(context, R.color.black))
+
+            return view
         }
 
     }
@@ -62,9 +78,10 @@ class WithdrawalSpinnerAdapter(context: Context, resource: Int, items: Array<Str
         if (isDropdownOpen && position == 0) {
             val drawable = context.resources.getDrawable(R.drawable.ic_up, null)
             binding.textViewWithdrawalSpinner.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
-            binding.textViewWithdrawalSpinner.setTextColor(Color.parseColor("#999999"))
+            binding.textViewWithdrawalSpinner.setTextColor(ContextCompat.getColor(context, R.color.grayScale06))
         } else {
             binding.textViewWithdrawalSpinner.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+            binding.textViewWithdrawalSpinner.setTextColor(ContextCompat.getColor(context, R.color.grayScale05))
         }
 
         return view

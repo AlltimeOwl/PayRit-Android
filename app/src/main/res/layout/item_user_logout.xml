@@ -70,7 +70,7 @@
         android:id="@+id/textView_no_logout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/mint"
+        android:background="@color/primaryMint"
         android:fontFamily="@font/pretendard_bold"
         android:gravity="center"
         android:padding="11dp"
