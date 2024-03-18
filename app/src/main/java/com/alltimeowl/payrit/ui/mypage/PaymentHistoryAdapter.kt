@@ -31,6 +31,12 @@ class PaymentHistoryAdapter(val mainActivity: MainActivity): RecyclerView.Adapte
                 bottomSheetDialog.setContentView(bottomSheetView.root)
                 bottomSheetDialog.show()
 
+                // 내역 상세 보기
+                bottomSheetView.linearLayoutShowDetailPaymentHistory.setOnClickListener {
+                    mainActivity.replaceFragment(MainActivity.PAYMENT_HISTORY_DETAIL_FRAGMENT, true, null)
+                    bottomSheetDialog.dismiss()
+                }
+
                 // 취소
                 bottomSheetView.linearLayoutCancelPaymentHistory.setOnClickListener {
                     bottomSheetDialog.dismiss()
