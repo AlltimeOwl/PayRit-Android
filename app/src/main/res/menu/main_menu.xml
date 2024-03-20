@@ -5,21 +5,21 @@
         android:id="@+id/home_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/selector_bottom_navigation_home"
         android:title="홈" />
 
     <item
         android:id="@+id/write_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/ic_write"
+        android:icon="@drawable/selector_bottom_navigation_write"
         android:title="작성하기" />
 
     <item
         android:id="@+id/my_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/ic_mypage"
+        android:icon="@drawable/selector_bottom_navigation_mypage"
         android:title="마이페이지" />
 
 </menu>

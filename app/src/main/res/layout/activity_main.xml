@@ -4,31 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white100"
     tools:context=".ui.main.MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView_main"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView_main"
+        app:layout_constraintBottom_toTopOf="@+id/cardView_main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView_main"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:background="@color/white"
-        app:itemActiveIndicatorStyle="@android:color/transparent"
-        app:itemBackground="@android:color/transparent"
-        app:itemIconSize="30dp"
-        app:itemIconTint="@color/selector_bottom_navigation"
-        app:itemTextColor="@color/selector_bottom_navigation"
-        app:labelVisibilityMode="labeled"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView_main"
+        style="@style/RoundedCornerMaterialCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="20dp"
+        app:contentPadding="-6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/main_menu" />
+        app:strokeWidth="0dp">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView_main"
+            style="@style/BottomNavigationViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/white"
+            app:itemActiveIndicatorStyle="@android:color/transparent"
+            app:itemBackground="@android:color/transparent"
+            app:itemIconSize="20dp"
+            app:itemTextColor="@color/selector_bottom_navigation"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/main_menu" />
+
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

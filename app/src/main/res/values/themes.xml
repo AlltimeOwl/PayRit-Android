@@ -31,4 +31,18 @@
         <item name="android:textColor">@color/primaryMint</item>
     </style>
 
+    <style name="RoundedCornerMaterialCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="shapeAppearance">@style/CustomShapeAppearance</item>
+    </style>
+
+    <style name="CustomShapeAppearance" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSizeTopLeft">50dp</item>
+        <item name="cornerSizeTopRight">50dp</item>
+    </style>
+
+    <style name="BottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/suit_medium</item>
+    </style>
+
 </resources>

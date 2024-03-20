@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
+        activityMainBinding.bottomNavigationViewMain.itemIconTintList = null
 
         replaceFragment(HOME_FRAGMENT, false, null)
     }
