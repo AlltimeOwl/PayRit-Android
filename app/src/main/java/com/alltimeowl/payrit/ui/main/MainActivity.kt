@@ -120,11 +120,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showBottomNavigationView() {
-        activityMainBinding.bottomNavigationViewMain.visibility = View.VISIBLE
+        activityMainBinding.cardViewMain.visibility = View.VISIBLE
     }
 
     fun hideBottomNavigationView() {
-        activityMainBinding.bottomNavigationViewMain.visibility = View.GONE
+        activityMainBinding.cardViewMain.visibility = View.GONE
     }
 
     fun bottomNavigation() {
