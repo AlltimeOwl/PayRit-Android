@@ -168,6 +168,9 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
 
+        var accessToken: String? = null
+        var refreshToken: String? = null
+
         const val HOME_FRAGMENT = "HomeFragment"
         const val WRITE_MAIN_FRAGMENT = "WriteMainFragment"
         const val MY_PAGE_MAIN_FRAGMENT = "MyPageMainFragment"

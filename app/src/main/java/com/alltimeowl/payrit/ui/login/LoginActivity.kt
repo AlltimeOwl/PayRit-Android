@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.alltimeowl.payrit.databinding.ActivityLoginBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 import com.kakao.sdk.auth.model.OAuthToken
@@ -19,18 +20,32 @@ class LoginActivity : AppCompatActivity() {
     private var backPressedTime: Long = 0
     private val backPressedInterval = 2000 // 뒤로가기 버튼을 두 번 누르는 간격 (2초)
 
-    private val callback: (OAuthToken?, Throwable?) -> Unit = { toekn, error ->
+    lateinit var viewModel: LoginViewModel
+
+    private val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
             // 로그인 실패
             Log.d(TAG, "로그인 실패 error : ${error}")
-        } else if (toekn != null) {
+        } else if (token != null) {
             // 로그인 성공
-            Log.d(TAG, "login in with kakako account token : $toekn")
+            viewModel.loginKakao(token.accessToken, token.refreshToken)
 
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            // LoginActivity 종료 (스택 제거)
-            finish()
+            // ViewModel의 loginResult 관찰
+            viewModel.loginResult.observe(this) { result ->
+                result.fold(onSuccess = {
+
+                    MainActivity.accessToken = it.accessToken
+                    MainActivity.refreshToken = it.refreshToken
+                    // 서버 로그인 성공 시 MainActivity로 이동
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }, onFailure = {
+                    // 서버 로그인 실패 시 오류 메시지 표시
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                })
+            }
+
         }
     }
 
@@ -41,6 +56,8 @@ class LoginActivity : AppCompatActivity() {
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
         moveToHome()
     }
@@ -61,18 +78,25 @@ class LoginActivity : AppCompatActivity() {
                     }
                     else if (token != null) {
                         // 카카오톡 로그인 성공
-                        Log.d(TAG, "token : ${token}")
+                        viewModel.loginKakao(token.accessToken, token.refreshToken)
 
-                        val accessToken = token.accessToken
-                        val refreshToken = token.refreshToken
+                        // ViewModel의 loginResult 관찰
+                        viewModel.loginResult.observe(this) { result ->
+                            result.fold(onSuccess = {
 
-                        Log.d(TAG, "accessToken : ${accessToken}")
-                        Log.d(TAG, "refreshToken : ${refreshToken}")
+                                MainActivity.accessToken = it.accessToken
+                                MainActivity.refreshToken = it.refreshToken
 
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
+                                // 서버 로그인 성공 시 MainActivity로 이동
+                                val intent = Intent(this, MainActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }, onFailure = {
+                                // 서버 로그인 실패 시 오류 메시지 표시
+                                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                            })
+                        }
 
-                        finish()
                     }
                 }
 
