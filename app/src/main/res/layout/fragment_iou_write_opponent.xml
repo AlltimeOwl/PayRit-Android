@@ -121,9 +121,11 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/shape_edit_text"
+                            android:enabled="false"
                             android:hint="우편번호"
                             android:inputType="phone"
                             android:textAppearance="@style/Suit.Bold16"
+                            android:textColor="@color/black"
                             android:textColorHint="@color/grayScale07" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -152,9 +154,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/shape_edit_text"
+                        android:enabled="false"
                         android:hint="주소"
                         android:inputType="text"
                         android:textAppearance="@style/Suit.Bold16"
+                        android:textColor="@color/black"
                         android:textColorHint="@color/grayScale07" />
                 </com.google.android.material.textfield.TextInputLayout>
 

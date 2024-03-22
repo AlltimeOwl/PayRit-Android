@@ -29,6 +29,8 @@ class IouTransactionalInformationFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
     lateinit var binding: FragmentIouTransactionalInformationBinding
 
+    private lateinit var writerRole: String
+
     val TAG = "IouTransactionalInformationFragment"
 
     override fun onCreateView(
@@ -38,6 +40,8 @@ class IouTransactionalInformationFragment : Fragment() {
 
         mainActivity = activity as MainActivity
         binding = FragmentIouTransactionalInformationBinding.inflate(layoutInflater)
+
+        writerRole = arguments?.getString("writerRole").toString()
 
         initUI()
 
@@ -435,7 +439,9 @@ class IouTransactionalInformationFragment : Fragment() {
             val editTextAmount = editTextAmountIouTransactionalInformation
             val editTextStart = editTextStartIouTransactionalInformation
             val editTextDeadline = editTextDeadlineIouTransactionalInformation
+            val editTextSignificant = editTextSignificantIouTransactionalInformation
             val editTextRage = includeIouTransactionalInformation.editTextInterestRateLayoutInterestOn
+            val editTextPaymentDate = includeIouTransactionalInformation.editTextPaymentDateLayoutInterestOn
             val buttonNext = buttonNextIouTransactionalInformation
 
             fun validateFields() {
@@ -443,20 +449,59 @@ class IouTransactionalInformationFragment : Fragment() {
                 val amount = editTextAmount.text.toString()
                 val start = editTextStart.text.toString()
                 val deadline = editTextDeadline.text.toString()
+                val significant = editTextSignificant.text.toString()
+                val rageText = editTextRage.text.toString()
+                val paymentDate = editTextPaymentDate.text.toString()
 
                 val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+                val iouDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+                val today = iouDateFormat.format(Calendar.getInstance().time)
+
+                val rage = if (rageText.isNotEmpty() && rageText[0] != '.') rageText.toDouble() else 0.0
 
                 if (amount.isNotEmpty() && start.isNotEmpty() && deadline.isNotEmpty()) {
                     try {
                         val startDate = dateFormat.parse(start)
                         val deadlineDate = dateFormat.parse(deadline)
 
+                        val amountWithoutComma = amount.replace(",", "")
+                        // 파싱된 Date 객체를 원하는 형식으로 다시 포맷
+                        val repaymentStartDate = startDate?.let { iouDateFormat.format(it) }
+                        val repaymentEndDate = deadlineDate?.let { iouDateFormat.format(it) }
+
+                        val paymentDateWithoutDay = paymentDate.replace("일","")
+                        // 비어있는지 확인하고 TextInputLayout의 오류 상태도 확인
+                        val paymentDateInt: Int? = if (paymentDateWithoutDay.isNotEmpty() &&
+                            includeIouTransactionalInformation.textInputLayoutPaymentDateLayoutInterestOn.error == null) {
+                            paymentDateWithoutDay.toInt()
+                        } else {
+                            null
+                        }
+
                         if (startDate != null && deadlineDate != null && startDate.before(deadlineDate)) {
                             buttonNext.setBackgroundResource(R.drawable.bg_primary_mint_r12)
 
                             buttonNext.setOnClickListener {
                                 if (!switchIouTransactionalInformation.isChecked) {
-                                    mainActivity.replaceFragment(MainActivity.IOU_WRITE_MY_FRAGMENT, true, null)
+
+                                    val totalAmountIou = textTotalAmountIouTransactionalInformation.text
+                                    val numberOnlyTotalAmountIou = totalAmountIou.replace(Regex("[^\\d]"), "")
+
+                                    val bundle = Bundle()
+                                    bundle.putString("writerRole", writerRole)
+                                    bundle.putInt("amount", amountWithoutComma.toInt())
+                                    bundle.putInt("calcedAmount", numberOnlyTotalAmountIou.toInt())
+                                    bundle.putString("transactionDate", today)
+                                    bundle.putString("repaymentStartDate", repaymentStartDate.toString())
+                                    bundle.putString("repaymentEndDate", repaymentEndDate.toString())
+                                    bundle.putString("specialConditions", significant)
+                                    bundle.putFloat("interestRate", rage.toFloat())
+                                    if (paymentDateInt != null) {
+                                        bundle.putInt("interestPaymentDate", paymentDateInt)
+                                    }
+
+                                    mainActivity.replaceFragment(MainActivity.IOU_WRITE_MY_FRAGMENT, true, bundle)
                                 }
                                 return@setOnClickListener
                             }
@@ -478,9 +523,15 @@ class IouTransactionalInformationFragment : Fragment() {
                 val amount = editTextAmount.text.toString()
                 val start = editTextStart.text.toString()
                 val deadline = editTextDeadline.text.toString()
+                val significant = editTextSignificant.text.toString()
                 val rageText = editTextRage.text.toString()
+                val paymentDate = editTextPaymentDate.text.toString()
 
                 val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+                val iouDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+                val today = iouDateFormat.format(Calendar.getInstance().time)
+
                 val rage = if (rageText.isNotEmpty() && rageText[0] != '.') rageText.toDouble() else 0.0
 
                 if (amount.isNotEmpty() && start.isNotEmpty() && deadline.isNotEmpty() && rage in 0.01..20.0) {
@@ -488,12 +539,43 @@ class IouTransactionalInformationFragment : Fragment() {
                         val startDate = dateFormat.parse(start)
                         val deadlineDate = dateFormat.parse(deadline)
 
+                        val amountWithoutComma = amount.replace(",", "")
+                        // 파싱된 Date 객체를 원하는 형식으로 다시 포맷
+                        val repaymentStartDate = startDate?.let { iouDateFormat.format(it) }
+                        val repaymentEndDate = deadlineDate?.let { iouDateFormat.format(it) }
+
+                        val paymentDateWithoutDay = paymentDate.replace("일","")
+                        // 비어있는지 확인하고 TextInputLayout의 오류 상태도 확인
+                        val paymentDateInt: Int? = if (paymentDateWithoutDay.isNotEmpty() &&
+                            includeIouTransactionalInformation.textInputLayoutPaymentDateLayoutInterestOn.error == null) {
+                            paymentDateWithoutDay.toInt()
+                        } else {
+                            null // null을 허용하는 Int? 타입으로 처리
+                        }
+
                         if (startDate != null && deadlineDate != null && startDate.before(deadlineDate)) {
                             buttonNext.setBackgroundResource(R.drawable.bg_primary_mint_r12)
 
                             buttonNext.setOnClickListener {
                                 if (includeIouTransactionalInformation.switchLayoutInterestOn.isChecked) {
-                                    mainActivity.replaceFragment(MainActivity.IOU_WRITE_MY_FRAGMENT, true, null)
+
+                                    val totalAmountIou = textTotalAmountIouTransactionalInformation.text
+                                    val numberOnlyTotalAmountIou = totalAmountIou.replace(Regex("[^\\d]"), "")
+
+                                    val bundle = Bundle()
+                                    bundle.putString("writerRole", writerRole)
+                                    bundle.putInt("amount", amountWithoutComma.toInt())
+                                    bundle.putInt("calcedAmount", numberOnlyTotalAmountIou.toInt())
+                                    bundle.putString("transactionDate", today)
+                                    bundle.putString("repaymentStartDate", repaymentStartDate.toString())
+                                    bundle.putString("repaymentEndDate", repaymentEndDate.toString())
+                                    bundle.putString("specialConditions", significant)
+                                    bundle.putFloat("interestRate", rage.toFloat())
+                                    if (paymentDateInt != null) {
+                                        bundle.putInt("interestPaymentDate", paymentDateInt)
+                                    }
+
+                                    mainActivity.replaceFragment(MainActivity.IOU_WRITE_MY_FRAGMENT, true, bundle)
                                 }
                             }
 
@@ -538,6 +620,30 @@ class IouTransactionalInformationFragment : Fragment() {
                     }
                 })
 
+                editTextSignificant.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                    override fun afterTextChanged(s: Editable?) {
+                        validateFields()
+                    }
+                })
+
+                editTextRage.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                    override fun afterTextChanged(s: Editable?) {
+                        validateFields()
+                    }
+                })
+
+                editTextPaymentDate.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                    override fun afterTextChanged(s: Editable?) {
+                        validateFields()
+                    }
+                })
+
                 // Call validateFields initially to set the button background
                 validateFields()
             } else {
@@ -566,7 +672,23 @@ class IouTransactionalInformationFragment : Fragment() {
                     }
                 })
 
+                editTextSignificant.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                    override fun afterTextChanged(s: Editable?) {
+                        rateValidateFields()
+                    }
+                })
+
                 editTextRage.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                    override fun afterTextChanged(s: Editable?) {
+                        rateValidateFields()
+                    }
+                })
+
+                editTextPaymentDate.addTextChangedListener(object : TextWatcher {
                     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                     override fun afterTextChanged(s: Editable?) {

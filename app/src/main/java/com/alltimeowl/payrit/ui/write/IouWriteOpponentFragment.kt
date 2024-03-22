@@ -24,6 +24,32 @@ class IouWriteOpponentFragment : Fragment() {
 
     private var isButtonClickable: Boolean = false
 
+    private lateinit var writerRole: String
+    private var amount: Int? = null
+    private var calcedAmount: Int? = null
+    private lateinit var transactionDate: String
+    private lateinit var repaymentStartDate: String
+    private lateinit var repaymentEndDate: String
+    private lateinit var specialConditions: String
+    private var interestRate: Float? = null
+    private var interestPaymentDate: Int? = null
+
+    private var creditorName = ""
+    private var creditorPhoneNumber = ""
+    private var creditorAddress = ""
+
+    private var debtorName = ""
+    private var debtorPhoneNumber = ""
+    private var debtorAddress = ""
+
+    private var opponentName = ""
+    private var opponentPhoneNumber = ""
+
+    private var zonecode = ""
+    private var roadAddress = ""
+    private var detailAddress = ""
+    private var opponentAddress = ""
+
     val TAG = "IouWriteOpponentFragment"
 
     override fun onCreateView(
@@ -33,6 +59,33 @@ class IouWriteOpponentFragment : Fragment() {
 
         mainActivity = activity as MainActivity
         binding = FragmentIouWriteOpponentBinding.inflate(layoutInflater)
+
+        writerRole = arguments?.getString("writerRole").toString()
+        amount = arguments?.getInt("amount")
+        calcedAmount = arguments?.getInt("calcedAmount")
+        transactionDate = arguments?.getString("transactionDate").toString()
+        repaymentStartDate = arguments?.getString("repaymentStartDate").toString()
+        repaymentEndDate = arguments?.getString("repaymentEndDate").toString()
+        specialConditions = arguments?.getString("specialConditions").toString()
+        interestRate = arguments?.getFloat("interestRate")
+        interestPaymentDate = arguments?.let {
+            if (it.containsKey("interestPaymentDate")) it.getInt("interestPaymentDate")
+            else null
+        }
+
+        when(writerRole) {
+            "CREDITOR" -> {
+                creditorName = arguments?.getString("creditorName").toString()
+                creditorPhoneNumber = arguments?.getString("creditorPhoneNumber").toString()
+                creditorAddress = arguments?.getString("creditorAddress").toString()
+            }
+
+            "DEBTOR" -> {
+                debtorName = arguments?.getString("debtorName").toString()
+                debtorPhoneNumber = arguments?.getString("debtorPhoneNumber").toString()
+                debtorAddress = arguments?.getString("debtorAddress").toString()
+            }
+        }
 
         initUI()
 
@@ -74,12 +127,14 @@ class IouWriteOpponentFragment : Fragment() {
                 // String -> Json 형태로 형변환
                 val addressJson = JSONObject(address)
 
-                val zonecode = addressJson.getString("zonecode")
-                val roadAddress = addressJson.getString("roadAddress")
+                zonecode = addressJson.getString("zonecode")
+                roadAddress = addressJson.getString("roadAddress")
                 val jibunAddress = addressJson.getString("jibunAddress")
 
                 editTextZipCodeIouWriteOpponent.setText(zonecode)
                 editTextAddressIouWriteOpponent.setText(roadAddress)
+
+                updateAddress()
             }
 
             // 우편번호 검색
@@ -87,10 +142,67 @@ class IouWriteOpponentFragment : Fragment() {
                 mainActivity.replaceFragment(MainActivity.KAKAO_ZIP_CODE_FRAGMENT, true, null)
             }
 
+            // 상세 주소 입력
+            editTextDetailAddressIouWriteOpponent.addTextChangedListener(
+                getTextAddressWatcher(editTextDetailAddressIouWriteOpponent)
+            )
+
             // 다음 버튼
             buttonNextIouWriteOpponent.setOnClickListener {
+
                 if (isButtonClickable) {
-                    mainActivity.replaceFragment(MainActivity.IOU_CONTENT_CHECK_FRAGMENT, true, null)
+
+                    when(writerRole) {
+                        "CREDITOR" -> {
+                            val bundle = Bundle()
+
+                            bundle.putString("writerRole", writerRole)
+                            amount?.let { it1 -> bundle.putInt("amount", it1) }
+                            calcedAmount?.let { it1 -> bundle.putInt("calcedAmount", it1) }
+                            bundle.putString("transactionDate", transactionDate)
+                            bundle.putString("repaymentStartDate", repaymentStartDate)
+                            bundle.putString("repaymentEndDate", repaymentEndDate)
+                            bundle.putString("specialConditions", specialConditions)
+                            interestRate?.let { it1 -> bundle.putFloat("interestRate", it1)}
+                            interestPaymentDate?.let { it1 -> bundle.putInt("interestPaymentDate", it1)}
+
+                            bundle.putString("creditorName", creditorName)
+                            bundle.putString("creditorPhoneNumber", creditorPhoneNumber)
+                            bundle.putString("creditorAddress", creditorAddress)
+
+                            bundle.putString("debtorName", opponentName)
+                            bundle.putString("debtorPhoneNumber", opponentPhoneNumber)
+                            bundle.putString("debtorAddress", opponentAddress)
+
+                            mainActivity.replaceFragment(MainActivity.IOU_CONTENT_CHECK_FRAGMENT, true, bundle)
+                        }
+
+                        "DEBTOR" -> {
+                            val bundle = Bundle()
+
+                            bundle.putString("writerRole", writerRole)
+                            amount?.let { it1 -> bundle.putInt("amount", it1) }
+                            calcedAmount?.let { it1 -> bundle.putInt("calcedAmount", it1) }
+                            bundle.putString("transactionDate", transactionDate)
+                            bundle.putString("repaymentStartDate", repaymentStartDate)
+                            bundle.putString("repaymentEndDate", repaymentEndDate)
+                            bundle.putString("specialConditions", specialConditions)
+                            interestRate?.let { it1 -> bundle.putFloat("interestRate", it1)}
+                            interestPaymentDate?.let { it1 -> bundle.putInt("interestPaymentDate", it1)}
+
+                            bundle.putString("creditorName", opponentName)
+                            bundle.putString("creditorPhoneNumber", opponentPhoneNumber)
+                            bundle.putString("creditorAddress", opponentAddress)
+
+                            bundle.putString("debtorName", debtorName)
+                            bundle.putString("debtorPhoneNumber", debtorPhoneNumber)
+                            bundle.putString("debtorAddress", debtorAddress)
+
+                            mainActivity.replaceFragment(MainActivity.IOU_CONTENT_CHECK_FRAGMENT, true, bundle)
+
+                        }
+
+                    }
                 }
             }
 
@@ -105,6 +217,9 @@ class IouWriteOpponentFragment : Fragment() {
 
             override fun afterTextChanged(editable: Editable?) {
                 val text = editable.toString()
+
+                // 상대방 이름
+                opponentName = text
 
                 val phoneNumberText = binding.editTextPhoneNumberIouWriteOpponent.text.toString()
 
@@ -141,6 +256,9 @@ class IouWriteOpponentFragment : Fragment() {
                 isFormatting = true
 
                 val text = editable.toString()
+
+                // 상대방 잔화번호
+                opponentPhoneNumber = text
 
                 if (text.isEmpty()) {
                     isButtonClickable = false
@@ -184,6 +302,20 @@ class IouWriteOpponentFragment : Fragment() {
         }
     }
 
+    private fun getTextAddressWatcher(editText: EditText): TextWatcher {
+        return object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(editable: Editable?) {
+                detailAddress = editable.toString()
+                updateAddress()
+            }
+
+        }
+    }
+
     private fun showAlertDialog() {
         val itemCancelBinding = ItemCancelBinding.inflate(layoutInflater)
         val builder = MaterialAlertDialogBuilder(mainActivity)
@@ -203,6 +335,16 @@ class IouWriteOpponentFragment : Fragment() {
         }
 
         dialog.show()
+    }
+
+    private fun updateAddress() {
+        // 주소 정보가 비어 있는지 확인하고, 비어 있지 않을 경우만 문자열에 포함
+        val formattedRoadAddress = if (roadAddress.isNotEmpty()) "$roadAddress " else ""
+        val formattedDetailAddress = if (detailAddress.isNotEmpty()) "$detailAddress " else ""
+        val formattedZonecode = if (zonecode.isNotEmpty()) "($zonecode)" else ""
+
+        // 최종 주소 문자열을 구성
+        opponentAddress = formattedRoadAddress + formattedDetailAddress + formattedZonecode
     }
 
 }

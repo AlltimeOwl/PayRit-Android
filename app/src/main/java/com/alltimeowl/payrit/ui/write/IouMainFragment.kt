@@ -39,12 +39,20 @@ class IouMainFragment : Fragment() {
 
             // 빌려줄 예정
             cardViewLendIouMain.setOnClickListener {
-                mainActivity.replaceFragment(MainActivity.IOU_TRANSACTIONAL_INFORMATION_FRAGMENT, true, null)
+
+                val bundle = Bundle()
+                bundle.putString("writerRole", "CREDITOR")
+
+                mainActivity.replaceFragment(MainActivity.IOU_TRANSACTIONAL_INFORMATION_FRAGMENT, true, bundle)
             }
 
             // 빌릴 예정
             cardViewBorrowIouMain.setOnClickListener {
-                mainActivity.replaceFragment(MainActivity.IOU_TRANSACTIONAL_INFORMATION_FRAGMENT, true, null)
+
+                val bundle = Bundle()
+                bundle.putString("writerRole", "DEBTOR")
+
+                mainActivity.replaceFragment(MainActivity.IOU_TRANSACTIONAL_INFORMATION_FRAGMENT, true, bundle)
             }
 
         }

@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.alltimeowl.payrit.databinding.ActivityLoginBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
+import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginUserName
+import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginUserPhoneNumber
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -28,6 +30,20 @@ class LoginActivity : AppCompatActivity() {
             Log.d(TAG, "로그인 실패 error : ${error}")
         } else if (token != null) {
             // 로그인 성공
+
+            // 사용자 정보 요청
+            UserApiClient.instance.me { user, error ->
+                if (error != null) {
+                    Log.e(TAG, "사용자 정보 요청 실패", error)
+                } else if (user != null) {
+                    val name = user.kakaoAccount?.name // 사용자의 실제 이름 (이름 정보에 접근 권한이 필요합니다)
+                    val phoneNumber = user.kakaoAccount?.phoneNumber
+
+                    loginUserName = "$name"
+                    loginUserPhoneNumber = "$phoneNumber"
+                }
+            }
+
             viewModel.loginKakao(token.accessToken, token.refreshToken)
 
             // ViewModel의 loginResult 관찰
@@ -78,6 +94,20 @@ class LoginActivity : AppCompatActivity() {
                     }
                     else if (token != null) {
                         // 카카오톡 로그인 성공
+
+                        // 사용자 정보 요청
+                        UserApiClient.instance.me { user, error ->
+                            if (error != null) {
+                                Log.e(TAG, "사용자 정보 요청 실패", error)
+                            } else if (user != null) {
+                                val name = user.kakaoAccount?.name // 사용자의 실제 이름 (이름 정보에 접근 권한이 필요합니다)
+                                val phoneNumber = user.kakaoAccount?.phoneNumber
+
+                                loginUserName = "$name"
+                                loginUserPhoneNumber = "$phoneNumber"
+                            }
+                        }
+
                         viewModel.loginKakao(token.accessToken, token.refreshToken)
 
                         // ViewModel의 loginResult 관찰
