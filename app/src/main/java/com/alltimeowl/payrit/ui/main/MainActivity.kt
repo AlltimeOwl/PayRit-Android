@@ -165,11 +165,26 @@ class MainActivity : AppCompatActivity() {
         imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
     }
 
+    fun convertPhoneNumber(phoneNumber : String): String {
+        val processedPhoneNumber = phoneNumber.replace(Regex("^\\+\\d+\\s"), "")
+
+        return "0$processedPhoneNumber"
+    }
+
+    fun convertToInternationalFormat(phoneNumber: String): String {
+        val localNumber = phoneNumber.removePrefix("010")
+
+        return "+82 10$localNumber"
+    }
+
 
     companion object {
 
         var accessToken: String? = null
         var refreshToken: String? = null
+
+        var loginUserName: String = ""
+        var loginUserPhoneNumber: String =""
 
         const val HOME_FRAGMENT = "HomeFragment"
         const val WRITE_MAIN_FRAGMENT = "WriteMainFragment"

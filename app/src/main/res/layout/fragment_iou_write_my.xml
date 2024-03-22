@@ -61,10 +61,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/shape_edit_text"
-                        android:hint="이름을 입력해주세요"
+                        android:enabled="false"
                         android:inputType="text"
                         android:textAppearance="@style/Suit.Bold16"
-                        android:textColorHint="@color/grayScale07" />
+                        android:textColor="@color/black" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,10 +88,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/shape_edit_text"
-                        android:hint="연락처를 입력해주세요"
+                        android:enabled="false"
                         android:inputType="phone"
                         android:textAppearance="@style/Suit.Bold16"
-                        android:textColorHint="@color/grayScale07" />
+                        android:textColor="@color/black" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -121,9 +121,11 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/shape_edit_text"
+                            android:enabled="false"
                             android:hint="우편번호"
                             android:inputType="phone"
                             android:textAppearance="@style/Suit.Bold16"
+                            android:textColor="@color/black"
                             android:textColorHint="@color/grayScale07" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -152,9 +154,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/shape_edit_text"
+                        android:enabled="false"
                         android:hint="주소"
                         android:inputType="text"
                         android:textAppearance="@style/Suit.Bold16"
+                        android:textColor="@color/black"
                         android:textColorHint="@color/grayScale07" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -188,7 +192,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/bg_gray_scale07_r12"
+            android:background="@drawable/bg_primary_mint_r12"
             android:stateListAnimator="@null"
             android:text="다음"
             android:textAppearance="@style/Typography.Bold20"
