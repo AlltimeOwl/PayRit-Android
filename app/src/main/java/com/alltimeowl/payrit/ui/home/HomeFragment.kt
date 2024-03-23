@@ -6,10 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alltimeowl.payrit.R
-import com.alltimeowl.payrit.data.sampleDataList
 import com.alltimeowl.payrit.databinding.FragmentHomeBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 
@@ -18,6 +17,8 @@ class HomeFragment : Fragment() {
 
     lateinit var mainActivity: MainActivity
     lateinit var binding: FragmentHomeBinding
+
+    private lateinit var viewModel: HomeViewModel
 
     val TAG = "HomeFragment"
 
@@ -29,7 +30,12 @@ class HomeFragment : Fragment() {
         mainActivity = activity as MainActivity
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
+        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+
+        MainActivity.accessToken?.let { viewModel.loadMyIouList(it) }
+
         initUI()
+        observeData()
 
         return binding.root
     }
@@ -38,6 +44,10 @@ class HomeFragment : Fragment() {
         binding.run {
             mainActivity.bottomNavigation()
             mainActivity.showBottomNavigationView()
+
+            materialToolbarHome.run {
+                title = MainActivity.loginUserName + "님의 기록"
+            }
 
             imageViewBannerCancelHome.setOnClickListener {
                 constraintLayoutBannerHome.visibility = View.GONE
@@ -51,10 +61,28 @@ class HomeFragment : Fragment() {
 
             recyclerViewHome.run {
                 recyclerViewHome.layoutManager = LinearLayoutManager(context)
-                adapter = HomeAdapter(mainActivity, sampleDataList)
+                adapter = HomeAdapter(mainActivity, mutableListOf())
             }
         }
     }
 
+    // LiveData 관찰
+    private fun observeData() {
+        viewModel.iouList.observe(viewLifecycleOwner) { iouList ->
+            // 데이터가 변경될 때마다 UI 업데이트
+            (binding.recyclerViewHome.adapter as HomeAdapter).updateData(iouList)
+            Log.d(TAG, "iouList : ${iouList}")
 
+            if (iouList.isEmpty()) {
+                binding.linearLayoutNonexistenceTransactionHome.visibility = View.VISIBLE
+                binding.linearLayoutExistenceTransactionHome.visibility = View.GONE
+            } else {
+                binding.linearLayoutNonexistenceTransactionHome.visibility = View.GONE
+                binding.linearLayoutExistenceTransactionHome.visibility = View.VISIBLE
+                binding.textViewIouNumberHome.text = "총 ${iouList.size}건"
+            }
+
+        }
+
+    }
 }

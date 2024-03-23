@@ -100,13 +100,12 @@
                 android:id="@+id/linearLayout_nonexistence_transaction_home"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:layout_marginTop="110dp"
                 android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
+                    android:layout_height="match_parent"
                     android:text="아직 거래 내역이 없어요.\n작성하러 가볼까요?"
                     android:textAlignment="center"
                     android:textAppearance="@style/Typography.Regular20"
@@ -128,11 +127,13 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/textView_iou_number_home"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="총3건"
+                        android:layout_marginStart="4dp"
                         android:textAppearance="@style/Suit.Medium16"
-                        android:textColor="@color/grayScale02" />
+                        android:textColor="@color/grayScale02"
+                        tools:text="총3건" />
 
                     <View
                         android:layout_width="0dp"

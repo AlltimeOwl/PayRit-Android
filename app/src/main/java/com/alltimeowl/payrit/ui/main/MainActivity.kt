@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.databinding.ActivityMainBinding
+import com.alltimeowl.payrit.ui.approval.RecipientApprovalFragment
 import com.alltimeowl.payrit.ui.home.HomeFragment
 import com.alltimeowl.payrit.ui.home.IouBorrowDetailFragment
 import com.alltimeowl.payrit.ui.home.IouDetailAmountReceivedFragment
@@ -28,6 +29,9 @@ import com.alltimeowl.payrit.ui.write.IouWriteMyFragment
 import com.alltimeowl.payrit.ui.write.IouWriteOpponentFragment
 import com.alltimeowl.payrit.ui.write.KakaoZipCodeFragment
 import com.alltimeowl.payrit.ui.write.WriteMainFragment
+import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -93,6 +97,7 @@ class MainActivity : AppCompatActivity() {
             IOU_BORROW_DETAIL_FRAGMENT -> IouBorrowDetailFragment()
             PAYMENT_HISTORY_FRAGMENT -> PaymentHistoryFragment()
             PAYMENT_HISTORY_DETAIL_FRAGMENT -> PaymentHistoryDetailFragment()
+            RECIPIENT_APPROVAL_FRAGMENT -> RecipientApprovalFragment()
 
             else -> Fragment()
         }
@@ -177,6 +182,28 @@ class MainActivity : AppCompatActivity() {
         return "+82 10$localNumber"
     }
 
+    fun convertDateFormat(inputDate : String) : String {
+
+        // 원본 날짜 형식
+        val originalFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        // 변환하고자 하는 날짜 형식
+        val targetFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+
+        // Date 객체로 파싱
+        val date = originalFormat.parse(inputDate)
+
+        // 파싱된 Date 객체를 새로운 형식으로 포매팅
+        val formattedDate = if (date != null) targetFormat.format(date) else ""
+
+        return formattedDate
+    }
+
+    fun convertMoneyFormat(inputMoney : Int) : String{
+        val formatter = NumberFormat.getNumberInstance(Locale.getDefault())
+        return formatter.format(inputMoney)
+    }
+
 
     companion object {
 
@@ -204,5 +231,6 @@ class MainActivity : AppCompatActivity() {
         const val IOU_BORROW_DETAIL_FRAGMENT = "IouBorrowDetailFragment"
         const val PAYMENT_HISTORY_FRAGMENT = "PaymentHistoryFragment"
         const val PAYMENT_HISTORY_DETAIL_FRAGMENT = "PaymentHistoryDetailFragment"
+        const val RECIPIENT_APPROVAL_FRAGMENT = "RecipientApprovalFragment"
     }
 }

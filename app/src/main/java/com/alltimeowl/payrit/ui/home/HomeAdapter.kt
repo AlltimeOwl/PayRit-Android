@@ -1,15 +1,20 @@
 package com.alltimeowl.payrit.ui.home
 
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.alltimeowl.payrit.R
-import com.alltimeowl.payrit.data.sampleIou
+import com.alltimeowl.payrit.data.model.getMyIouListResponse
+import com.alltimeowl.payrit.databinding.ItemApprovalRequestBinding
 import com.alltimeowl.payrit.databinding.ItemIouBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.lang.Math.abs
 
-class HomeAdapter(val mainActivity: MainActivity, val sampleIouList: MutableList<sampleIou>): RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
+class HomeAdapter(val mainActivity: MainActivity, var myIouList: MutableList<getMyIouListResponse>): RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
     inner class HomeViewHolder(private val binding: ItemIouBinding): RecyclerView.ViewHolder(binding.root) {
 
@@ -17,44 +22,80 @@ class HomeAdapter(val mainActivity: MainActivity, val sampleIouList: MutableList
             binding.root.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    val iou = sampleIouList[position]
-                    if (iou.state == "차용증 작성 완료") {
+                    val iou = myIouList[position]
+
+                    Log.d("HomeFragment", "클릭된 iou : ${iou}")
+
+                    if (iou.paperRole == "CREDITOR" && iou.paperStatus == "COMPLETE_WRITING") {
                         mainActivity.replaceFragment(MainActivity.IOU_DETAIL_FRAGMENT, true, null)
-                    } else if (iou.type == "빌린 돈" && iou.state == "상환 진행중") {
+                    } else if (iou.paperRole == "DEBTOR" && iou.paperStatus == "COMPLETE_WRITING") {
                         mainActivity.replaceFragment(MainActivity.IOU_BORROW_DETAIL_FRAGMENT, true, null)
+                    } else if (iou.isWriter && iou.paperStatus == "WAITING_AGREE") {
+
+                        val itemApprovalRequestBinding = ItemApprovalRequestBinding.inflate(mainActivity.layoutInflater)
+                        val builder = MaterialAlertDialogBuilder(mainActivity)
+                        builder.setView(itemApprovalRequestBinding.root)
+                        val dialog = builder.create()
+
+                        // 승인 요청 - 아니오
+                        itemApprovalRequestBinding.textViewNoApprovalRequest.setOnClickListener {
+                            dialog.dismiss()
+                        }
+
+                        // 승인 요청 - 예
+                        itemApprovalRequestBinding.textViewYesApprovalRequest.setOnClickListener {
+                            dialog.dismiss()
+                        }
+
+                        dialog.show()
+
+                    } else if (!iou.isWriter && iou.paperStatus == "WAITING_AGREE") {  // 다른 사람이 보낸 차용증 승인 요청
+
+                        val bundle = Bundle()
+                        bundle.putInt("paperId", iou.paperId)
+
+                        mainActivity.replaceFragment(MainActivity.RECIPIENT_APPROVAL_FRAGMENT, true, bundle)
                     }
                 }
             }
         }
 
-        fun bind(iou: sampleIou) {
-            binding.textViewPeriodIou.text = iou.period
-            binding.textViewTypeIou.text = iou.type
-            binding.textViewTotalAmountIou.text = "${iou.amount}원"
-            binding.textViewNameIou.text = iou.name
-            binding.textViewDayIou.text = iou.day
-            binding.textViewStateIou.text = iou.state
+        fun bind(iou: getMyIouListResponse) {
 
-            // 차용증 타입 (빌려준 돈, 빌린 돈)에 따른 글자 색상, ProgressBar 색상 변경
-            when (iou.type) {
-                "빌려준 돈" -> {
-                    binding.textViewTypeIou.setTextColor(ContextCompat.getColor(mainActivity, R.color.primaryMint))
+            binding.textViewRepaymentEndDateIou.text = "원금상환일 ${mainActivity.convertDateFormat(iou.repaymentEndDate)}"
+            binding.textViewAmountIou.text = "${mainActivity.convertMoneyFormat(iou.amount)}원"
+            binding.textViewPeerNameIou.text = iou.peerName
+            binding.progressBarIou.progress = iou.repaymentRate.toInt()
+            binding.textViewRepaymentRateIou.text = "(${iou.repaymentRate.toInt()}%)"
+
+            when(iou.paperRole) {
+                "CREDITOR" -> {
+                    binding.textViewPaperRoleIou.text = "빌려준 돈"
+                    binding.textViewPaperRoleIou.setTextColor(ContextCompat.getColor(mainActivity, R.color.primaryMint))
                     binding.progressBarIou.progressDrawable = ContextCompat.getDrawable(mainActivity, R.drawable.bg_progress_bar_mint)
                 }
-                "빌린 돈" -> {
-                    binding.textViewTypeIou.setTextColor(ContextCompat.getColor(mainActivity, R.color.pink))
+
+                "DEBTOR" -> {
+                    binding.textViewPaperRoleIou.text = "빌린 돈"
+                    binding.textViewPaperRoleIou.setTextColor(ContextCompat.getColor(mainActivity, R.color.pink))
                     binding.progressBarIou.progressDrawable = ContextCompat.getDrawable(mainActivity, R.drawable.bg_progress_bar_pink)
                 }
             }
 
-            // Repay와 Amount를 정수로 변환하여 계산하고, 그 결과를 문자열로 변환하여 TextView에 설정
-            val repay = iou.repay.replace(",", "").toDoubleOrNull() ?: 0.0
-            val amount = iou.amount.replace(",", "").toDoubleOrNull() ?: 0.0
-            val percent = (repay / amount) * 100
-            val formattedPercent = String.format("%d%%", percent.toInt())
+            if (iou.dueDate >= 0) {
+                binding.textViewDueDateIou.text = "D - ${iou.dueDate}"
+            } else {
+                binding.textViewDueDateIou.text = "D + ${abs(iou.dueDate)}"
+            }
 
-            binding.textViewPercentIou.text = "(${formattedPercent})"
-            binding.progressBarIou.progress = percent.toInt()
+            when(iou.paperStatus) {
+                "WAITING_AGREE" -> binding.textViewPaperStatusIou.text = "승인 대기중"
+                "MODIFYING" -> binding.textViewPaperStatusIou.text = "수정중"
+                "PAYMENT_REQUIRED" -> binding.textViewPaperStatusIou.text = "결제 필요"
+                "COMPLETE_WRITING" -> binding.textViewPaperStatusIou.text = "상환 진행중"
+                "EXPIRED" -> binding.textViewPaperStatusIou.text = "만료됨"
+            }
+
         }
 
     }
@@ -74,11 +115,16 @@ class HomeAdapter(val mainActivity: MainActivity, val sampleIouList: MutableList
     }
 
     override fun getItemCount(): Int {
-        return sampleIouList.size
+        return myIouList.size
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-        holder.bind(sampleIouList[position])
+        holder.bind(myIouList[position])
+    }
+
+    fun updateData(newData: List<getMyIouListResponse>) {
+        myIouList = newData.toMutableList()
+        notifyDataSetChanged()
     }
 
 }
