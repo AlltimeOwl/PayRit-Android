@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.databinding.ActivityMainBinding
+import com.alltimeowl.payrit.ui.approval.RecipientApprovalFragment
 import com.alltimeowl.payrit.ui.home.HomeFragment
 import com.alltimeowl.payrit.ui.home.IouBorrowDetailFragment
 import com.alltimeowl.payrit.ui.home.IouDetailAmountReceivedFragment
@@ -96,6 +97,7 @@ class MainActivity : AppCompatActivity() {
             IOU_BORROW_DETAIL_FRAGMENT -> IouBorrowDetailFragment()
             PAYMENT_HISTORY_FRAGMENT -> PaymentHistoryFragment()
             PAYMENT_HISTORY_DETAIL_FRAGMENT -> PaymentHistoryDetailFragment()
+            RECIPIENT_APPROVAL_FRAGMENT -> RecipientApprovalFragment()
 
             else -> Fragment()
         }
@@ -229,5 +231,6 @@ class MainActivity : AppCompatActivity() {
         const val IOU_BORROW_DETAIL_FRAGMENT = "IouBorrowDetailFragment"
         const val PAYMENT_HISTORY_FRAGMENT = "PaymentHistoryFragment"
         const val PAYMENT_HISTORY_DETAIL_FRAGMENT = "PaymentHistoryDetailFragment"
+        const val RECIPIENT_APPROVAL_FRAGMENT = "RecipientApprovalFragment"
     }
 }

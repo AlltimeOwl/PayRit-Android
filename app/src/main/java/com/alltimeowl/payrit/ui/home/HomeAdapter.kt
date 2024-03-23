@@ -1,5 +1,6 @@
 package com.alltimeowl.payrit.ui.home
 
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -22,6 +23,8 @@ class HomeAdapter(val mainActivity: MainActivity, var myIouList: MutableList<get
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val iou = myIouList[position]
+
+                    Log.d("HomeFragment", "클릭된 iou : ${iou}")
 
                     if (iou.paperRole == "CREDITOR" && iou.paperStatus == "COMPLETE_WRITING") {
                         mainActivity.replaceFragment(MainActivity.IOU_DETAIL_FRAGMENT, true, null)
@@ -46,6 +49,12 @@ class HomeAdapter(val mainActivity: MainActivity, var myIouList: MutableList<get
 
                         dialog.show()
 
+                    } else if (!iou.isWriter && iou.paperStatus == "WAITING_AGREE") {  // 다른 사람이 보낸 차용증 승인 요청
+
+                        val bundle = Bundle()
+                        bundle.putInt("paperId", iou.paperId)
+
+                        mainActivity.replaceFragment(MainActivity.RECIPIENT_APPROVAL_FRAGMENT, true, bundle)
                     }
                 }
             }

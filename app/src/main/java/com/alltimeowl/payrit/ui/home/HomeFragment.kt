@@ -18,7 +18,7 @@ class HomeFragment : Fragment() {
     lateinit var mainActivity: MainActivity
     lateinit var binding: FragmentHomeBinding
 
-    private lateinit var viewModel: IouViewModel
+    private lateinit var viewModel: HomeViewModel
 
     val TAG = "HomeFragment"
 
@@ -30,7 +30,7 @@ class HomeFragment : Fragment() {
         mainActivity = activity as MainActivity
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
-        viewModel = ViewModelProvider(this)[IouViewModel::class.java]
+        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         MainActivity.accessToken?.let { viewModel.loadMyIouList(it) }
 

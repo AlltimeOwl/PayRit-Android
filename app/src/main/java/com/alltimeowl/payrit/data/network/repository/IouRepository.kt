@@ -1,6 +1,7 @@
 package com.alltimeowl.payrit.data.network.repository
 
 import android.util.Log
+import com.alltimeowl.payrit.data.model.GetIouDetailResponse
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
 import com.alltimeowl.payrit.data.network.api.PayRitApi
 import retrofit2.Call
@@ -37,6 +38,24 @@ class IouRepository {
             override fun onFailure(call: Call<List<getMyIouListResponse>>, t: Throwable) {
                 Log.d("HomeFragment", "네트워크 오류: ${t.message}")
                 callback(emptyList())
+            }
+        })
+    }
+
+    fun getIouDetail(accessToken: String, paperId: Int, callback: (GetIouDetailResponse?) -> Unit) {
+        payRitApi.getIouDetail("Bearer $accessToken", paperId).enqueue(object : Callback<GetIouDetailResponse> {
+            override fun onResponse(call: Call<GetIouDetailResponse>, response: Response<GetIouDetailResponse>) {
+                if (response.isSuccessful) {
+                    callback(response.body())
+                } else {
+                    Log.d("RecipientApprovalFragment", "response.code : ${response.code()}")
+                    callback(null)
+                }
+            }
+
+            override fun onFailure(call: Call<GetIouDetailResponse>, t: Throwable) {
+                Log.d("RecipientApprovalFragment", "네트워크 오류: ${t.message}")
+                callback(null)
             }
         })
     }

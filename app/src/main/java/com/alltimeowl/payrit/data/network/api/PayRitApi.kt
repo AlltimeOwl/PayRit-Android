@@ -1,5 +1,6 @@
 package com.alltimeowl.payrit.data.network.api
 
+import com.alltimeowl.payrit.data.model.GetIouDetailResponse
 import com.alltimeowl.payrit.data.model.IouWriteRequest
 import com.alltimeowl.payrit.data.model.IouWriteResponse
 import com.alltimeowl.payrit.data.model.LoginRequest
@@ -10,6 +11,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface PayRitApi {
     @POST("api/v1/oauth/KAKAO")
@@ -22,4 +24,10 @@ interface PayRitApi {
     
     @GET("api/v1/paper/list")
     fun getMyIouList(@Header("Authorization") accessToken: String): Call<List<getMyIouListResponse>>
+
+    @GET("api/v1/paper/{id}")
+    fun getIouDetail(
+        @Header("Authorization") accessToken: String,
+        @Path("id") id: Int
+    ): Call<GetIouDetailResponse>
 }
