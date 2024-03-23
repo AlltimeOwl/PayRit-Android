@@ -1,9 +1,11 @@
 package com.alltimeowl.payrit.data.network.repository
 
 import android.util.Log
+import com.alltimeowl.payrit.data.model.ApprovalIouErrorResponse
 import com.alltimeowl.payrit.data.model.GetIouDetailResponse
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
 import com.alltimeowl.payrit.data.network.api.PayRitApi
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -57,6 +59,26 @@ class IouRepository {
                 Log.d("RecipientApprovalFragment", "네트워크 오류: ${t.message}")
                 callback(null)
             }
+        })
+    }
+
+    fun approvalIou(accessToken: String, paperId: Int) {
+        payRitApi.approvalIou("Bearer $accessToken", paperId).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Log.d("RecipientApprovalFragment", "성공시 response.body : ${response.body()}")
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val gson = Gson()
+                    val errorResponse: ApprovalIouErrorResponse? = gson.fromJson(errorBody, ApprovalIouErrorResponse::class.java)
+                    Log.d("RecipientApprovalFragment", "errorResponse : ${errorResponse}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("RecipientApprovalFragment", "네트워크 오류: ${t.message}")
+            }
+
         })
     }
 }

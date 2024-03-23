@@ -19,8 +19,10 @@ class RecipientApprovalFragment : Fragment() {
     lateinit var binding: FragmentRecipientApprovalBinding
 
     private lateinit var viewModel: HomeViewModel
+    private lateinit var recipientApprovalViewModel: RecipientApprovalViewModel
 
     private var paperId: Int = 0
+    private var buttonClickable = false
 
     val TAG = "RecipientApprovalFragment"
 
@@ -33,6 +35,7 @@ class RecipientApprovalFragment : Fragment() {
         binding = FragmentRecipientApprovalBinding.inflate(layoutInflater)
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        recipientApprovalViewModel = ViewModelProvider(this)[RecipientApprovalViewModel::class.java]
 
         paperId = arguments?.getInt("paperId")!!
 
@@ -40,6 +43,8 @@ class RecipientApprovalFragment : Fragment() {
 
         initUI()
         observeData()
+        checkBoxState()
+        approvalIou()
 
         return binding.root
     }
@@ -116,6 +121,32 @@ class RecipientApprovalFragment : Fragment() {
             }
 
         }
+    }
+
+    private fun checkBoxState() {
+
+        binding.checkBoxRecipientApproval.setOnClickListener {
+
+            buttonClickable = if (binding.checkBoxRecipientApproval.isChecked) {
+                binding.buttonRecipientApproval.setBackgroundResource(R.drawable.bg_primary_mint_r12)
+                true
+            } else {
+                binding.buttonRecipientApproval.setBackgroundResource(R.drawable.bg_gray_scale07_r12)
+                false
+            }
+        }
+
+    }
+
+    private fun approvalIou() {
+
+        binding.buttonRecipientApproval.setOnClickListener {
+            if (buttonClickable) {
+                MainActivity.accessToken?.let { it1 -> recipientApprovalViewModel.approvalIou(it1, paperId) }
+                mainActivity.removeFragment(MainActivity.RECIPIENT_APPROVAL_FRAGMENT)
+            }
+        }
+
     }
 
 }
