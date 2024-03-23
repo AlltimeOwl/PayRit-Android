@@ -28,6 +28,9 @@ import com.alltimeowl.payrit.ui.write.IouWriteMyFragment
 import com.alltimeowl.payrit.ui.write.IouWriteOpponentFragment
 import com.alltimeowl.payrit.ui.write.KakaoZipCodeFragment
 import com.alltimeowl.payrit.ui.write.WriteMainFragment
+import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -175,6 +178,28 @@ class MainActivity : AppCompatActivity() {
         val localNumber = phoneNumber.removePrefix("010")
 
         return "+82 10$localNumber"
+    }
+
+    fun convertDateFormat(inputDate : String) : String {
+
+        // 원본 날짜 형식
+        val originalFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        // 변환하고자 하는 날짜 형식
+        val targetFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+
+        // Date 객체로 파싱
+        val date = originalFormat.parse(inputDate)
+
+        // 파싱된 Date 객체를 새로운 형식으로 포매팅
+        val formattedDate = if (date != null) targetFormat.format(date) else ""
+
+        return formattedDate
+    }
+
+    fun convertMoneyFormat(inputMoney : Int) : String{
+        val formatter = NumberFormat.getNumberInstance(Locale.getDefault())
+        return formatter.format(inputMoney)
     }
 
 

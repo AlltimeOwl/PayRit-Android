@@ -26,7 +26,7 @@
                 android:layout_marginTop="12dp">
 
                 <TextView
-                    android:id="@+id/textView_period_iou"
+                    android:id="@+id/textView_repaymentEndDate_iou"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -41,7 +41,7 @@
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@+id/textView_type_iou"
+                    android:id="@+id/textView_paper_role_iou"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
@@ -54,7 +54,7 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <TextView
-                android:id="@+id/textView_total_amount_iou"
+                android:id="@+id/textView_amount_iou"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -63,7 +63,7 @@
                 android:textColor="@color/black100" />
 
             <TextView
-                android:id="@+id/textView_name_iou"
+                android:id="@+id/textView_peer_name_iou"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -73,7 +73,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView_day_iou"
+                android:id="@+id/textView_due_date_iou"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -104,7 +104,7 @@
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@+id/textView_state_iou"
+                    android:id="@+id/textView_paperStatus_iou"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="승인 대기중"
@@ -112,7 +112,7 @@
                     android:textColor="@color/grayScale04" />
 
                 <TextView
-                    android:id="@+id/textView_percent_iou"
+                    android:id="@+id/textView_repayment_rate_iou"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
