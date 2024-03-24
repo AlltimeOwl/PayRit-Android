@@ -27,7 +27,11 @@ class HomeAdapter(val mainActivity: MainActivity, var myIouList: MutableList<get
                     Log.d("HomeFragment", "클릭된 iou : ${iou}")
 
                     if (iou.paperRole == "CREDITOR" && iou.paperStatus == "COMPLETE_WRITING") {
-                        mainActivity.replaceFragment(MainActivity.IOU_DETAIL_FRAGMENT, true, null)
+
+                        val bundle = Bundle()
+                        bundle.putInt("paperId", iou.paperId)
+
+                        mainActivity.replaceFragment(MainActivity.IOU_DETAIL_FRAGMENT, true, bundle)
                     } else if (iou.paperRole == "DEBTOR" && iou.paperStatus == "COMPLETE_WRITING") {
                         mainActivity.replaceFragment(MainActivity.IOU_BORROW_DETAIL_FRAGMENT, true, null)
                     } else if (iou.isWriter && iou.paperStatus == "WAITING_AGREE") {
