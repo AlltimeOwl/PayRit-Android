@@ -26,7 +26,7 @@ class IouWriteOpponentFragment : Fragment() {
 
     private lateinit var writerRole: String
     private var amount: Int? = null
-    private var calcedAmount: Int? = null
+    private var interest: Int? = null
     private lateinit var transactionDate: String
     private lateinit var repaymentStartDate: String
     private lateinit var repaymentEndDate: String
@@ -62,7 +62,7 @@ class IouWriteOpponentFragment : Fragment() {
 
         writerRole = arguments?.getString("writerRole").toString()
         amount = arguments?.getInt("amount")
-        calcedAmount = arguments?.getInt("calcedAmount")
+        interest = arguments?.getInt("interest")
         transactionDate = arguments?.getString("transactionDate").toString()
         repaymentStartDate = arguments?.getString("repaymentStartDate").toString()
         repaymentEndDate = arguments?.getString("repaymentEndDate").toString()
@@ -158,7 +158,7 @@ class IouWriteOpponentFragment : Fragment() {
 
                             bundle.putString("writerRole", writerRole)
                             amount?.let { it1 -> bundle.putInt("amount", it1) }
-                            calcedAmount?.let { it1 -> bundle.putInt("calcedAmount", it1) }
+                            interest?.let { it1 -> bundle.putInt("interest", it1) }
                             bundle.putString("transactionDate", transactionDate)
                             bundle.putString("repaymentStartDate", repaymentStartDate)
                             bundle.putString("repaymentEndDate", repaymentEndDate)
@@ -182,7 +182,7 @@ class IouWriteOpponentFragment : Fragment() {
 
                             bundle.putString("writerRole", writerRole)
                             amount?.let { it1 -> bundle.putInt("amount", it1) }
-                            calcedAmount?.let { it1 -> bundle.putInt("calcedAmount", it1) }
+                            interest?.let { it1 -> bundle.putInt("interest", it1) }
                             bundle.putString("transactionDate", transactionDate)
                             bundle.putString("repaymentStartDate", repaymentStartDate)
                             bundle.putString("repaymentEndDate", repaymentEndDate)
@@ -216,7 +216,7 @@ class IouWriteOpponentFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(editable: Editable?) {
-                val text = editable.toString()
+                val text = editable.toString().trim()
 
                 // 상대방 이름
                 opponentName = text

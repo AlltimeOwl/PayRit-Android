@@ -130,21 +130,21 @@
                         android:padding="20dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
-                            android:id="@+id/linearLayout_special_contract_interest_amount_iou_content_check"
+                            android:id="@+id/linearLayout_special_contract_interest_amount_rate_iou_content_check"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="이자"
+                                android:text="이자율"
                                 android:textAppearance="@style/Suit.Medium14" />
 
                             <TextView
-                                android:id="@+id/textView_special_contract_interest_amount_iou_content_check"
+                                android:id="@+id/textView_special_contract_interest_amount_rate_iou_content_check"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="70sp"
+                                android:layout_marginStart="58sp"
                                 android:text="10,000원"
                                 android:textAppearance="@style/Suit.Bold16" />
 

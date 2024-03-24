@@ -3,7 +3,7 @@ package com.alltimeowl.payrit.data.model
 data class IouWriteRequest(
     val writerRole : String,
     val amount : Int?,
-    val calcedAmount: Int?,
+    val interest: Int?,
     val transactionDate: String,
     val repaymentStartDate: String,
     val repaymentEndDate: String,
