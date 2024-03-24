@@ -6,10 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.data.model.IouWriteRequest
-import com.alltimeowl.payrit.data.model.IouWriteResponse
-import com.alltimeowl.payrit.data.network.api.PayRitApi
 import com.alltimeowl.payrit.databinding.FragmentIouContentCheckBinding
 import com.alltimeowl.payrit.databinding.ItemCancelBinding
 import com.alltimeowl.payrit.databinding.ItemMmsBinding
@@ -19,11 +18,6 @@ import com.alltimeowl.payrit.ui.main.MainActivity.Companion.accessToken
 import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginUserName
 import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginUserPhoneNumber
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class IouContentCheckFragment : Fragment() {
 
@@ -32,7 +26,7 @@ class IouContentCheckFragment : Fragment() {
 
     private lateinit var writerRole: String
     private var amount: Int? = null
-    private var calcedAmount: Int? = null
+    private var interest: Int? = null
     private lateinit var transactionDate: String
     private lateinit var repaymentStartDate: String
     private lateinit var repaymentEndDate: String
@@ -54,6 +48,8 @@ class IouContentCheckFragment : Fragment() {
 
     private lateinit var iouWriteRequest: IouWriteRequest
 
+    private lateinit var viewModel: IouWriteViewModel
+
     val TAG = "IouContentCheckFragment"
 
     override fun onCreateView(
@@ -64,9 +60,11 @@ class IouContentCheckFragment : Fragment() {
         mainActivity = activity as MainActivity
         binding = FragmentIouContentCheckBinding.inflate(layoutInflater)
 
+        viewModel = ViewModelProvider(this)[IouWriteViewModel::class.java]
+
         writerRole = arguments?.getString("writerRole").toString()
         amount = arguments?.getInt("amount")
-        calcedAmount = arguments?.getInt("calcedAmount")
+        interest = arguments?.getInt("interest")
         transactionDate = arguments?.getString("transactionDate").toString()
         repaymentStartDate = arguments?.getString("repaymentStartDate").toString()
         repaymentEndDate = arguments?.getString("repaymentEndDate").toString()
@@ -136,22 +134,19 @@ class IouContentCheckFragment : Fragment() {
         binding.run {
 
             // 거래 내역
-            textViewTransactionAmountIouContentCheck.text = amount.toString()
+            textViewTransactionAmountIouContentCheck.text = mainActivity.convertMoneyFormat(amount!!) + "원"
             textViewTransactionDateIouContentCheck.text = repaymentStartDate
 
             // 특약 사항
-
-            val interestAmount = (calcedAmount ?: 0) - (amount ?: 0)
-
-            if (interestAmount == 0 && interestPaymentDate == null && specialConditions.isEmpty()) {
+            if ((interestRate!! <= 0.0 || interestRate!! > 20.00) && interestPaymentDate == null && specialConditions.isEmpty()) {
                 textViewSpecialContractTitleIouContentCheck.visibility = View.GONE
                 cardViewSpecialContractIouContentCheck.visibility = View.GONE
             } else {
 
-                if (interestAmount == 0) {
-                    linearLayoutSpecialContractInterestAmountIouContentCheck.visibility = View.GONE
+                if ((interestRate!! <= 0.0 || interestRate!! > 20.00)) {
+                    linearLayoutSpecialContractInterestAmountRateIouContentCheck.visibility = View.GONE
                 } else {
-                    textViewSpecialContractInterestAmountIouContentCheck.text = interestAmount.toString()
+                    textViewSpecialContractInterestAmountRateIouContentCheck.text = "${interestRate}%"
                 }
 
                 if (interestPaymentDate == null) {
@@ -278,48 +273,19 @@ class IouContentCheckFragment : Fragment() {
 
         when(writerRole) {
             "CREDITOR" -> {
-                iouWriteRequest = IouWriteRequest(writerRole, amount, calcedAmount, transactionDate, repaymentStartDate, repaymentEndDate, specialConditions, interestRate, interestPaymentDate,
+                iouWriteRequest = IouWriteRequest(writerRole, amount, interest, transactionDate, repaymentStartDate, repaymentEndDate, specialConditions, interestRate, interestPaymentDate,
                     creditorName, creditorPhoneNumber, creditorAddress,
                     debtorName = opponentName, debtorPhoneNumber = mainActivity.convertToInternationalFormat(opponentPhoneNumber), debtorAddress = opponentAddress)
             }
 
             "DEBTOR" -> {
-                iouWriteRequest = IouWriteRequest(writerRole, amount, calcedAmount, transactionDate, repaymentStartDate, repaymentEndDate, specialConditions, interestRate, interestPaymentDate,
+                iouWriteRequest = IouWriteRequest(writerRole, amount, interest, transactionDate, repaymentStartDate, repaymentEndDate, specialConditions, interestRate, interestPaymentDate,
                     creditorName = opponentName, creditorPhoneNumber = mainActivity.convertToInternationalFormat(opponentPhoneNumber), creditorAddress = opponentAddress,
                     debtorName, debtorPhoneNumber, debtorAddress)
             }
         }
 
-        val payRitApi: PayRitApi
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://payrit.info/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        payRitApi = retrofit.create(PayRitApi::class.java)
-
-        Log.d(TAG, "iouWriteRequest : ${iouWriteRequest}")
-
-        val call = payRitApi.iouWrite("Bearer ${accessToken}", iouWriteRequest)
-        call.enqueue(object : Callback<IouWriteResponse> {
-            override fun onResponse(
-                call: Call<IouWriteResponse>,
-                response: Response<IouWriteResponse>
-            ) {
-                if (response.isSuccessful) {
-                    Log.d(TAG, "성공: ${response.code()}")
-                    Log.d(TAG, "response.headers : ${response.headers()}")
-                } else {
-                    Log.d(TAG, "Error: ${response.code()}")
-                }
-            }
-
-            override fun onFailure(call: Call<IouWriteResponse>, t: Throwable) {
-                Log.d(TAG, "네트워크 오류: ${t.message}")
-            }
-
-        })
+        accessToken?.let { viewModel.iouWrite(it, iouWriteRequest) }
     }
 
 }

@@ -204,8 +204,19 @@ class IouTransactionalInformationFragment : Fragment() {
             override fun afterTextChanged(editable: Editable?) {
                 val text = editable.toString()
                 val cleanString = text.replace("[^\\d]".toRegex(), "")
-                val parsed = cleanString.toDoubleOrNull()
-                if (parsed != null) {
+                val parsed = cleanString.toDoubleOrNull() ?: 0.0 // null일 경우 0.0으로 처리
+
+                // 입력 값이 30,000,000 초과인지 확인
+                if (parsed > 30000000) {
+                    editText.removeTextChangedListener(this)
+                    editText.text.clear()
+                    editText.addTextChangedListener(this)
+
+                    binding.textViewAmountErrorMessageIouTransactionalInformation.visibility = View.VISIBLE
+
+                    binding.linearLayoutSummaryIouTransactionalInformation.visibility = View.GONE
+                    binding.textTotalAmountIouTransactionalInformation.text = ""
+                } else {
                     val formatted = NumberFormat.getNumberInstance(Locale.getDefault()).format(parsed)
                     editText.removeTextChangedListener(this)
                     editText.setText(formatted)
@@ -216,7 +227,10 @@ class IouTransactionalInformationFragment : Fragment() {
                     binding.linearLayoutSummaryIouTransactionalInformation.visibility = if (text.isNotEmpty()) View.VISIBLE else View.GONE
 
                     // 입력된 금액을 TextView에 설정
-                    binding.textTotalAmountIouTransactionalInformation.text = if (text.isNotEmpty()) formatted + "원" else ""
+                    binding.textTotalAmountIouTransactionalInformation.text = if (text.isNotEmpty()) "${formatted}원" else ""
+
+                    binding.textViewAmountErrorMessageIouTransactionalInformation.visibility = View.GONE
+
                 }
             }
         }
@@ -289,7 +303,7 @@ class IouTransactionalInformationFragment : Fragment() {
         }, year, month, day)
 
         // 선택 가능한 최소 날짜를 현재 날짜로 설정
-        datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+        // datePickerDialog.datePicker.minDate = System.currentTimeMillis()
 
         datePickerDialog.show()
     }
@@ -441,6 +455,7 @@ class IouTransactionalInformationFragment : Fragment() {
             val editTextDeadline = editTextDeadlineIouTransactionalInformation
             val editTextSignificant = editTextSignificantIouTransactionalInformation
             val editTextRage = includeIouTransactionalInformation.editTextInterestRateLayoutInterestOn
+            val textViewInterestAmount = includeIouTransactionalInformation.textViewInterestAmountLayoutInterestOn
             val editTextPaymentDate = includeIouTransactionalInformation.editTextPaymentDateLayoutInterestOn
             val buttonNext = buttonNextIouTransactionalInformation
 
@@ -451,12 +466,20 @@ class IouTransactionalInformationFragment : Fragment() {
                 val deadline = editTextDeadline.text.toString()
                 val significant = editTextSignificant.text.toString()
                 val rageText = editTextRage.text.toString()
+                val interestAmount = textViewInterestAmount.text.toString()
                 val paymentDate = editTextPaymentDate.text.toString()
 
                 val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
                 val iouDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
                 val today = iouDateFormat.format(Calendar.getInstance().time)
+
+                // 문자열을 먼저 쉼표를 제거
+                val interestAmountCleaned = interestAmount.replace(",", "")
+                // 문자열을 먼저 Double로 변환
+                val interestAmountDouble = interestAmountCleaned.toDoubleOrNull() ?: 0.0
+                // Double 값을 정수로 변환
+                val interestAmountInt = interestAmountDouble.toInt()
 
                 val rage = if (rageText.isNotEmpty() && rageText[0] != '.') rageText.toDouble() else 0.0
 
@@ -485,19 +508,16 @@ class IouTransactionalInformationFragment : Fragment() {
                             buttonNext.setOnClickListener {
                                 if (!switchIouTransactionalInformation.isChecked) {
 
-                                    val totalAmountIou = textTotalAmountIouTransactionalInformation.text
-                                    val numberOnlyTotalAmountIou = totalAmountIou.replace(Regex("[^\\d]"), "")
-
                                     val bundle = Bundle()
                                     bundle.putString("writerRole", writerRole)
                                     bundle.putInt("amount", amountWithoutComma.toInt())
-                                    bundle.putInt("calcedAmount", numberOnlyTotalAmountIou.toInt())
+                                    bundle.putInt("interest", interestAmountInt)
                                     bundle.putString("transactionDate", today)
                                     bundle.putString("repaymentStartDate", repaymentStartDate.toString())
                                     bundle.putString("repaymentEndDate", repaymentEndDate.toString())
                                     bundle.putString("specialConditions", significant)
                                     bundle.putFloat("interestRate", rage.toFloat())
-                                    if (paymentDateInt != null) {
+                                    if (paymentDateInt != null && rage != 0.0) {
                                         bundle.putInt("interestPaymentDate", paymentDateInt)
                                     }
 
@@ -525,12 +545,20 @@ class IouTransactionalInformationFragment : Fragment() {
                 val deadline = editTextDeadline.text.toString()
                 val significant = editTextSignificant.text.toString()
                 val rageText = editTextRage.text.toString()
+                val interestAmount = textViewInterestAmount.text.toString()
                 val paymentDate = editTextPaymentDate.text.toString()
 
                 val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
                 val iouDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
                 val today = iouDateFormat.format(Calendar.getInstance().time)
+
+                // 문자열을 먼저 쉼표를 제거
+                val interestAmountCleaned = interestAmount.replace(",", "")
+                // 문자열을 먼저 Double로 변환
+                val interestAmountDouble = interestAmountCleaned.toDoubleOrNull() ?: 0.0
+                // Double 값을 정수로 변환
+                val interestAmountInt = interestAmountDouble.toInt()
 
                 val rage = if (rageText.isNotEmpty() && rageText[0] != '.') rageText.toDouble() else 0.0
 
@@ -559,19 +587,16 @@ class IouTransactionalInformationFragment : Fragment() {
                             buttonNext.setOnClickListener {
                                 if (includeIouTransactionalInformation.switchLayoutInterestOn.isChecked) {
 
-                                    val totalAmountIou = textTotalAmountIouTransactionalInformation.text
-                                    val numberOnlyTotalAmountIou = totalAmountIou.replace(Regex("[^\\d]"), "")
-
                                     val bundle = Bundle()
                                     bundle.putString("writerRole", writerRole)
                                     bundle.putInt("amount", amountWithoutComma.toInt())
-                                    bundle.putInt("calcedAmount", numberOnlyTotalAmountIou.toInt())
+                                    bundle.putInt("interest", interestAmountInt)
                                     bundle.putString("transactionDate", today)
                                     bundle.putString("repaymentStartDate", repaymentStartDate.toString())
                                     bundle.putString("repaymentEndDate", repaymentEndDate.toString())
                                     bundle.putString("specialConditions", significant)
                                     bundle.putFloat("interestRate", rage.toFloat())
-                                    if (paymentDateInt != null) {
+                                    if (paymentDateInt != null && rage != 0.0) {
                                         bundle.putInt("interestPaymentDate", paymentDateInt)
                                     }
 
