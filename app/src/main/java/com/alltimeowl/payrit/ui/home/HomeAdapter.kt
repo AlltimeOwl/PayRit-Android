@@ -33,7 +33,12 @@ class HomeAdapter(val mainActivity: MainActivity, var myIouList: MutableList<get
 
                         mainActivity.replaceFragment(MainActivity.IOU_DETAIL_FRAGMENT, true, bundle)
                     } else if (iou.paperRole == "DEBTOR" && iou.paperStatus == "COMPLETE_WRITING") {
-                        mainActivity.replaceFragment(MainActivity.IOU_BORROW_DETAIL_FRAGMENT, true, null)
+                        // 채무자 가 보는 페이릿 상세화면
+
+                        val bundle = Bundle()
+                        bundle.putInt("paperId", iou.paperId)
+
+                        mainActivity.replaceFragment(MainActivity.IOU_BORROW_DETAIL_FRAGMENT, true, bundle)
                     } else if (iou.isWriter && iou.paperStatus == "WAITING_AGREE") {
 
                         val itemApprovalRequestBinding = ItemApprovalRequestBinding.inflate(mainActivity.layoutInflater)
