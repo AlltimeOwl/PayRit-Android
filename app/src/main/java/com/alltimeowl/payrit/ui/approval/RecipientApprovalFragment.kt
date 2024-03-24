@@ -70,17 +70,17 @@ class RecipientApprovalFragment : Fragment() {
             binding.scrollViewRecipientApproval.visibility = View.VISIBLE
 
             // 거래 내역
-            binding.textViewTransactionAmountRecipientApproval.text = mainActivity.convertMoneyFormat(iouDetailInfo.amount) + "원"
+            binding.textViewTransactionAmountRecipientApproval.text = mainActivity.convertMoneyFormat(iouDetailInfo.primeAmount) + "원"
             binding.textViewTransactionDateRecipientApproval.text = mainActivity.convertDateFormat(iouDetailInfo.repaymentEndDate)
 
             // 추가 사항
-            if (iouDetailInfo.interestRate == 0 && iouDetailInfo.interestPaymentDate == 0 && iouDetailInfo.specialConditions.isEmpty()) {
+            if ((iouDetailInfo.interestRate <= 0.0 || iouDetailInfo.interestRate > 20.00) && iouDetailInfo.specialConditions.isEmpty()) {
                 binding.textViewAdditionContractTitleRecipientApproval.visibility = View.GONE
                 binding.cardViewAdditionContractRecipientApproval.visibility = View.GONE
             } else {
 
                 // 이자율
-                if (iouDetailInfo.interestRate == 0) {
+                if ((iouDetailInfo.interestRate <= 0.0 || iouDetailInfo.interestRate > 20.00)) {
                     binding.linearLayoutAdditionContractInterestRateRecipientApproval.visibility = View.GONE
                 } else {
                     binding.textViewAdditionContractInterestRateRecipientApproval.text = "${iouDetailInfo.interestRate}%"
