@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="array_home_time_category">
-        <item>최근 작성일 순</item>
+        <item>최근 거래 순</item>
         <item>오래된 순</item>
         <item>기간 만료 순</item>
     </string-array>
