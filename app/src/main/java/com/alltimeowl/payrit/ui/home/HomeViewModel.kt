@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.alltimeowl.payrit.data.model.GetIouDetailResponse
+import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
 import com.alltimeowl.payrit.data.network.repository.IouRepository
 
@@ -29,4 +30,9 @@ class HomeViewModel : ViewModel() {
             _iouDetail.postValue(response)
         }
     }
+
+    fun postRepayment(accessToken: String, repaymentRequest: RepaymentRequest) {
+        iouRepository.postRepayment(accessToken, repaymentRequest)
+    }
+
 }

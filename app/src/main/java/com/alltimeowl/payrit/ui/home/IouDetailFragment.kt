@@ -83,7 +83,11 @@ class IouDetailFragment : Fragment() {
 
             // 일부 상환 기록 클릭
             buttonRecordIouDetail.setOnClickListener {
-                mainActivity.replaceFragment(MainActivity.IOU_DETAIL_AMOUNT_RECEIVED_FRAGMENT, true, null)
+
+                val bundle = Bundle()
+                bundle.putInt("paperId", paperId)
+
+                mainActivity.replaceFragment(MainActivity.IOU_DETAIL_AMOUNT_RECEIVED_FRAGMENT, true, bundle)
             }
 
             // PDF·메일 내보내기 클릭
@@ -293,6 +297,7 @@ class IouDetailFragment : Fragment() {
                 binding.textViewDayIouDetail.text = "D + ${abs(iouDetailInfo.dueDate)}"
             }
 
+            binding.progressBarIouDetail.progress = iouDetailInfo.repaymentRate.toInt()
             binding.textViewPercentIouDetail.text = "(${iouDetailInfo.repaymentRate}%)"
 
             // 빌려준 사람
