@@ -16,16 +16,21 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.databinding.FragmentIouDetailBinding
 import com.alltimeowl.payrit.databinding.ItemDocumentBinding
+import com.alltimeowl.payrit.databinding.ItemEntireRecordBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 import kotlin.math.abs
 
 class IouDetailFragment : Fragment() {
@@ -48,6 +53,7 @@ class IouDetailFragment : Fragment() {
     private var repaymentEndDate = ""
     private var specialConditions = ""
     private var transactionDate = ""
+    private var remainingAmount = 0
 
     val TAG = "IouDetailFragment"
 
@@ -79,6 +85,11 @@ class IouDetailFragment : Fragment() {
                 setNavigationOnClickListener {
                     mainActivity.removeFragment(MainActivity.IOU_DETAIL_FRAGMENT)
                 }
+            }
+
+            // 전체 상환 기록 클릭
+            buttonEntireRecordIouDetail.setOnClickListener {
+                showAlertDialog(remainingAmount)
             }
 
             // 일부 상환 기록 클릭
@@ -298,7 +309,7 @@ class IouDetailFragment : Fragment() {
             }
 
             binding.progressBarIouDetail.progress = iouDetailInfo.repaymentRate.toInt()
-            binding.textViewPercentIouDetail.text = "(${iouDetailInfo.repaymentRate}%)"
+            binding.textViewPercentIouDetail.text = "(${iouDetailInfo.repaymentRate.toInt()}%)"
 
             // 빌려준 사람
             binding.textViewLendPersonNameIouDetail.text = iouDetailInfo.creditorName
@@ -361,8 +372,39 @@ class IouDetailFragment : Fragment() {
             repaymentEndDate = iouDetailInfo.repaymentEndDate
             specialConditions = iouDetailInfo.specialConditions
             transactionDate = iouDetailInfo.transactionDate
+            remainingAmount = iouDetailInfo.remainingAmount
 
         }
+
+    }
+
+    private fun showAlertDialog(remainingAmount : Int) {
+        val itemEntireRecordBinding = ItemEntireRecordBinding.inflate(layoutInflater)
+        val builder = MaterialAlertDialogBuilder(mainActivity)
+        builder.setView(itemEntireRecordBinding.root)
+        val dialog = builder.create()
+
+        itemEntireRecordBinding.textViewContentEntireRecord.text = "남은 금액 ${mainActivity.convertMoneyFormat(remainingAmount)}원을 전체 상환 하시겠습니까?"
+
+        // 전체 상환 - 아니오
+        itemEntireRecordBinding.textViewNoEntireRecord.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        // 전체 상환 - 네
+        itemEntireRecordBinding.textViewYesEntireRecord.setOnClickListener {
+
+            // 현재 날짜를 2024-03-25 이런식으로 나타탬
+            val currentDate = Calendar.getInstance().time
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val formattedDate = dateFormat.format(currentDate)
+
+            val repaymentRequest = RepaymentRequest(paperId, formattedDate, remainingAmount)
+            MainActivity.accessToken?.let { viewModel.postRepayment(it, repaymentRequest, paperId) }
+            dialog.dismiss()
+        }
+
+        dialog.show()
 
     }
 
