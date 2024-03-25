@@ -5,6 +5,7 @@ import com.alltimeowl.payrit.data.model.IouWriteRequest
 import com.alltimeowl.payrit.data.model.IouWriteResponse
 import com.alltimeowl.payrit.data.model.LoginRequest
 import com.alltimeowl.payrit.data.model.LoginResponse
+import com.alltimeowl.payrit.data.model.MemoRequest
 import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
 import retrofit2.Call
@@ -43,5 +44,12 @@ interface PayRitApi {
     fun postRepayment(
         @Header("Authorization") accessToken: String,
         @Body request : RepaymentRequest
+    ): Call<Void>
+
+    @POST("api/v1/memo/{paperId}")
+    fun postMemo(
+        @Header("Authorization") accessToken: String,
+        @Path("paperId") paperId: Int,
+        @Body memoRequest: MemoRequest
     ): Call<Void>
 }

@@ -3,6 +3,7 @@ package com.alltimeowl.payrit.data.network.repository
 import android.util.Log
 import com.alltimeowl.payrit.data.model.ApprovalIouErrorResponse
 import com.alltimeowl.payrit.data.model.GetIouDetailResponse
+import com.alltimeowl.payrit.data.model.MemoRequest
 import com.alltimeowl.payrit.data.model.RepaymentErrorResponse
 import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
@@ -105,4 +106,24 @@ class IouRepository {
             }
         })
     }
+
+    fun postMemo(accessToken: String, paperId: Int, memoRequest: MemoRequest) {
+        payRitApi.postMemo("Bearer $accessToken", paperId, memoRequest).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Log.d("IouDetailMemoFragment", "성공시 response.code : ${response.code()}")
+                } else {
+                    Log.d("IouDetailMemoFragment", "errorResponse : ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("IouDetailMemoFragment", "네트워크 오류: ${t.message}")
+            }
+
+        })
+
+
+    }
+
 }

@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.alltimeowl.payrit.data.model.GetIouDetailResponse
+import com.alltimeowl.payrit.data.model.MemoListResponse
+import com.alltimeowl.payrit.data.model.MemoRequest
 import com.alltimeowl.payrit.data.model.RepaymentHistory
 import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
@@ -44,6 +46,10 @@ class HomeViewModel : ViewModel() {
                 getIouDetail(accessToken, paperId)
             }
         }
+    }
+
+    fun postMemo(accessToken: String, paperId: Int, memoRequest: MemoRequest) {
+        iouRepository.postMemo(accessToken, paperId, memoRequest)
     }
 
 }
