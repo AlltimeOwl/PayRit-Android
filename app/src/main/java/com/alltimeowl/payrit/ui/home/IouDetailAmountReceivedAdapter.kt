@@ -3,12 +3,19 @@ package com.alltimeowl.payrit.ui.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.alltimeowl.payrit.data.model.RepaymentHistory
 import com.alltimeowl.payrit.databinding.ItemReceivedBinding
+import com.alltimeowl.payrit.ui.main.MainActivity
 
-class IouDetailAmountReceivedAdapter : RecyclerView.Adapter<IouDetailAmountReceivedAdapter.IouDetailAmountReceivedViewHolder>() {
+class IouDetailAmountReceivedAdapter(val mainActivity: MainActivity, var repaymentList: MutableList<RepaymentHistory>) : RecyclerView.Adapter<IouDetailAmountReceivedAdapter.IouDetailAmountReceivedViewHolder>() {
 
     inner class IouDetailAmountReceivedViewHolder(private val binding: ItemReceivedBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+            fun bind(repay: RepaymentHistory) {
+                binding.textViewDateItemReceived.text = mainActivity.iouConvertDateFormat(repay.repaymentDate)
+                binding.textViewAmountItemReceived.text = mainActivity.convertMoneyFormat(repay.repaymentAmount) + "원"
+            }
 
     }
 
@@ -26,11 +33,16 @@ class IouDetailAmountReceivedAdapter : RecyclerView.Adapter<IouDetailAmountRecei
     }
 
     override fun getItemCount(): Int {
-        return 3
+        return repaymentList.size
     }
 
     override fun onBindViewHolder(holder: IouDetailAmountReceivedViewHolder, position: Int) {
+        holder.bind(repaymentList[position])
+    }
 
+    fun updateData(newData: List<RepaymentHistory>) {
+        repaymentList = newData.toMutableList()
+        notifyDataSetChanged()
     }
 
 }

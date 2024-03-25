@@ -84,23 +84,25 @@ class IouRepository {
         })
     }
 
-    fun postRepayment(accessToken: String, repaymentRequest: RepaymentRequest) {
+    fun postRepayment(accessToken: String, repaymentRequest: RepaymentRequest, callback: (Boolean) -> Unit) {
         payRitApi.postRepayment("Bearer $accessToken", repaymentRequest).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Log.d("IouDetailAmountReceivedFragment", "성공시 response.body : ${response.body()}")
+                    callback(true)
                 } else {
                     val errorBody = response.errorBody()?.string()
                     val gson = Gson()
                     val errorResponse: RepaymentErrorResponse? = gson.fromJson(errorBody, RepaymentErrorResponse::class.java)
                     Log.d("IouDetailAmountReceivedFragment", "errorResponse : ${errorResponse}")
+                    callback(false)
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Log.d("IouDetailAmountReceivedFragment", "네트워크 오류: ${t.message}")
+                callback(false)
             }
-
         })
     }
 }

@@ -45,7 +45,10 @@ class IouDetailAmountReceivedFragment : Fragment() {
 
         paperId = arguments?.getInt("paperId", paperId)!!
 
+        MainActivity.accessToken?.let { viewModel.getIouDetail(it, paperId) }
+
         initUI()
+        observeData()
 
         return binding.root
     }
@@ -83,7 +86,7 @@ class IouDetailAmountReceivedFragment : Fragment() {
 
             recyclerViewIouDetailAmountReceived.run {
                 recyclerViewIouDetailAmountReceived.layoutManager = LinearLayoutManager(context)
-                adapter = IouDetailAmountReceivedAdapter()
+                adapter = IouDetailAmountReceivedAdapter(mainActivity, mutableListOf())
             }
 
             buttonInputIouDetailAmountReceived.setOnClickListener {
@@ -133,9 +136,17 @@ class IouDetailAmountReceivedFragment : Fragment() {
     private fun inputRepayment() {
         if (repaymentDate.isNotEmpty() && repaymentAmount !=0) {
             val repaymentRequest = RepaymentRequest(paperId, repaymentDate, repaymentAmount)
-            MainActivity.accessToken?.let { viewModel.postRepayment(it, repaymentRequest) }
+            MainActivity.accessToken?.let { viewModel.postRepayment(it, repaymentRequest, paperId) }
         } else {
             return
+        }
+    }
+
+    private fun observeData() {
+        viewModel.repaymentList.observe(viewLifecycleOwner) { repaymentList->
+            // repaymentDate를 기준으로 내림차순 정렬
+            val sortedList = repaymentList.sortedByDescending { it.repaymentDate }
+            (binding.recyclerViewIouDetailAmountReceived.adapter as IouDetailAmountReceivedAdapter).updateData(sortedList)
         }
     }
 
