@@ -107,18 +107,21 @@ class IouRepository {
         })
     }
 
-    fun postMemo(accessToken: String, paperId: Int, memoRequest: MemoRequest) {
+    fun postMemo(accessToken: String, paperId: Int, memoRequest: MemoRequest, callback: (Boolean) -> Unit) {
         payRitApi.postMemo("Bearer $accessToken", paperId, memoRequest).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Log.d("IouDetailMemoFragment", "성공시 response.code : ${response.code()}")
+                    callback(true)
                 } else {
                     Log.d("IouDetailMemoFragment", "errorResponse : ${response.code()}")
+                    callback(false)
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Log.d("IouDetailMemoFragment", "네트워크 오류: ${t.message}")
+                callback(false)
             }
 
         })

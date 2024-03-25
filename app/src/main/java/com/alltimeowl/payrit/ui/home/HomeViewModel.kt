@@ -25,6 +25,9 @@ class HomeViewModel : ViewModel() {
     private val _repaymentList = MutableLiveData<List<RepaymentHistory>>()
     val repaymentList: LiveData<List<RepaymentHistory>> = _repaymentList
 
+    private val _memoList = MutableLiveData<List<MemoListResponse>>()
+    val memoList: LiveData<List<MemoListResponse>> = _memoList
+
     fun loadMyIouList(accessToken: String) {
         iouRepository.getMyIouList(accessToken) { iouList ->
             _iouList.value = iouList
@@ -36,6 +39,7 @@ class HomeViewModel : ViewModel() {
             _iouDetail.postValue(response)
             response?.let {
                 _repaymentList.postValue(it.repaymentHistories)
+                _memoList.postValue(it.memoListResponses)
             }
         }
     }
@@ -49,7 +53,11 @@ class HomeViewModel : ViewModel() {
     }
 
     fun postMemo(accessToken: String, paperId: Int, memoRequest: MemoRequest) {
-        iouRepository.postMemo(accessToken, paperId, memoRequest)
+        iouRepository.postMemo(accessToken, paperId, memoRequest) { success ->
+            if (success) {
+                getIouDetail(accessToken, paperId)
+            }
+        }
     }
 
 }

@@ -12,9 +12,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.data.model.MemoRequest
-import com.alltimeowl.payrit.data.sampleMemoDataList
 import com.alltimeowl.payrit.databinding.FragmentIouDetailMemoBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 import java.util.Date
@@ -44,7 +42,10 @@ class IouDetailMemoFragment : Fragment() {
 
         paperId = arguments?.getInt("paperId", paperId)!!
 
+        MainActivity.accessToken?.let { viewModel.getIouDetail(it, paperId) }
+
         initUI()
+        observeData()
 
         return binding.root
     }
@@ -63,7 +64,7 @@ class IouDetailMemoFragment : Fragment() {
 
             recyclerViewIouDetailMemo.run {
                 recyclerViewIouDetailMemo.layoutManager = LinearLayoutManager(context)
-                adapter = IouDetailMemoAdapter(sampleMemoDataList)
+                adapter = IouDetailMemoAdapter(mutableListOf())
             }
 
 
@@ -103,8 +104,16 @@ class IouDetailMemoFragment : Fragment() {
         if (content.isNotEmpty()) {
             val memoRequest = MemoRequest(content)
             MainActivity.accessToken?.let { viewModel.postMemo(it, paperId, memoRequest) }
+            binding.editTextMemoIouDetailMemo.text.clear()
         } else {
             return
+        }
+    }
+
+    private fun observeData() {
+        viewModel.memoList.observe(viewLifecycleOwner) { memoList ->
+            val sortedMemoList = memoList.sortedByDescending { it.createdAt }
+            (binding.recyclerViewIouDetailMemo.adapter as IouDetailMemoAdapter).updateData(sortedMemoList)
         }
     }
 
