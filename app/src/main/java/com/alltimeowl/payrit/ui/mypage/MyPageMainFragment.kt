@@ -2,20 +2,29 @@ package com.alltimeowl.payrit.ui.mypage
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.alltimeowl.payrit.databinding.FragmentMyPageMainBinding
 import com.alltimeowl.payrit.databinding.ItemUserLogoutBinding
 import com.alltimeowl.payrit.ui.login.LoginActivity
 import com.alltimeowl.payrit.ui.main.MainActivity
+import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginState
+import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginUserName
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.kakao.sdk.user.UserApiClient
 
 class MyPageMainFragment : Fragment() {
 
     private lateinit var mainActivity: MainActivity
     private lateinit var binding: FragmentMyPageMainBinding
+
+    private lateinit var myPageViewModel: MyPageViewModel
+
+    val TAG = "MyPageMainFragment"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,14 +34,21 @@ class MyPageMainFragment : Fragment() {
         mainActivity = activity as MainActivity
         binding = FragmentMyPageMainBinding.inflate(layoutInflater)
 
+        myPageViewModel = ViewModelProvider(this)[MyPageViewModel::class.java]
+
         mainActivity.showBottomNavigationView()
 
+        initUi()
         moveToAccountInformation()
         moveToPaymentHistory()
         moveToNotificationSetting()
         moveToLogOut()
 
         return binding.root
+    }
+
+    private fun initUi() {
+        binding.textViewUserNameMyPageMain.text = loginUserName
     }
 
     // 계정 정보 클릭
@@ -67,6 +83,21 @@ class MyPageMainFragment : Fragment() {
             // 로그아웃 - 네
             itemUserLogoutBinding.textViewYesLogout.setOnClickListener {
                 mainActivity.removeAllBackStack()
+
+                // 로그아웃
+                UserApiClient.instance.logout { error ->
+                    if (error != null) {
+                        Log.i(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+                    }
+                    else {
+                        Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
+                        MainActivity.accessToken?.let { it1 -> myPageViewModel.logoutUser(it1) }
+                    }
+                }
+
+                loginState = false
+                MainActivity.accessToken = null
+                MainActivity.refreshToken = null
 
                 val intent = Intent(mainActivity, LoginActivity::class.java)
                 mainActivity.startActivity(intent)

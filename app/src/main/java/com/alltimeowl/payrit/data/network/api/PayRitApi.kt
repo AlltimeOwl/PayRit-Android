@@ -20,6 +20,9 @@ interface PayRitApi {
     @POST("api/v1/oauth/KAKAO")
     fun loginUser(@Body request: LoginRequest): Call<LoginResponse>
 
+    @GET("api/v1/oauth/logout")
+    fun logoutUser(@Header("Authorization") accessToken: String): Call<Void>
+
     @POST("api/v1/paper/write")
     fun iouWrite(
         @Header("Authorization") accessToken: String,
