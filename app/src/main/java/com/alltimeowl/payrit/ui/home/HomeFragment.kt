@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alltimeowl.payrit.R
+import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentHomeBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 
@@ -34,7 +35,8 @@ class HomeFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
-        MainActivity.accessToken?.let { viewModel.loadMyIouList(it) }
+        val accessToken = SharedPreferencesManager.getAccessToken()
+        viewModel.loadMyIouList(accessToken)
 
         initUI()
         observeData()
@@ -48,7 +50,7 @@ class HomeFragment : Fragment() {
             mainActivity.showBottomNavigationView()
 
             materialToolbarHome.run {
-                title = MainActivity.loginUserName + "님의 기록"
+                title = SharedPreferencesManager.getUserName() + "님의 기록"
             }
 
             imageViewBannerCancelHome.setOnClickListener {

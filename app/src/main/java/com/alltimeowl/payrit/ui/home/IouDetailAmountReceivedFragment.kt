@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.data.model.RepaymentRequest
+import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentIouDetailAmountReceivedBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 import java.util.Locale
@@ -45,7 +46,8 @@ class IouDetailAmountReceivedFragment : Fragment() {
 
         paperId = arguments?.getInt("paperId", paperId)!!
 
-        MainActivity.accessToken?.let { viewModel.getIouDetail(it, paperId) }
+        val accessToken = SharedPreferencesManager.getAccessToken()
+        viewModel.getIouDetail(accessToken, paperId)
 
         initUI()
         observeData()
@@ -136,7 +138,8 @@ class IouDetailAmountReceivedFragment : Fragment() {
     private fun inputRepayment() {
         if (repaymentDate.isNotEmpty() && repaymentAmount !=0) {
             val repaymentRequest = RepaymentRequest(paperId, repaymentDate, repaymentAmount)
-            MainActivity.accessToken?.let { viewModel.postRepayment(it, repaymentRequest, paperId) }
+            val accessToken = SharedPreferencesManager.getAccessToken()
+            viewModel.postRepayment(accessToken, repaymentRequest, paperId)
         } else {
             return
         }

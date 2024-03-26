@@ -11,11 +11,10 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.setFragmentResultListener
 import com.alltimeowl.payrit.R
+import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentIouWriteMyBinding
 import com.alltimeowl.payrit.databinding.ItemCancelBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
-import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginUserName
-import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginUserPhoneNumber
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.json.JSONObject
 
@@ -86,8 +85,8 @@ class IouWriteMyFragment : Fragment() {
             }
 
             // 로그인한 유저 이름, 연락처 설정
-            editTextNameIouWriteMy.setText(loginUserName)
-            editTextPhoneNumberIouWriteMy.setText(mainActivity.convertPhoneNumber(loginUserPhoneNumber))
+            editTextNameIouWriteMy.setText(SharedPreferencesManager.getUserName())
+            editTextPhoneNumberIouWriteMy.setText(mainActivity.convertPhoneNumber(SharedPreferencesManager.getUserPhoneNumber()))
 
             // 우편번호 검색해서 받아온 값 (우편번호, 주소)
             setFragmentResultListener("addressDetailsInfo") { _, bundle ->
@@ -133,8 +132,8 @@ class IouWriteMyFragment : Fragment() {
                         bundle.putString("specialConditions", specialConditions)
                         interestRate?.let { it1 -> bundle.putFloat("interestRate", it1)}
                         interestPaymentDate?.let { it1 -> bundle.putInt("interestPaymentDate", it1)}
-                        bundle.putString("creditorName", loginUserName)
-                        bundle.putString("creditorPhoneNumber", loginUserPhoneNumber)
+                        bundle.putString("creditorName", SharedPreferencesManager.getUserName())
+                        bundle.putString("creditorPhoneNumber", SharedPreferencesManager.getUserPhoneNumber())
                         bundle.putString("creditorAddress", address)
 
                         mainActivity.replaceFragment(MainActivity.IOU_WRITE_OPPONENT_FRAGMENT, true, bundle)
@@ -151,8 +150,8 @@ class IouWriteMyFragment : Fragment() {
                         bundle.putString("specialConditions", specialConditions)
                         interestRate?.let { it1 -> bundle.putFloat("interestRate", it1)}
                         interestPaymentDate?.let { it1 -> bundle.putInt("interestPaymentDate", it1)}
-                        bundle.putString("debtorName", loginUserName)
-                        bundle.putString("debtorPhoneNumber", loginUserPhoneNumber)
+                        bundle.putString("debtorName", SharedPreferencesManager.getUserName())
+                        bundle.putString("debtorPhoneNumber", SharedPreferencesManager.getUserPhoneNumber())
                         bundle.putString("debtorAddress", address)
 
                         mainActivity.replaceFragment(MainActivity.IOU_WRITE_OPPONENT_FRAGMENT, true, bundle)

@@ -8,12 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentMyPageMainBinding
 import com.alltimeowl.payrit.databinding.ItemUserLogoutBinding
 import com.alltimeowl.payrit.ui.login.LoginActivity
 import com.alltimeowl.payrit.ui.main.MainActivity
-import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginState
-import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginUserName
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kakao.sdk.user.UserApiClient
 
@@ -48,7 +47,7 @@ class MyPageMainFragment : Fragment() {
     }
 
     private fun initUi() {
-        binding.textViewUserNameMyPageMain.text = loginUserName
+        binding.textViewUserNameMyPageMain.text = SharedPreferencesManager.getUserName()
     }
 
     // 계정 정보 클릭
@@ -91,13 +90,13 @@ class MyPageMainFragment : Fragment() {
                     }
                     else {
                         Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
-                        MainActivity.accessToken?.let { it1 -> myPageViewModel.logoutUser(it1) }
+
+                        val accessToken = SharedPreferencesManager.getAccessToken()
+                        myPageViewModel.logoutUser(accessToken)
+
+                        SharedPreferencesManager.clearUserInfo()
                     }
                 }
-
-                loginState = false
-                MainActivity.accessToken = null
-                MainActivity.refreshToken = null
 
                 val intent = Intent(mainActivity, LoginActivity::class.java)
                 mainActivity.startActivity(intent)

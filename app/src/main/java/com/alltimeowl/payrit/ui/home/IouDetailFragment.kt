@@ -17,6 +17,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.alltimeowl.payrit.data.model.RepaymentRequest
+import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentIouDetailBinding
 import com.alltimeowl.payrit.databinding.ItemDocumentBinding
 import com.alltimeowl.payrit.databinding.ItemEntireRecordBinding
@@ -69,7 +70,8 @@ class IouDetailFragment : Fragment() {
 
         paperId = arguments?.getInt("paperId", paperId)!!
 
-        MainActivity.accessToken?.let { viewModel.getIouDetail(it, paperId) }
+        val accessToken = SharedPreferencesManager.getAccessToken()
+        viewModel.getIouDetail(accessToken, paperId)
 
         initUI()
         observeData()
@@ -404,7 +406,8 @@ class IouDetailFragment : Fragment() {
             val formattedDate = dateFormat.format(currentDate)
 
             val repaymentRequest = RepaymentRequest(paperId, formattedDate, remainingAmount)
-            MainActivity.accessToken?.let { viewModel.postRepayment(it, repaymentRequest, paperId) }
+            val accessToken = SharedPreferencesManager.getAccessToken()
+            viewModel.postRepayment(accessToken, repaymentRequest, paperId)
             dialog.dismiss()
         }
 

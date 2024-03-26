@@ -13,6 +13,7 @@ import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alltimeowl.payrit.data.model.MemoRequest
+import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentIouDetailMemoBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 import java.util.Date
@@ -42,7 +43,8 @@ class IouDetailMemoFragment : Fragment() {
 
         paperId = arguments?.getInt("paperId", paperId)!!
 
-        MainActivity.accessToken?.let { viewModel.getIouDetail(it, paperId) }
+        val accessToken = SharedPreferencesManager.getAccessToken()
+        viewModel.getIouDetail(accessToken, paperId)
 
         initUI()
         observeData()
@@ -103,7 +105,8 @@ class IouDetailMemoFragment : Fragment() {
     private fun inputMemo() {
         if (content.isNotEmpty()) {
             val memoRequest = MemoRequest(content)
-            MainActivity.accessToken?.let { viewModel.postMemo(it, paperId, memoRequest) }
+            val accessToken = SharedPreferencesManager.getAccessToken()
+            viewModel.postMemo(accessToken, paperId, memoRequest)
             binding.editTextMemoIouDetailMemo.text.clear()
         } else {
             return

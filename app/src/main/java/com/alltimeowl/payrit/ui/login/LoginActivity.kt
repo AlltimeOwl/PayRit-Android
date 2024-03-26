@@ -6,11 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.ActivityLoginBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
-import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginState
-import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginUserName
-import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginUserPhoneNumber
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -40,8 +38,7 @@ class LoginActivity : AppCompatActivity() {
                     val name = user.kakaoAccount?.name // 사용자의 실제 이름 (이름 정보에 접근 권한이 필요합니다)
                     val phoneNumber = user.kakaoAccount?.phoneNumber
 
-                    loginUserName = "$name"
-                    loginUserPhoneNumber = "$phoneNumber"
+                    SharedPreferencesManager.saveUserInfo(name, phoneNumber)
                 }
             }
 
@@ -51,8 +48,8 @@ class LoginActivity : AppCompatActivity() {
             viewModel.loginResult.observe(this) { result ->
                 result.fold(onSuccess = {
 
-                    MainActivity.accessToken = it.accessToken
-                    MainActivity.refreshToken = it.refreshToken
+                    SharedPreferencesManager.saveUserToken(it.accessToken, it.refreshToken)
+
                     // 서버 로그인 성공 시 MainActivity로 이동
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
@@ -62,8 +59,6 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                 })
             }
-
-            loginState = true
 
         }
     }
@@ -106,8 +101,7 @@ class LoginActivity : AppCompatActivity() {
                                 val name = user.kakaoAccount?.name // 사용자의 실제 이름 (이름 정보에 접근 권한이 필요합니다)
                                 val phoneNumber = user.kakaoAccount?.phoneNumber
 
-                                loginUserName = "$name"
-                                loginUserPhoneNumber = "$phoneNumber"
+                                SharedPreferencesManager.saveUserInfo(name, phoneNumber)
                             }
                         }
 
@@ -117,8 +111,7 @@ class LoginActivity : AppCompatActivity() {
                         viewModel.loginResult.observe(this) { result ->
                             result.fold(onSuccess = {
 
-                                MainActivity.accessToken = it.accessToken
-                                MainActivity.refreshToken = it.refreshToken
+                                SharedPreferencesManager.saveUserToken(it.accessToken, it.refreshToken)
 
                                 // 서버 로그인 성공 시 MainActivity로 이동
                                 val intent = Intent(this, MainActivity::class.java)
@@ -129,8 +122,6 @@ class LoginActivity : AppCompatActivity() {
                                 Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                             })
                         }
-
-                        loginState = true
 
                     }
                 }

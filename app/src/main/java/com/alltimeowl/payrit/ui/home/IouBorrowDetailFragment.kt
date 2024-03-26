@@ -17,6 +17,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import com.alltimeowl.payrit.R
+import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentIouBorrowDetailBinding
 import com.alltimeowl.payrit.databinding.ItemDocumentBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
@@ -65,7 +66,8 @@ class IouBorrowDetailFragment : Fragment() {
 
         paperId = arguments?.getInt("paperId", paperId)!!
 
-        MainActivity.accessToken?.let { viewModel.getIouDetail(it, paperId) }
+        val accessToken = SharedPreferencesManager.getAccessToken()
+        viewModel.getIouDetail(accessToken, paperId)
 
         initUI()
         observeData()

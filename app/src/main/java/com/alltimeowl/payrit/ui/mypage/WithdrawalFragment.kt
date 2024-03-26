@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.lifecycle.ViewModelProvider
 import com.alltimeowl.payrit.R
+import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.data.model.WithdrawalRequest
 import com.alltimeowl.payrit.databinding.FragmentWithdrawalBinding
 import com.alltimeowl.payrit.databinding.ItemUserLogoutBinding
@@ -117,13 +118,12 @@ class WithdrawalFragment : Fragment() {
                     Log.i(TAG, "연결 끊기 성공. SDK에서 토큰 삭제 됨")
 
                     val withdrawalRequest = WithdrawalRequest("kakao")
-                    MainActivity.accessToken?.let { it1 -> myPageViewModel.withdrawalUser(it1, withdrawalRequest) }
+                    val accessToken = SharedPreferencesManager.getAccessToken()
+                    myPageViewModel.withdrawalUser(accessToken, withdrawalRequest)
+
+                    SharedPreferencesManager.clearUserInfo()
                 }
             }
-
-            MainActivity.loginState = false
-            MainActivity.accessToken = null
-            MainActivity.refreshToken = null
 
             showCompleteAlertDialog()
         }

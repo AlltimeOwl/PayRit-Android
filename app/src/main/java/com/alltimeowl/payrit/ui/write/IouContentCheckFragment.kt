@@ -9,14 +9,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.data.model.IouWriteRequest
+import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentIouContentCheckBinding
 import com.alltimeowl.payrit.databinding.ItemCancelBinding
 import com.alltimeowl.payrit.databinding.ItemMmsBinding
 import com.alltimeowl.payrit.databinding.ItemMmsCompleteBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
-import com.alltimeowl.payrit.ui.main.MainActivity.Companion.accessToken
-import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginUserName
-import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginUserPhoneNumber
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class IouContentCheckFragment : Fragment() {
@@ -166,8 +164,8 @@ class IouContentCheckFragment : Fragment() {
                 "CREDITOR" -> {
 
                     // 로그인한 유저가 빌려준 사람일 때
-                    textViewLendPersonNameIouContentCheck.text = loginUserName
-                    textViewLendPersonPhoneNumberIouContentCheck.text = mainActivity.convertPhoneNumber(loginUserPhoneNumber)
+                    textViewLendPersonNameIouContentCheck.text = SharedPreferencesManager.getUserName()
+                    textViewLendPersonPhoneNumberIouContentCheck.text = mainActivity.convertPhoneNumber(SharedPreferencesManager.getUserPhoneNumber())
                     if (creditorAddress.isNotEmpty()) {
                         textViewLendPersonAddressIouContentCheck.text = creditorAddress
                     } else {
@@ -195,8 +193,8 @@ class IouContentCheckFragment : Fragment() {
                         linearLayoutLendPersonAddressIouContentCheck.visibility = View.GONE
                     }
 
-                    textViewBorrowPersonNameIouContentCheck.text = loginUserName
-                    textViewBorrowPersonPhoneNumberIouContentCheck.text = mainActivity.convertPhoneNumber(loginUserPhoneNumber)
+                    textViewBorrowPersonNameIouContentCheck.text = SharedPreferencesManager.getUserName()
+                    textViewBorrowPersonPhoneNumberIouContentCheck.text = mainActivity.convertPhoneNumber(SharedPreferencesManager.getUserPhoneNumber())
                     if (debtorAddress.isNotEmpty()) {
                         textViewBorrowPersonAddressIouContentCheck.text = debtorAddress
                     } else {
@@ -285,7 +283,8 @@ class IouContentCheckFragment : Fragment() {
             }
         }
 
-        accessToken?.let { viewModel.iouWrite(it, iouWriteRequest) }
+        val accessToken = SharedPreferencesManager.getAccessToken()
+        viewModel.iouWrite(accessToken, iouWriteRequest)
     }
 
 }

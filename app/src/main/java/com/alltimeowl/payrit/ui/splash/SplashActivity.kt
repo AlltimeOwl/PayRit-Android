@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.ActivitySplashBinding
 import com.alltimeowl.payrit.ui.login.LoginActivity
+import com.alltimeowl.payrit.ui.main.MainActivity
 
 
 class SplashActivity : AppCompatActivity() {
@@ -21,8 +24,17 @@ class SplashActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
 
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            val accessToken = SharedPreferencesManager.getAccessToken()
+
+            if (accessToken.isNotEmpty()) {
+                // 저장된 accessToken이 있다면, 로그인 상태 유지
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            } else {
+                // 저장된 accessToken이 없다면, 로그인 화면으로 이동
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
 
             finish()
 

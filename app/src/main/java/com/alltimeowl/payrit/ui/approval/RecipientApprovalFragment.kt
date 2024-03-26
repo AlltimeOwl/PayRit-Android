@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.alltimeowl.payrit.R
+import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentRecipientApprovalBinding
 import com.alltimeowl.payrit.ui.home.HomeViewModel
 import com.alltimeowl.payrit.ui.main.MainActivity
@@ -39,7 +40,8 @@ class RecipientApprovalFragment : Fragment() {
 
         paperId = arguments?.getInt("paperId")!!
 
-        MainActivity.accessToken?.let { it1 -> viewModel.getIouDetail(it1, paperId) }
+        val accessToken = SharedPreferencesManager.getAccessToken()
+        viewModel.getIouDetail(accessToken, paperId)
 
         initUI()
         observeData()
@@ -142,7 +144,8 @@ class RecipientApprovalFragment : Fragment() {
 
         binding.buttonRecipientApproval.setOnClickListener {
             if (buttonClickable) {
-                MainActivity.accessToken?.let { it1 -> recipientApprovalViewModel.approvalIou(it1, paperId) }
+                val accessToken = SharedPreferencesManager.getAccessToken()
+                recipientApprovalViewModel.approvalIou(accessToken, paperId)
                 mainActivity.removeFragment(MainActivity.RECIPIENT_APPROVAL_FRAGMENT)
             }
         }
