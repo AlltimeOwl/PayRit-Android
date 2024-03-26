@@ -303,7 +303,7 @@ class IouTransactionalInformationFragment : Fragment() {
         }, year, month, day)
 
         // 선택 가능한 최소 날짜를 현재 날짜로 설정
-        // datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+        datePickerDialog.datePicker.minDate = System.currentTimeMillis()
 
         datePickerDialog.show()
     }
