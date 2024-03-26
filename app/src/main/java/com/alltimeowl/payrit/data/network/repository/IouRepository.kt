@@ -3,6 +3,9 @@ package com.alltimeowl.payrit.data.network.repository
 import android.util.Log
 import com.alltimeowl.payrit.data.model.ApprovalIouErrorResponse
 import com.alltimeowl.payrit.data.model.GetIouDetailResponse
+import com.alltimeowl.payrit.data.model.MemoRequest
+import com.alltimeowl.payrit.data.model.RepaymentErrorResponse
+import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
 import com.alltimeowl.payrit.data.network.api.PayRitApi
 import com.google.gson.Gson
@@ -81,4 +84,49 @@ class IouRepository {
 
         })
     }
+
+    fun postRepayment(accessToken: String, repaymentRequest: RepaymentRequest, callback: (Boolean) -> Unit) {
+        payRitApi.postRepayment("Bearer $accessToken", repaymentRequest).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Log.d("IouDetailAmountReceivedFragment", "성공시 response.body : ${response.body()}")
+                    callback(true)
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val gson = Gson()
+                    val errorResponse: RepaymentErrorResponse? = gson.fromJson(errorBody, RepaymentErrorResponse::class.java)
+                    Log.d("IouDetailAmountReceivedFragment", "errorResponse : ${errorResponse}")
+                    callback(false)
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("IouDetailAmountReceivedFragment", "네트워크 오류: ${t.message}")
+                callback(false)
+            }
+        })
+    }
+
+    fun postMemo(accessToken: String, paperId: Int, memoRequest: MemoRequest, callback: (Boolean) -> Unit) {
+        payRitApi.postMemo("Bearer $accessToken", paperId, memoRequest).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Log.d("IouDetailMemoFragment", "성공시 response.code : ${response.code()}")
+                    callback(true)
+                } else {
+                    Log.d("IouDetailMemoFragment", "errorResponse : ${response.code()}")
+                    callback(false)
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("IouDetailMemoFragment", "네트워크 오류: ${t.message}")
+                callback(false)
+            }
+
+        })
+
+
+    }
+
 }

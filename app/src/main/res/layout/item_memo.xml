@@ -26,19 +26,20 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="wrap_content"
             android:paddingStart="16dp"
-            android:paddingTop="16dp"
+            android:paddingTop="12dp"
             android:paddingEnd="16dp">
 
             <TextView
                 android:id="@+id/textView_contents_item_memo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="12dp"
+                android:layout_marginBottom="16dp"
                 android:layout_weight="1"
                 android:ellipsize="end"
-                android:maxLines="1"
                 android:text="10,000원 한달 뒤에 갚는다고 했음."
                 android:textAppearance="@style/Suit.Medium14" />
 

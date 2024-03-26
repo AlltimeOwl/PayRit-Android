@@ -16,16 +16,21 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.databinding.FragmentIouDetailBinding
 import com.alltimeowl.payrit.databinding.ItemDocumentBinding
+import com.alltimeowl.payrit.databinding.ItemEntireRecordBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 import kotlin.math.abs
 
 class IouDetailFragment : Fragment() {
@@ -36,6 +41,19 @@ class IouDetailFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
 
     private var paperId = 0
+    private var creditorName = ""
+    private var creditorPhoneNumber = ""
+    private var creditorAddress = ""
+    private var debtorName = ""
+    private var debtorPhoneNumber = ""
+    private var debtorAddress = ""
+    private var primeAmount = 0
+    private var interestRate = 0.0f
+    private var interestPaymentDate = 0
+    private var repaymentEndDate = ""
+    private var specialConditions = ""
+    private var transactionDate = ""
+    private var remainingAmount = 0
 
     val TAG = "IouDetailFragment"
 
@@ -69,9 +87,18 @@ class IouDetailFragment : Fragment() {
                 }
             }
 
+            // 전체 상환 기록 클릭
+            buttonEntireRecordIouDetail.setOnClickListener {
+                showAlertDialog(remainingAmount)
+            }
+
             // 일부 상환 기록 클릭
             buttonRecordIouDetail.setOnClickListener {
-                mainActivity.replaceFragment(MainActivity.IOU_DETAIL_AMOUNT_RECEIVED_FRAGMENT, true, null)
+
+                val bundle = Bundle()
+                bundle.putInt("paperId", paperId)
+
+                mainActivity.replaceFragment(MainActivity.IOU_DETAIL_AMOUNT_RECEIVED_FRAGMENT, true, bundle)
             }
 
             // PDF·메일 내보내기 클릭
@@ -81,7 +108,11 @@ class IouDetailFragment : Fragment() {
 
             // 개인 메모 클릭
             imageViewMemoIouDetail.setOnClickListener {
-                mainActivity.replaceFragment(MainActivity.IOU_DETAIL_MEMO_FRAGMENT, true, null)
+
+                val bundle = Bundle()
+                bundle.putInt("paperId", paperId)
+
+                mainActivity.replaceFragment(MainActivity.IOU_DETAIL_MEMO_FRAGMENT, true, bundle)
             }
 
         }
@@ -90,6 +121,46 @@ class IouDetailFragment : Fragment() {
     private fun showBottomSheet() {
         val bottomSheetView = ItemDocumentBinding.inflate(layoutInflater)
         val bottomSheetDialog = BottomSheetDialog(mainActivity)
+
+        // 채권자 정보
+        bottomSheetView.textViewIouCreditorNameItemDocument.text = creditorName
+        bottomSheetView.textViewIouCreditorPhoneNumberItemDocument.text = mainActivity.convertPhoneNumber(creditorPhoneNumber)
+        bottomSheetView.textViewIouCreditorAddressItemDocument.text = creditorAddress
+
+        // 채무자 정보
+        bottomSheetView.textViewIouDebtorNameItemDocument.text = debtorName
+        bottomSheetView.textViewIouDebtorPhoneNumberItemDocument.text = mainActivity.convertPhoneNumber(debtorPhoneNumber)
+        bottomSheetView.textViewIouDebtorAddressItemDocument.text = debtorAddress
+
+        // 차용금액 및 변제 조건
+        bottomSheetView.textViewTableAmountItemDocument.text = "원금 ${mainActivity.numberToKorean(primeAmount)}      원정 (₩ ${mainActivity.convertMoneyFormat(primeAmount)})"
+
+        if ((interestRate <= 0.0 || interestRate > 20.00)) {
+            bottomSheetView.textViewTableInterestItemDocument.text = "연 (  )%"
+        } else {
+            bottomSheetView.textViewTableInterestItemDocument.text = "연 ( ${interestRate} )%"
+        }
+
+        if (interestPaymentDate == 0) {
+            bottomSheetView.textViewTableInterestDateItemDocument.text = "매월 ( )일에 지급"
+        } else {
+            bottomSheetView.textViewTableInterestDateItemDocument.text = "매월 ( ${interestPaymentDate} )일에 지급"
+        }
+
+        bottomSheetView.textViewTableRepaymentDateItemDocument.text = mainActivity.iouConvertDateFormat(repaymentEndDate)
+
+        if (specialConditions.isNotEmpty()) {
+            bottomSheetView.textViewTableConditionItemDocument.text = specialConditions
+        }
+
+        // 작성일
+        bottomSheetView.textViewFinalIouDateItemDocument.text = mainActivity.iouConvertDateFormat(transactionDate)
+
+        // 채권자
+        bottomSheetView.textViewFinalIouCreditorNameItemDocument.text = "채 권 자 : ${creditorName} (인)"
+
+        // 채무자
+        bottomSheetView.textViewFinalIouDebtorNameItemDocument.text = "채 무 자 : ${debtorName} (인)"
 
         bottomSheetDialog.setOnShowListener {
             val bottomSheet = bottomSheetDialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
@@ -106,7 +177,7 @@ class IouDetailFragment : Fragment() {
 
             // 이메일 전송
             bottomSheetView.linearLayoutSendEmailItemDocument.setOnClickListener {
-                sendEmailWithGmail()
+                sendEmailWithGmail(bottomSheetView)
                 bottomSheetDialog.dismiss()
             }
 
@@ -155,12 +226,12 @@ class IouDetailFragment : Fragment() {
         }
     }
 
-    private fun sendEmailWithGmail() {
+    private fun sendEmailWithGmail(bottomSheetView: ItemDocumentBinding) {
         // Create an email intent
         val emailIntent = Intent(Intent.ACTION_SEND)
 
         // Inflate the layout containing the CardView
-        val bottomSheetView = ItemDocumentBinding.inflate(layoutInflater)
+        // val bottomSheetView = ItemDocumentBinding.inflate(layoutInflater)
         val cardView = bottomSheetView.cardViewItemDocument
 
         // 1단계: 레이아웃을 Bitmap으로 변환
@@ -241,6 +312,7 @@ class IouDetailFragment : Fragment() {
                 binding.textViewDayIouDetail.text = "D + ${abs(iouDetailInfo.dueDate)}"
             }
 
+            binding.progressBarIouDetail.progress = iouDetailInfo.repaymentRate.toInt()
             binding.textViewPercentIouDetail.text = "(${iouDetailInfo.repaymentRate.toInt()}%)"
 
             // 빌려준 사람
@@ -264,13 +336,13 @@ class IouDetailFragment : Fragment() {
             }
 
             // 추가 사항
-            if (iouDetailInfo.interestRate == 0 && iouDetailInfo.interestPaymentDate == 0 && iouDetailInfo.specialConditions.isEmpty()) {
+            if ((iouDetailInfo.interestRate <= 0.0 || iouDetailInfo.interestRate > 20.00) && iouDetailInfo.interestPaymentDate == 0 && iouDetailInfo.specialConditions.isEmpty()) {
                 binding.textViewAdditionalInformationTitleIouDetail.visibility = View.GONE
                 binding.cardViewAdditionInformationIouDetail.visibility = View.GONE
             } else {
 
                 // 이자율
-                if (iouDetailInfo.interestRate == 0) {
+                if (iouDetailInfo.interestRate <= 0.0 || iouDetailInfo.interestRate > 20.00) {
                     binding.linearLayoutAdditionalInformationInterestRateIouDetail.visibility = View.GONE
                 } else {
                     binding.textViewAdditionalInformationInterestRateIouDetail.text = "${iouDetailInfo.interestRate}%"
@@ -292,7 +364,51 @@ class IouDetailFragment : Fragment() {
 
             }
 
+            creditorName = iouDetailInfo.creditorName
+            creditorPhoneNumber = iouDetailInfo.creditorPhoneNumber
+            creditorAddress = iouDetailInfo.creditorAddress
+            debtorName = iouDetailInfo.debtorName
+            debtorPhoneNumber = iouDetailInfo.debtorPhoneNumber
+            debtorAddress = iouDetailInfo.debtorAddress
+            primeAmount = iouDetailInfo.primeAmount
+            interestRate = iouDetailInfo.interestRate
+            interestPaymentDate = iouDetailInfo.interestPaymentDate
+            repaymentEndDate = iouDetailInfo.repaymentEndDate
+            specialConditions = iouDetailInfo.specialConditions
+            transactionDate = iouDetailInfo.transactionDate
+            remainingAmount = iouDetailInfo.remainingAmount
+
         }
+
+    }
+
+    private fun showAlertDialog(remainingAmount : Int) {
+        val itemEntireRecordBinding = ItemEntireRecordBinding.inflate(layoutInflater)
+        val builder = MaterialAlertDialogBuilder(mainActivity)
+        builder.setView(itemEntireRecordBinding.root)
+        val dialog = builder.create()
+
+        itemEntireRecordBinding.textViewContentEntireRecord.text = "남은 금액 ${mainActivity.convertMoneyFormat(remainingAmount)}원을 전체 상환 하시겠습니까?"
+
+        // 전체 상환 - 아니오
+        itemEntireRecordBinding.textViewNoEntireRecord.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        // 전체 상환 - 네
+        itemEntireRecordBinding.textViewYesEntireRecord.setOnClickListener {
+
+            // 현재 날짜를 2024-03-25 이런식으로 나타탬
+            val currentDate = Calendar.getInstance().time
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val formattedDate = dateFormat.format(currentDate)
+
+            val repaymentRequest = RepaymentRequest(paperId, formattedDate, remainingAmount)
+            MainActivity.accessToken?.let { viewModel.postRepayment(it, repaymentRequest, paperId) }
+            dialog.dismiss()
+        }
+
+        dialog.show()
 
     }
 

@@ -7,6 +7,7 @@ import android.graphics.pdf.PdfDocument
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
 import androidx.core.content.FileProvider
+import androidx.lifecycle.ViewModelProvider
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.databinding.FragmentIouBorrowDetailBinding
 import com.alltimeowl.payrit.databinding.ItemDocumentBinding
@@ -24,11 +26,32 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import java.io.File
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import kotlin.math.abs
 
 class IouBorrowDetailFragment : Fragment() {
 
     lateinit var mainActivity: MainActivity
     lateinit var binding: FragmentIouBorrowDetailBinding
+
+    private lateinit var viewModel: HomeViewModel
+
+    private var paperId = 0
+    private var creditorName = ""
+    private var creditorPhoneNumber = ""
+    private var creditorAddress = ""
+    private var debtorName = ""
+    private var debtorPhoneNumber = ""
+    private var debtorAddress = ""
+    private var primeAmount = 0
+    private var interestRate = 0.0f
+    private var interestPaymentDate = 0
+    private var repaymentEndDate = ""
+    private var specialConditions = ""
+    private var transactionDate = ""
+
+    val TAG = "IouBorrowDetailFragment"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +61,14 @@ class IouBorrowDetailFragment : Fragment() {
         mainActivity = activity as MainActivity
         binding = FragmentIouBorrowDetailBinding.inflate(layoutInflater)
 
+        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+
+        paperId = arguments?.getInt("paperId", paperId)!!
+
+        MainActivity.accessToken?.let { viewModel.getIouDetail(it, paperId) }
+
         initUI()
+        observeData()
 
         return binding.root
     }
@@ -60,7 +90,11 @@ class IouBorrowDetailFragment : Fragment() {
 
             // 개인 메모 클릭
             imageViewMemoIouBorrowDetail.setOnClickListener {
-                mainActivity.replaceFragment(MainActivity.IOU_DETAIL_MEMO_FRAGMENT, true, null)
+
+                val bundle = Bundle()
+                bundle.putInt("paperId", paperId)
+
+                mainActivity.replaceFragment(MainActivity.IOU_DETAIL_MEMO_FRAGMENT, true, bundle)
             }
 
         }
@@ -69,6 +103,46 @@ class IouBorrowDetailFragment : Fragment() {
     private fun showBottomSheet() {
         val bottomSheetView = ItemDocumentBinding.inflate(layoutInflater)
         val bottomSheetDialog = BottomSheetDialog(mainActivity)
+
+        // 채권자 정보
+        bottomSheetView.textViewIouCreditorNameItemDocument.text = creditorName
+        bottomSheetView.textViewIouCreditorPhoneNumberItemDocument.text = mainActivity.convertPhoneNumber(creditorPhoneNumber)
+        bottomSheetView.textViewIouCreditorAddressItemDocument.text = creditorAddress
+
+        // 채무자 정보
+        bottomSheetView.textViewIouDebtorNameItemDocument.text = debtorName
+        bottomSheetView.textViewIouDebtorPhoneNumberItemDocument.text = mainActivity.convertPhoneNumber(debtorPhoneNumber)
+        bottomSheetView.textViewIouDebtorAddressItemDocument.text = debtorAddress
+
+        // 차용금액 및 변제 조건
+        bottomSheetView.textViewTableAmountItemDocument.text = "원금 ${mainActivity.numberToKorean(primeAmount)}      원정 (₩ ${mainActivity.convertMoneyFormat(primeAmount)})"
+
+        if ((interestRate <= 0.0 || interestRate > 20.00)) {
+            bottomSheetView.textViewTableInterestItemDocument.text = "연 (  )%"
+        } else {
+            bottomSheetView.textViewTableInterestItemDocument.text = "연 ( ${interestRate} )%"
+        }
+
+        if (interestPaymentDate == 0) {
+            bottomSheetView.textViewTableInterestDateItemDocument.text = "매월 ( )일에 지급"
+        } else {
+            bottomSheetView.textViewTableInterestDateItemDocument.text = "매월 ( ${interestPaymentDate} )일에 지급"
+        }
+
+        bottomSheetView.textViewTableRepaymentDateItemDocument.text = mainActivity.iouConvertDateFormat(repaymentEndDate)
+
+        if (specialConditions.isNotEmpty()) {
+            bottomSheetView.textViewTableConditionItemDocument.text = specialConditions
+        }
+
+        // 작성일
+        bottomSheetView.textViewFinalIouDateItemDocument.text = mainActivity.iouConvertDateFormat(transactionDate)
+
+        // 채권자
+        bottomSheetView.textViewFinalIouCreditorNameItemDocument.text = "채 권 자 : ${creditorName} (인)"
+
+        // 채무자
+        bottomSheetView.textViewFinalIouDebtorNameItemDocument.text = "채 무 자 : ${debtorName} (인)"
 
         bottomSheetDialog.setOnShowListener {
             val bottomSheet = bottomSheetDialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
@@ -85,7 +159,7 @@ class IouBorrowDetailFragment : Fragment() {
 
             // 이메일 전송
             bottomSheetView.linearLayoutSendEmailItemDocument.setOnClickListener {
-                sendEmailWithGmail()
+                sendEmailWithGmail(bottomSheetView)
                 bottomSheetDialog.dismiss()
             }
 
@@ -117,8 +191,12 @@ class IouBorrowDetailFragment : Fragment() {
 
         // PDF 저장
         try {
+            // 현재 시간을 "yyyyMMdd_HHmmss" 형태의 문자열로 변환
+            val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+            val fileName = "차용증_$timeStamp.pdf"
+
             val pdfFile = File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "차용증.pdf"
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName
             )
             pdfDocument.writeTo(FileOutputStream(pdfFile))
             Snackbar.make(binding.root, "PDF 다운로드 성공", Snackbar.LENGTH_LONG)
@@ -130,12 +208,12 @@ class IouBorrowDetailFragment : Fragment() {
         }
     }
 
-    private fun sendEmailWithGmail() {
+    private fun sendEmailWithGmail(bottomSheetView: ItemDocumentBinding) {
         // Create an email intent
         val emailIntent = Intent(Intent.ACTION_SEND)
 
         // Inflate the layout containing the CardView
-        val bottomSheetView = ItemDocumentBinding.inflate(layoutInflater)
+        // val bottomSheetView = ItemDocumentBinding.inflate(layoutInflater)
         val cardView = bottomSheetView.cardViewItemDocument
 
         // 1단계: 레이아웃을 Bitmap으로 변환
@@ -147,7 +225,8 @@ class IouBorrowDetailFragment : Fragment() {
         // 3단계: 이메일에 첨부하여 보내기
         emailIntent.putExtra(Intent.EXTRA_STREAM, pdfFile)
         emailIntent.type = "application/pdf"
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("email@gmail.com"))
+        // 받는 사람 이메일 필요시
+        // emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("email@gmail.com"))
 
         // Check if Gmail app is available
         emailIntent.setPackage("com.google.android.gm")
@@ -195,6 +274,92 @@ class IouBorrowDetailFragment : Fragment() {
         document.close()
 
         return FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", pdfFile)
+    }
+
+    private fun observeData() {
+        viewModel.iouDetail.observe(viewLifecycleOwner) { iouDetailInfo ->
+            Log.d(TAG, "iouDetailInfo : ${iouDetailInfo}")
+
+            binding.progressBarLoadingIouBorrowDetail.visibility = View.GONE
+            binding.scrollviewIouBorrowDetail.visibility = View.VISIBLE
+
+            binding.textViewNameIouBorrowDetail.text = iouDetailInfo.creditorName + "님께"
+            binding.textViewTotalAmountIouBorrowDetail.text = mainActivity.convertMoneyFormat(iouDetailInfo.amount)
+            binding.textViewPeriodIouBorrowDetail.text = "원금상환일 ${mainActivity.convertDateFormat(iouDetailInfo.repaymentEndDate)}"
+            binding.textViewRemainingAmountIouBorrowDetail.text = mainActivity.convertMoneyFormat(iouDetailInfo.remainingAmount) + "원"
+
+            if (iouDetailInfo.dueDate >= 0) {
+                binding.textViewDayIouBorrowDetail.text = "D - ${iouDetailInfo.dueDate}"
+            } else {
+                binding.textViewDayIouBorrowDetail.text = "D + ${abs(iouDetailInfo.dueDate)}"
+            }
+
+            binding.progressBarIouBorrowDetail.progress = iouDetailInfo.repaymentRate.toInt()
+            binding.textViewPercentIouBorrowDetail.text = "(${iouDetailInfo.repaymentRate}%)"
+
+            // 빌려준 사람
+            binding.textViewLendPersonNameIouBorrowDetail.text = iouDetailInfo.creditorName
+            binding.textViewLendPersonPhoneNumberIouBorrowDetail.text = mainActivity.convertPhoneNumber(iouDetailInfo.creditorPhoneNumber)
+
+            if (iouDetailInfo.creditorAddress.isEmpty()) {
+                binding.linearLayoutLendPersonAddressIouBorrowDetail.visibility = View.GONE
+            } else {
+                binding.textViewLendPersonAddressIouBorrowDetail.text = iouDetailInfo.creditorAddress
+            }
+
+            // 빌린 사람
+            binding.textViewBorrowPersonNameIouBorrowDetail.text = iouDetailInfo.debtorName
+            binding.textViewBorrowPersonPhoneNumberIouBorrowDetail.text = mainActivity.convertPhoneNumber(iouDetailInfo.debtorPhoneNumber)
+
+            if (iouDetailInfo.debtorAddress.isEmpty()) {
+                binding.linearLayoutBorrowPersonAddressIouBorrowDetail.visibility = View.GONE
+            } else {
+                binding.textViewBorrowPersonAddressIouBorrowDetail.text = iouDetailInfo.debtorAddress
+            }
+
+            // 추가 사항
+            if ((iouDetailInfo.interestRate <= 0.0 || iouDetailInfo.interestRate > 20.00) && iouDetailInfo.interestPaymentDate == 0 && iouDetailInfo.specialConditions.isEmpty()) {
+                binding.textViewAdditionalInformationTitleIouBorrowDetail.visibility = View.GONE
+                binding.cardViewAdditionInformationIouBorrowDetail.visibility = View.GONE
+            } else {
+
+                // 이자율
+                if (iouDetailInfo.interestRate <= 0.0 || iouDetailInfo.interestRate > 20.00) {
+                    binding.linearLayoutAdditionalInformationInterestRateIouBorrowDetail.visibility = View.GONE
+                } else {
+                    binding.textViewAdditionalInformationInterestRateIouBorrowDetail.text = "${iouDetailInfo.interestRate}%"
+                }
+
+                // 이자 지급일
+                if (iouDetailInfo.interestPaymentDate == 0) {
+                    binding.linearLayoutAdditionalInformationInterestDateIouBorrowDetail.visibility = View.GONE
+                } else {
+                    binding.textViewAdditionalInformationInterestDateIouBorrowDetail.text = "매월 ${iouDetailInfo.interestPaymentDate}일"
+                }
+
+                // 특약사항
+                if (iouDetailInfo.specialConditions.isEmpty()) {
+                    binding.linearLayoutAdditionalInformationIouBorrowDetail.visibility = View.GONE
+                } else {
+                    binding.textViewAdditionalInformationIouBorrowDetail.text = iouDetailInfo.specialConditions
+                }
+
+            }
+
+            creditorName = iouDetailInfo.creditorName
+            creditorPhoneNumber = iouDetailInfo.creditorPhoneNumber
+            creditorAddress = iouDetailInfo.creditorAddress
+            debtorName = iouDetailInfo.debtorName
+            debtorPhoneNumber = iouDetailInfo.debtorPhoneNumber
+            debtorAddress = iouDetailInfo.debtorAddress
+            primeAmount = iouDetailInfo.primeAmount
+            interestRate = iouDetailInfo.interestRate
+            interestPaymentDate = iouDetailInfo.interestPaymentDate
+            repaymentEndDate = iouDetailInfo.repaymentEndDate
+            specialConditions = iouDetailInfo.specialConditions
+            transactionDate = iouDetailInfo.transactionDate
+
+        }
     }
 
 }

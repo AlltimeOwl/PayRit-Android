@@ -199,9 +199,58 @@ class MainActivity : AppCompatActivity() {
         return formattedDate
     }
 
+    fun iouConvertDateFormat(inputDate : String) : String {
+        val originalFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val targetFormat = SimpleDateFormat("yyyy 년 MM월 dd일", Locale.getDefault())
+
+        val date = originalFormat.parse(inputDate)
+
+        val formattedDate = if (date != null) targetFormat.format(date) else ""
+
+        return formattedDate
+    }
+
     fun convertMoneyFormat(inputMoney : Int) : String{
         val formatter = NumberFormat.getNumberInstance(Locale.getDefault())
         return formatter.format(inputMoney)
+    }
+
+    fun numberToKorean(number: Int): String {
+        val numberUnits = arrayOf("", "만", "억", "조")
+        val digitUnits = arrayOf("", "십", "백", "천")
+        val koreanNumbers = arrayOf("", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구")
+
+        if (number == 0) {
+            return "영"
+        }
+
+        var result = ""
+        var num = number
+        var unitIndex = 0
+
+        while (num > 0) {
+            val part = num % 10000 // 만 단위로 분리
+            var partResult = ""
+            var partNum = part
+            var digitIndex = 0
+
+            while (partNum > 0) {
+                val digit = partNum % 10 // 각 자리수 분리
+                if (digit > 0) {
+                    partResult = koreanNumbers[digit] + digitUnits[digitIndex] + partResult
+                }
+                partNum /= 10
+                digitIndex += 1
+            }
+
+            if (part > 0) {
+                result = partResult + numberUnits[unitIndex] + result
+            }
+            num /= 10000
+            unitIndex += 1
+        }
+
+        return result + "원"
     }
 
 

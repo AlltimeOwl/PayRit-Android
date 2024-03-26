@@ -203,6 +203,7 @@
                             android:paddingEnd="10dp">
 
                             <Button
+                                android:id="@+id/button_entire_record_iou_detail"
                                 style="@style/Widget.Material3.Button.Icon"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"

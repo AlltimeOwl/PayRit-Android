@@ -4,29 +4,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.alltimeowl.payrit.data.sampleMemo
+import com.alltimeowl.payrit.data.model.MemoListResponse
 import com.alltimeowl.payrit.databinding.ItemMemoBinding
 
-class IouDetailMemoAdapter(val sampleMemoList: MutableList<sampleMemo>) : RecyclerView.Adapter<IouDetailMemoAdapter.IouDetailMemoViewHolder>() {
-
-    private val uniqueDates = mutableSetOf<String>()
+class IouDetailMemoAdapter(var memoList: MutableList<MemoListResponse>) : RecyclerView.Adapter<IouDetailMemoAdapter.IouDetailMemoViewHolder>() {
 
     inner class IouDetailMemoViewHolder(private val binding: ItemMemoBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-            fun bind(memo: sampleMemo) {
-                binding.textViewDateItemMemo.text = memo.date
+        fun bind(memo: MemoListResponse, showDate: Boolean) {
+            val regex = Regex("\\d{4}-\\d{2}-\\d{2}") // 날짜 형식에 맞는 정규 표현식
+            val datePart = regex.find(memo.createdAt)?.value // createdAt에서 날짜 형식에 맞는 부분을 찾습니다.
 
-                // Check if the date is unique, if yes, add it to the set
-                if (uniqueDates.add(memo.date)) {
-                    binding.textViewDateItemMemo.visibility = View.VISIBLE
-                } else {
-                    // If the date is not unique, hide the date TextView
-                    binding.textViewDateItemMemo.visibility = View.GONE
-                }
+            val formattedDate = datePart?.replace("-", ".") ?: memo.createdAt
 
-                binding.textViewContentsItemMemo.text = memo.contents
+            if (showDate) {
+                binding.textViewDateItemMemo.visibility = ViewGroup.VISIBLE
+                binding.textViewDateItemMemo.text = formattedDate
+            } else {
+                binding.textViewDateItemMemo.visibility = ViewGroup.GONE
             }
+
+            binding.textViewContentsItemMemo.text = memo.content
+        }
 
     }
 
@@ -44,11 +44,24 @@ class IouDetailMemoAdapter(val sampleMemoList: MutableList<sampleMemo>) : Recycl
     }
 
     override fun getItemCount(): Int {
-        return sampleMemoList.size
+        return memoList.size
     }
 
     override fun onBindViewHolder(holder: IouDetailMemoViewHolder, position: Int) {
-        holder.bind(sampleMemoList[position])
+        val currentMemo = memoList[position]
+        // 이전 항목과의 날짜를 비교합니다. position이 0이면 이전 항목이 없으므로 항상 날짜를 표시합니다.
+        val showDate = if (position > 0) {
+            val prevMemo = memoList[position - 1]
+            // 날짜가 다른 경우에만 true를 반환합니다.
+            !currentMemo.createdAt.startsWith(prevMemo.createdAt.substring(0, 10))
+        } else true
+
+        holder.bind(currentMemo, showDate)
+    }
+
+    fun updateData(newData: List<MemoListResponse>) {
+        memoList = newData.toMutableList()
+        notifyDataSetChanged()
     }
 
 }
