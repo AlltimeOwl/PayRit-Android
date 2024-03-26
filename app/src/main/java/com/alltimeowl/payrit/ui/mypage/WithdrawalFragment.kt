@@ -9,7 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import androidx.lifecycle.ViewModelProvider
 import com.alltimeowl.payrit.R
+import com.alltimeowl.payrit.data.model.WithdrawalRequest
 import com.alltimeowl.payrit.databinding.FragmentWithdrawalBinding
 import com.alltimeowl.payrit.databinding.ItemUserLogoutBinding
 import com.alltimeowl.payrit.databinding.ItemUserWithdrawalBinding
@@ -17,12 +19,15 @@ import com.alltimeowl.payrit.databinding.ItemUserWithdrawalCompleteBinding
 import com.alltimeowl.payrit.ui.login.LoginActivity
 import com.alltimeowl.payrit.ui.main.MainActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.kakao.sdk.user.UserApiClient
 
 class WithdrawalFragment : Fragment() {
 
     private lateinit var mainActivity: MainActivity
     private lateinit var binding: FragmentWithdrawalBinding
     private lateinit var spinnerAdapter: WithdrawalSpinnerAdapter
+
+    private lateinit var myPageViewModel: MyPageViewModel
 
     val TAG = "WithdrawalFragment"
 
@@ -33,6 +38,8 @@ class WithdrawalFragment : Fragment() {
 
         mainActivity = activity as MainActivity
         binding = FragmentWithdrawalBinding.inflate(layoutInflater)
+
+        myPageViewModel = ViewModelProvider(this)[MyPageViewModel::class.java]
 
         initUI()
 
@@ -100,6 +107,24 @@ class WithdrawalFragment : Fragment() {
         // 회원탈퇴 - 네
         itemUserWithdrawalBinding.textViewYesWithdrawal.setOnClickListener {
             dialog.dismiss()
+
+            // 연결 끊기
+            UserApiClient.instance.unlink { error ->
+                if (error != null) {
+                    Log.e(TAG, "연결 끊기 실패", error)
+                }
+                else {
+                    Log.i(TAG, "연결 끊기 성공. SDK에서 토큰 삭제 됨")
+
+                    val withdrawalRequest = WithdrawalRequest("kakao")
+                    MainActivity.accessToken?.let { it1 -> myPageViewModel.withdrawalUser(it1, withdrawalRequest) }
+                }
+            }
+
+            MainActivity.loginState = false
+            MainActivity.accessToken = null
+            MainActivity.refreshToken = null
+
             showCompleteAlertDialog()
         }
 
