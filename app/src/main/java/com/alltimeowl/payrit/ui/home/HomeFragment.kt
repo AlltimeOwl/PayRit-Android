@@ -112,6 +112,8 @@ class HomeFragment : Fragment() {
         viewModel.iouList.observe(viewLifecycleOwner) { iouList ->
             val sortedList = iouList.sortedByDescending { it.transactionDate }
 
+            binding.progressBarLoadingHome.visibility = View.GONE
+
             // 데이터가 변경될 때마다 UI 업데이트
             (binding.recyclerViewHome.adapter as HomeAdapter).updateData(sortedList)
 
