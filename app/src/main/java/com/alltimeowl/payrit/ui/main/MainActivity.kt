@@ -216,34 +216,41 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun numberToKorean(number: Int): String {
-        if (number == 0) return "영원"
+        val numberUnits = arrayOf("", "만", "억", "조")
+        val digitUnits = arrayOf("", "십", "백", "천")
+        val koreanNumbers = arrayOf("", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구")
 
-        val units = arrayOf("", "만", "억")
-        val nums = arrayOf("", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구")
-        val result = StringBuilder()
-        var num = number
-        var count = 0
-
-        while (num > 0) {
-            val part = StringBuilder()
-            val chunk = num % 10000
-            if (chunk > 0) {
-                val thousands = chunk / 1000
-                if (thousands > 0) part.append(nums[thousands] + "천")
-                val hundreds = (chunk % 1000) / 100
-                if (hundreds > 0) part.append(nums[hundreds] + "백")
-                val tens = (chunk % 100) / 10
-                if (tens > 0) part.append(if (tens > 1) nums[tens] else "" + "십")
-                val ones = chunk % 10
-                if (ones > 0) part.append(nums[ones])
-                part.append(units[count])
-            }
-            result.insert(0, part)
-            num /= 10000
-            count++
+        if (number == 0) {
+            return "영"
         }
 
-        return result.toString() + "원"
+        var result = ""
+        var num = number
+        var unitIndex = 0
+
+        while (num > 0) {
+            val part = num % 10000 // 만 단위로 분리
+            var partResult = ""
+            var partNum = part
+            var digitIndex = 0
+
+            while (partNum > 0) {
+                val digit = partNum % 10 // 각 자리수 분리
+                if (digit > 0) {
+                    partResult = koreanNumbers[digit] + digitUnits[digitIndex] + partResult
+                }
+                partNum /= 10
+                digitIndex += 1
+            }
+
+            if (part > 0) {
+                result = partResult + numberUnits[unitIndex] + result
+            }
+            num /= 10000
+            unitIndex += 1
+        }
+
+        return result + "원"
     }
 
 

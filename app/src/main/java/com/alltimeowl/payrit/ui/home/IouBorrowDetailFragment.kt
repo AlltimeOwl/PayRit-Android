@@ -90,7 +90,11 @@ class IouBorrowDetailFragment : Fragment() {
 
             // 개인 메모 클릭
             imageViewMemoIouBorrowDetail.setOnClickListener {
-                mainActivity.replaceFragment(MainActivity.IOU_DETAIL_MEMO_FRAGMENT, true, null)
+
+                val bundle = Bundle()
+                bundle.putInt("paperId", paperId)
+
+                mainActivity.replaceFragment(MainActivity.IOU_DETAIL_MEMO_FRAGMENT, true, bundle)
             }
 
         }
