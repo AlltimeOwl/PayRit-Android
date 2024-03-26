@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.alltimeowl.payrit.databinding.ActivityLoginBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
+import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginState
 import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginUserName
 import com.alltimeowl.payrit.ui.main.MainActivity.Companion.loginUserPhoneNumber
 import com.kakao.sdk.auth.model.OAuthToken
@@ -61,6 +62,8 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                 })
             }
+
+            loginState = true
 
         }
     }
@@ -126,6 +129,8 @@ class LoginActivity : AppCompatActivity() {
                                 Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                             })
                         }
+
+                        loginState = true
 
                     }
                 }

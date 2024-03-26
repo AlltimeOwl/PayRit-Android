@@ -31,23 +31,8 @@
         android:layout_gravity="center"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
-        android:background="@drawable/ic_kakaotalk"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_no_login"
-        android:layout_width="310dp"
-        android:layout_height="48dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="25dp"
         android:layout_marginBottom="50dp"
-        android:background="@android:color/transparent"
-        android:text="서비스 둘러보기"
-        android:textColor="@color/white"
-        android:textSize="16sp"
+        android:background="@drawable/ic_kakaotalk"
         android:textStyle="bold" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

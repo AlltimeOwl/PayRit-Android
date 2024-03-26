@@ -256,6 +256,8 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
 
+        var loginState = false
+
         var accessToken: String? = null
         var refreshToken: String? = null
 
