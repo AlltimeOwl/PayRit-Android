@@ -29,8 +29,8 @@ class LoginRepository {
         fun onError(error: String)
     }
 
-    fun loginKakao(accessToken: String, refreshToken: String, callback: LoginResultCallback) {
-        val loginRequest = LoginRequest(accessToken, refreshToken)
+    fun loginKakao(accessToken: String, refreshToken: String, firebaseToken: String, callback: LoginResultCallback) {
+        val loginRequest = LoginRequest(accessToken, refreshToken, firebaseToken)
         val call = payRitApi.loginUser(loginRequest)
 
         call.enqueue(object : Callback<LoginResponse> {

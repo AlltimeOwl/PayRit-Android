@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -71,4 +72,11 @@ dependencies {
     implementation("com.kakao.sdk:v2-friend:2.20.0") // 피커 API 모듈
     implementation("com.kakao.sdk:v2-navi:2.20.0") // 카카오내비 API 모듈
     implementation("com.kakao.sdk:v2-cert:2.20.0") // 카카오톡 인증 서비스 API 모듈
+
+    // firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+    implementation("com.google.firebase:firebase-analytics")
+
+    // firebase-messaging
+    implementation("com.google.firebase:firebase-messaging-ktx")
 }

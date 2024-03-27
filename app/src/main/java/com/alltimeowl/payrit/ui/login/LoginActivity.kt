@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.ActivityLoginBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -22,6 +24,8 @@ class LoginActivity : AppCompatActivity() {
     private val backPressedInterval = 2000 // 뒤로가기 버튼을 두 번 누르는 간격 (2초)
 
     lateinit var viewModel: LoginViewModel
+
+    private var firebaseToken = ""
 
     private val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
@@ -42,13 +46,22 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
 
-            viewModel.loginKakao(token.accessToken, token.refreshToken)
+            Firebase.messaging.token.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    firebaseToken= task.result
+
+                    // 토큰을 가져온 후에 로그인 요청을 진행
+                    viewModel.loginKakao(token.accessToken, token.refreshToken, firebaseToken)
+
+                } else {
+                    // 토큰을 가져오는 데 실패한 경우에 대한 처리
+                }
+            }
 
             // ViewModel의 loginResult 관찰
             viewModel.loginResult.observe(this) { result ->
                 result.fold(onSuccess = {
-
-                    SharedPreferencesManager.saveUserToken(it.accessToken, it.refreshToken)
+                    SharedPreferencesManager.saveUserToken(it.accessToken, it.refreshToken, firebaseToken)
 
                     // 서버 로그인 성공 시 MainActivity로 이동
                     val intent = Intent(this, MainActivity::class.java)
@@ -105,13 +118,23 @@ class LoginActivity : AppCompatActivity() {
                             }
                         }
 
-                        viewModel.loginKakao(token.accessToken, token.refreshToken)
+                        Firebase.messaging.token.addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                firebaseToken= task.result
+
+                                // 토큰을 가져온 후에 로그인 요청을 진행
+                                viewModel.loginKakao(token.accessToken, token.refreshToken, firebaseToken)
+
+                            } else {
+                                // 토큰을 가져오는 데 실패한 경우에 대한 처리
+                            }
+                        }
 
                         // ViewModel의 loginResult 관찰
                         viewModel.loginResult.observe(this) { result ->
                             result.fold(onSuccess = {
 
-                                SharedPreferencesManager.saveUserToken(it.accessToken, it.refreshToken)
+                                SharedPreferencesManager.saveUserToken(it.accessToken, it.refreshToken, firebaseToken)
 
                                 // 서버 로그인 성공 시 MainActivity로 이동
                                 val intent = Intent(this, MainActivity::class.java)

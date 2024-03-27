@@ -13,8 +13,8 @@ class LoginViewModel: ViewModel() {
     private val _loginResult = MutableLiveData<Result<LoginSuccess>>()
     val loginResult: LiveData<Result<LoginSuccess>> = _loginResult
 
-    fun loginKakao(accessToken: String, refreshToken: String) {
-        loginRepository.loginKakao(accessToken, refreshToken, object : LoginRepository.LoginResultCallback {
+    fun loginKakao(accessToken: String, refreshToken: String, firebaseToken: String) {
+        loginRepository.loginKakao(accessToken, refreshToken, firebaseToken, object : LoginRepository.LoginResultCallback {
             override fun onSuccess(accessToken: String?, refreshToken: String?) {
                 _loginResult.value = Result.success(LoginSuccess(accessToken, refreshToken))
             }

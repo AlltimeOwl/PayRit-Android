@@ -10,10 +10,11 @@ object SharedPreferencesManager {
         sharedPref = context.getSharedPreferences("user_info", Context.MODE_PRIVATE)
     }
 
-    fun saveUserToken(accessToken: String?, refreshToken: String?) {
+    fun saveUserToken(accessToken: String?, refreshToken: String?, firebaseToken: String) {
         val editor = sharedPref.edit()
         editor.putString("accessToken", accessToken)
         editor.putString("refreshToken", refreshToken)
+        editor.putString("firebaseToken", firebaseToken)
         editor.apply()
     }
 
@@ -33,6 +34,10 @@ object SharedPreferencesManager {
         return sharedPref.getString("refreshToken", "") ?: ""
     }
 
+    fun getFirebaseToken(): String {
+        return sharedPref.getString("firebaseToken", "") ?: ""
+    }
+
     fun getUserName(): String {
         return sharedPref.getString("name", "") ?: ""
     }
@@ -47,6 +52,7 @@ object SharedPreferencesManager {
         editor.remove("refreshToken")
         editor.remove("name")
         editor.remove("phoneNumber")
+        editor.remove("firebaseToken")
         editor.apply()
     }
 }
