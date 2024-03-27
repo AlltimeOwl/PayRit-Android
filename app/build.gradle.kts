@@ -79,4 +79,13 @@ dependencies {
 
     // firebase-messaging
     implementation("com.google.firebase:firebase-messaging-ktx")
+
+    // glide
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    // coil
+    implementation("io.coil-kt:coil-svg:2.6.0")
+
+    // dotsindicator
+    implementation("com.tbuonomo:dotsindicator:5.0")
 }

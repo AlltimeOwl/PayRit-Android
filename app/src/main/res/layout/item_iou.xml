@@ -20,38 +20,38 @@
             android:paddingStart="14dp"
             android:paddingEnd="14dp">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout_iou"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp">
+                android:layout_height="36dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_primary_mint_r8">
 
                 <TextView
                     android:id="@+id/textView_repaymentEndDate_iou"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginStart="10dp"
                     android:text="2024.02.26 ~ 2024.03.26"
                     android:textAppearance="@style/Suit.SemiBold12"
-                    android:textColor="@color/grayScale02" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView_paper_role_iou"
+                    android:id="@+id/textView_due_date_iou"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="6dp"
-                    android:text="빌려준 돈"
+                    android:text="D - 29"
                     android:textAppearance="@style/Suit.SemiBold14"
-                    android:textColor="@color/primaryMint" />
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/textView_amount_iou"
@@ -73,11 +73,11 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView_due_date_iou"
+                android:id="@+id/textView_paper_role_iou"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="D - 29"
+                android:text="빌려준 돈"
                 android:textAppearance="@style/Suit.Medium16"
                 android:textColor="@color/grayScale02" />
 

@@ -79,12 +79,14 @@ class HomeAdapter(val mainActivity: MainActivity, var myIouList: MutableList<get
 
             when(iou.paperRole) {
                 "CREDITOR" -> {
+                    binding.constraintLayoutIou.setBackgroundResource(R.drawable.bg_primary_mint_r8)
                     binding.textViewPaperRoleIou.text = "빌려준 돈"
                     binding.textViewPaperRoleIou.setTextColor(ContextCompat.getColor(mainActivity, R.color.primaryMint))
                     binding.progressBarIou.progressDrawable = ContextCompat.getDrawable(mainActivity, R.drawable.bg_progress_bar_mint)
                 }
 
                 "DEBTOR" -> {
+                    binding.constraintLayoutIou.setBackgroundResource(R.drawable.bg_pink_r8)
                     binding.textViewPaperRoleIou.text = "빌린 돈"
                     binding.textViewPaperRoleIou.setTextColor(ContextCompat.getColor(mainActivity, R.color.pink))
                     binding.progressBarIou.progressDrawable = ContextCompat.getDrawable(mainActivity, R.drawable.bg_progress_bar_pink)

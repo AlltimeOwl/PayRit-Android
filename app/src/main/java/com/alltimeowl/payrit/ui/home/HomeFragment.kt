@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentHomeBinding
@@ -53,10 +54,6 @@ class HomeFragment : Fragment() {
                 title = SharedPreferencesManager.getUserName() + "님의 기록"
             }
 
-            imageViewBannerCancelHome.setOnClickListener {
-                constraintLayoutBannerHome.visibility = View.GONE
-            }
-
             val category = resources.getStringArray(R.array.array_home_time_category)
 
             spinnerHome.run {
@@ -81,10 +78,12 @@ class HomeFragment : Fragment() {
                             if (sortedList.isEmpty()) {
                                 binding.linearLayoutNonexistenceTransactionHome.visibility = View.VISIBLE
                                 binding.linearLayoutExistenceTransactionHome.visibility = View.GONE
+                                binding.buttonGuideHome.visibility = View.VISIBLE
                             } else {
                                 binding.linearLayoutNonexistenceTransactionHome.visibility = View.GONE
                                 binding.linearLayoutExistenceTransactionHome.visibility = View.VISIBLE
                                 binding.textViewIouNumberHome.text = "총 ${sortedList.size}건"
+                                binding.buttonGuideHome.visibility = View.GONE
                             }
 
                         }
@@ -100,6 +99,12 @@ class HomeFragment : Fragment() {
 
                 }
 
+            }
+
+            viewPagerBannerHome.run {
+                viewPagerBannerHome.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+                adapter = HomeViewPagerAdapter()
+                springDotsIndicatorHome.setViewPager2(viewPagerBannerHome)
             }
 
             recyclerViewHome.run {
@@ -122,10 +127,12 @@ class HomeFragment : Fragment() {
             if (sortedList.isEmpty()) {
                 binding.linearLayoutNonexistenceTransactionHome.visibility = View.VISIBLE
                 binding.linearLayoutExistenceTransactionHome.visibility = View.GONE
+                binding.buttonGuideHome.visibility = View.VISIBLE
             } else {
                 binding.linearLayoutNonexistenceTransactionHome.visibility = View.GONE
                 binding.linearLayoutExistenceTransactionHome.visibility = View.VISIBLE
                 binding.textViewIouNumberHome.text = "총 ${sortedList.size}건"
+                binding.buttonGuideHome.visibility = View.GONE
             }
 
         }
