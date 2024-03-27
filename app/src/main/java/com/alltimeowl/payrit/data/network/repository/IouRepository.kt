@@ -9,6 +9,7 @@ import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
 import com.alltimeowl.payrit.data.network.api.PayRitApi
 import com.google.gson.Gson
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -65,8 +66,8 @@ class IouRepository {
         })
     }
 
-    fun approvalIou(accessToken: String, paperId: Int) {
-        payRitApi.approvalIou("Bearer $accessToken", paperId).enqueue(object : Callback<Void> {
+    fun approvalIou(accessToken: String, paperId: Int, file: MultipartBody.Part) {
+        payRitApi.approvalIou("Bearer $accessToken", paperId, file).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Log.d("RecipientApprovalFragment", "성공시 response.body : ${response.body()}")

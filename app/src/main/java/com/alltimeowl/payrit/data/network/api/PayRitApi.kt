@@ -9,12 +9,15 @@ import com.alltimeowl.payrit.data.model.MemoRequest
 import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.data.model.WithdrawalRequest
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 
 interface PayRitApi {
@@ -44,10 +47,12 @@ interface PayRitApi {
         @Path("id") id: Int
     ): Call<GetIouDetailResponse>
 
+    @Multipart
     @PUT("api/v1/paper/approve/accept/{id}")
     fun approvalIou(
         @Header("Authorization") accessToken: String,
-        @Path("id") id: Int
+        @Path("id") id: Int,
+        @Part file: MultipartBody.Part
     ): Call<Void>
 
     @POST("api/v1/paper/repayment/request")
