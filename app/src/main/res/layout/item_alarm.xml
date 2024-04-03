@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#D9FFFFFF"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:gravity="center"
+        android:text="추가 알림 전송\n(재촉하기)"
+        android:textAppearance="@style/Suit.SemiBold18"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_content_alarm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="요청 메시지를 문자(MMS)로\n전송하시겠습니까?"
+        android:textAppearance="@style/Suit.Medium12"
+        android:textColor="#80000000"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="22dp"
+        android:background="#CCCCCC"
+        app:layout_constraintTop_toBottomOf="@+id/textView_content_alarm" />
+
+    <TextView
+        android:id="@+id/textView_no_alarm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="11dp"
+        android:text="아니오"
+        android:textAppearance="@style/Suit.Medium16"
+        android:textColor="@color/grayScale05"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/divider2"
+        app:layout_constraintTop_toBottomOf="@id/divider" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="0.5dp"
+        android:layout_height="0dp"
+        android:background="#CCCCCC"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_no_alarm"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider" />
+
+    <TextView
+        android:id="@+id/textView_yes_alarm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/primaryMint"
+        android:gravity="center"
+        android:padding="11dp"
+        android:text="네"
+        android:textAppearance="@style/Suit.Medium16"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toRightOf="@id/divider2"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
