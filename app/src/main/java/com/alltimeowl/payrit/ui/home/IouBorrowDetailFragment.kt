@@ -86,12 +86,12 @@ class IouBorrowDetailFragment : Fragment() {
             }
 
             // PDF·메일 내보내기 클릭
-            buttonDocumentIouBorrowDetail.setOnClickListener {
+            linearLayoutDocumentIouBorrowDetail.setOnClickListener {
                 showBottomSheet()
             }
 
             // 개인 메모 클릭
-            imageViewMemoIouBorrowDetail.setOnClickListener {
+            linearLayoutMemoIouBorrowDetail.setOnClickListener {
 
                 val bundle = Bundle()
                 bundle.putInt("paperId", paperId)
@@ -297,7 +297,10 @@ class IouBorrowDetailFragment : Fragment() {
             }
 
             binding.progressBarIouBorrowDetail.progress = iouDetailInfo.repaymentRate.toInt()
-            binding.textViewPercentIouBorrowDetail.text = "(${iouDetailInfo.repaymentRate}%)"
+            binding.textViewPercentIouBorrowDetail.text = "(${iouDetailInfo.repaymentRate.toInt()}%)"
+
+            // 메모 개수
+            binding.textViewMemoCountIouBorrowDetail.text = iouDetailInfo.memoListResponses.size.toString() + "건"
 
             // 빌려준 사람
             binding.textViewLendPersonNameIouBorrowDetail.text = iouDetailInfo.creditorName
@@ -321,7 +324,6 @@ class IouBorrowDetailFragment : Fragment() {
 
             // 추가 사항
             if ((iouDetailInfo.interestRate <= 0.0 || iouDetailInfo.interestRate > 20.00) && iouDetailInfo.interestPaymentDate == 0 && iouDetailInfo.specialConditions.isEmpty()) {
-                binding.textViewAdditionalInformationTitleIouBorrowDetail.visibility = View.GONE
                 binding.cardViewAdditionInformationIouBorrowDetail.visibility = View.GONE
             } else {
 

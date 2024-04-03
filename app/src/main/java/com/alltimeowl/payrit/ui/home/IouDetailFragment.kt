@@ -16,9 +16,13 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import coil.ImageLoader
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentIouDetailBinding
+import com.alltimeowl.payrit.databinding.ItemAlarmBinding
 import com.alltimeowl.payrit.databinding.ItemDocumentBinding
 import com.alltimeowl.payrit.databinding.ItemEntireRecordBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
@@ -89,13 +93,40 @@ class IouDetailFragment : Fragment() {
                 }
             }
 
+            // 사진 불러오기
+            val imageLoader = ImageLoader.Builder(requireContext())
+                .components {
+                    add(SvgDecoder.Factory())
+                }
+                .build()
+
+            val request = ImageRequest.Builder(requireContext())
+                .data("https://github.com/wjdwntjd55/Blog/assets/73345198/77a61fb6-3143-47c9-a218-11584efed32e")
+                .target(imageViewEntireRecordIouDetail)
+                .build()
+
+            imageLoader.enqueue(request)
+
+            val imageLoaderTwo = ImageLoader.Builder(requireContext())
+                .components {
+                    add(SvgDecoder.Factory())
+                }
+                .build()
+
+            val requestTwo = ImageRequest.Builder(requireContext())
+                .data("https://github.com/wjdwntjd55/Blog/assets/73345198/e250b629-9c80-486c-b21e-ded56a21cd04")
+                .target(imageViewPartRecordIouDetail)
+                .build()
+
+            imageLoaderTwo.enqueue(requestTwo)
+
             // 전체 상환 기록 클릭
-            buttonEntireRecordIouDetail.setOnClickListener {
+            constraintLayoutEntireRecordIouDetail.setOnClickListener {
                 showAlertDialog(remainingAmount)
             }
 
             // 일부 상환 기록 클릭
-            buttonRecordIouDetail.setOnClickListener {
+            constraintLayoutPartRecordIouDetail.setOnClickListener {
 
                 val bundle = Bundle()
                 bundle.putInt("paperId", paperId)
@@ -103,13 +134,18 @@ class IouDetailFragment : Fragment() {
                 mainActivity.replaceFragment(MainActivity.IOU_DETAIL_AMOUNT_RECEIVED_FRAGMENT, true, bundle)
             }
 
+            // 상환 알림
+            constraintLayoutAlarmIouDetail.setOnClickListener {
+                alarmAlertDialog()
+            }
+
             // PDF·메일 내보내기 클릭
-            buttonDocumentIouDetail.setOnClickListener {
+            constraintLayoutDocumentIouDetail.setOnClickListener {
                 showBottomSheet()
             }
 
             // 개인 메모 클릭
-            imageViewMemoIouDetail.setOnClickListener {
+            linearLayoutMemoIouDetail.setOnClickListener {
 
                 val bundle = Bundle()
                 bundle.putInt("paperId", paperId)
@@ -305,7 +341,7 @@ class IouDetailFragment : Fragment() {
 
             binding.textViewNameIouDetail.text = iouDetailInfo.debtorName + "님께"
             binding.textViewTotalAmountIouDetail.text = mainActivity.convertMoneyFormat(iouDetailInfo.amount)
-            binding.textViewPeriodIouDetail.text = "원금상환일 ${mainActivity.convertDateFormat(iouDetailInfo.repaymentEndDate)}"
+            binding.textViewPeriodIouDetail.text = "원금상환일 ${mainActivity.iouConvertDateFormat(iouDetailInfo.repaymentEndDate)}"
             binding.textViewRemainingAmountIouDetail.text = mainActivity.convertMoneyFormat(iouDetailInfo.remainingAmount) + "원"
 
             if (iouDetailInfo.dueDate >= 0) {
@@ -316,6 +352,9 @@ class IouDetailFragment : Fragment() {
 
             binding.progressBarIouDetail.progress = iouDetailInfo.repaymentRate.toInt()
             binding.textViewPercentIouDetail.text = "(${iouDetailInfo.repaymentRate.toInt()}%)"
+
+            // 메모 개수
+            binding.textViewMemoCountIouDetail.text = iouDetailInfo.memoListResponses.size.toString() + "건"
 
             // 빌려준 사람
             binding.textViewLendPersonNameIouDetail.text = iouDetailInfo.creditorName
@@ -339,7 +378,6 @@ class IouDetailFragment : Fragment() {
 
             // 추가 사항
             if ((iouDetailInfo.interestRate <= 0.0 || iouDetailInfo.interestRate > 20.00) && iouDetailInfo.interestPaymentDate == 0 && iouDetailInfo.specialConditions.isEmpty()) {
-                binding.textViewAdditionalInformationTitleIouDetail.visibility = View.GONE
                 binding.cardViewAdditionInformationIouDetail.visibility = View.GONE
             } else {
 
@@ -413,6 +451,25 @@ class IouDetailFragment : Fragment() {
 
         dialog.show()
 
+    }
+
+    private fun alarmAlertDialog() {
+        val itemAlarmBinding = ItemAlarmBinding.inflate(layoutInflater)
+        val builder = MaterialAlertDialogBuilder(mainActivity)
+        builder.setView(itemAlarmBinding.root)
+        val dialog = builder.create()
+
+        // 추가 알림 전송 - 아니오
+        itemAlarmBinding.textViewNoAlarm.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        // 추가 알림 전송 - 네
+        itemAlarmBinding.textViewYesAlarm.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
 }
