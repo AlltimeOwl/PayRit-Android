@@ -4,63 +4,79 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/white100"
     android:orientation="vertical"
     tools:context=".ui.write.WriteMainFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/materialToolbar_write_main"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="16dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        app:title="작성하기"
-        app:titleTextAppearance="@style/Suit.SemiBold26"
-        app:titleTextColor="@color/black100" />
+        android:paddingTop="40dp">
+
+        <View
+            android:layout_width="97sp"
+            android:layout_height="8dp"
+            android:layout_marginTop="58dp"
+            android:background="@color/lightMint" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="오늘은\n어떤 약속을 진행할까요?"
+            android:textAppearance="@style/Suit.Bold26" />
+
+    </FrameLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView_write_iou_write_main"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/primaryMint"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="0dp">
+        android:backgroundTint="@color/white100"
+        app:cardCornerRadius="12dp">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="22dp"
-                android:layout_marginTop="22dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="페이릿 작성하기"
-                    android:textAppearance="@style/Suit.SemiBold26"
-                    android:textColor="@color/white" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/textView_write_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="22dp"
-                android:layout_marginTop="64dp"
-                android:text="차용증과 동일한 효력을 가지고 있어요"
-                android:textAppearance="@style/Suit.SemiBold14"
-                android:textColor="@color/white" />
+                android:layout_marginTop="32dp"
+                android:text="페이릿 작성하기"
+                android:textAppearance="@style/Suit.Bold24"
+                app:layout_constraintBottom_toTopOf="@+id/textView_write_sub_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            <TextView
+                android:id="@+id/textView_write_sub_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="20dp"
+                android:text="차용증과 동일한 효력을\n가지고 있어요"
+                android:textAppearance="@style/Suit.SemiBold14"
+                android:textColor="@color/grayScale05"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_write_title" />
+
+            <ImageView
+                android:id="@+id/imageView_write_pay_rit"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                tools:src="@drawable/img_write_pay_rit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
@@ -72,41 +88,76 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="#33FFFA86"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="0dp">
+        android:backgroundTint="@color/white100"
+        app:cardCornerRadius="12dp">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="22dp"
-                android:layout_marginTop="22dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="약속 작성하기"
-                    android:textAppearance="@style/Suit.SemiBold26"
-                    android:textColor="#30181818" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/textView_promise_write_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="22dp"
-                android:layout_marginTop="64dp"
-                android:text="곧 출시되요!"
-                android:textAppearance="@style/Suit.SemiBold14"
-                android:textColor="#30121212" />
+                android:layout_marginTop="32dp"
+                android:text="약속 작성하기"
+                android:textAppearance="@style/Suit.Bold24"
+                app:layout_constraintBottom_toTopOf="@+id/textView_promise_write_sub_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            <TextView
+                android:id="@+id/textView_promise_write_sub_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="48dp"
+                android:text="곧 출시돼요!"
+                android:textAppearance="@style/Suit.SemiBold14"
+                android:textColor="@color/grayScale05"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_promise_write_title" />
+
+            <ImageView
+                android:id="@+id/imageView_write_promise"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/img_write_promise"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayout_write_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="작성하기에 대한 궁금증은 여기서 해결!"
+            android:textAppearance="@style/Suit.Medium16"
+            android:textColor="@color/grayScale06" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_next_gray_scale06" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
