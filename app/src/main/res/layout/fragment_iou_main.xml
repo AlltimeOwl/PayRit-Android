@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/white100"
     android:orientation="vertical"
     tools:context=".ui.write.IouMainFragment">
 
@@ -20,74 +20,119 @@
         app:titleTextAppearance="@style/Suit.SemiBold18"
         app:titleTextColor="@color/black100" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:paddingStart="16dp"
+        android:text="현재,\n어떤 상황인가요?"
+        android:textAppearance="@style/Suit.Bold26" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_lend_iou_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="160dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/white100"
+        app:cardCornerRadius="12dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="22dp"
+            android:paddingTop="33dp">
+
+            <View
+                android:layout_width="110sp"
+                android:layout_height="8dp"
+                android:layout_marginTop="22dp"
+                android:background="@color/lightMint" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="돈을 빌려줬어요"
+                android:textAppearance="@style/Suit.Bold24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:text="빌려주는 사람 기준으로 작성돼요"
+                android:textAppearance="@style/Suit.Medium14"
+                android:textColor="@color/grayScale05" />
+
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_borrow_iou_main"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/white100"
+        app:cardCornerRadius="12dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="22dp"
+            android:paddingTop="33dp">
+
+            <View
+                android:layout_width="90sp"
+                android:layout_height="8dp"
+                android:layout_marginTop="22dp"
+                android:background="@color/lightPink" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="돈을 빌렸어요"
+                android:textAppearance="@style/Suit.Bold24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:text="빌리는 사람 기준으로 작성돼요"
+                android:textAppearance="@style/Suit.Medium14"
+                android:textColor="@color/grayScale05" />
+
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayout_iou_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:gravity="center">
 
         <TextView
-            android:id="@+id/textView_ask_iou_main"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="현재, 어떤 상황인가요?"
-            android:textAlignment="center"
-            android:textAppearance="@style/Suit.Bold22"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.2" />
+            android:text="작성하기에 대한 궁금증은 여기서 해결!"
+            android:textAppearance="@style/Suit.Medium16"
+            android:textColor="@color/grayScale06" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView_ask_iou_main">
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_next_gray_scale06" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardView_lend_iou_main"
-                android:layout_width="wrap_content"
-                android:layout_height="160dp"
-                android:layout_marginEnd="18dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="0dp"
-                app:strokeColor="@color/lightMint"
-                app:strokeWidth="2dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="빌려줄\n예정이에요"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/Suit.SemiBold20" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardView_borrow_iou_main"
-                android:layout_width="wrap_content"
-                android:layout_height="160dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="0dp"
-                app:strokeColor="@color/lightPink"
-                app:strokeWidth="2dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="빌릴\n예정이에요"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/Suit.SemiBold20" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
