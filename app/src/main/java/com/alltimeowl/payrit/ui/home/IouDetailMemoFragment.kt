@@ -66,7 +66,7 @@ class IouDetailMemoFragment : Fragment() {
 
             recyclerViewIouDetailMemo.run {
                 recyclerViewIouDetailMemo.layoutManager = LinearLayoutManager(context)
-                adapter = IouDetailMemoAdapter(mutableListOf())
+                adapter = IouDetailMemoAdapter(mainActivity, viewModel, mutableListOf())
             }
 
 

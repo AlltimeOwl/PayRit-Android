@@ -12,6 +12,7 @@ import com.alltimeowl.payrit.data.model.getMyIouListResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
@@ -66,5 +67,11 @@ interface PayRitApi {
         @Header("Authorization") accessToken: String,
         @Path("paperId") paperId: Int,
         @Body memoRequest: MemoRequest
+    ): Call<Void>
+
+    @DELETE("api/v1/memo/{memoId}")
+    fun deleteMemo(
+        @Header("Authorization") accessToken: String,
+        @Path("memoId") memoId: Int
     ): Call<Void>
 }
