@@ -60,4 +60,8 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+    fun deleteMemo(accessToken: String, memoId: Int) {
+        iouRepository.deleteMemo(accessToken, memoId)
+    }
+
 }
