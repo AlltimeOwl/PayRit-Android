@@ -22,6 +22,7 @@ import com.alltimeowl.payrit.ui.mypage.NotificationSettingFragment
 import com.alltimeowl.payrit.ui.mypage.PaymentHistoryDetailFragment
 import com.alltimeowl.payrit.ui.mypage.PaymentHistoryFragment
 import com.alltimeowl.payrit.ui.mypage.WithdrawalFragment
+import com.alltimeowl.payrit.ui.search.SearchFragment
 import com.alltimeowl.payrit.ui.write.IouContentCheckFragment
 import com.alltimeowl.payrit.ui.write.IouMainFragment
 import com.alltimeowl.payrit.ui.write.IouTransactionalInformationFragment
@@ -98,6 +99,7 @@ class MainActivity : AppCompatActivity() {
             PAYMENT_HISTORY_FRAGMENT -> PaymentHistoryFragment()
             PAYMENT_HISTORY_DETAIL_FRAGMENT -> PaymentHistoryDetailFragment()
             RECIPIENT_APPROVAL_FRAGMENT -> RecipientApprovalFragment()
+            SEARCH_FRAGMENT -> SearchFragment()
 
             else -> Fragment()
         }
@@ -163,6 +165,12 @@ class MainActivity : AppCompatActivity() {
     fun removeAllBackStack() {
         val fragmentManager = supportFragmentManager
         fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+
+    fun showKeyboard(view: View) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        view.requestFocus()
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
 
     fun hideKeyboard() {
@@ -275,5 +283,6 @@ class MainActivity : AppCompatActivity() {
         const val PAYMENT_HISTORY_FRAGMENT = "PaymentHistoryFragment"
         const val PAYMENT_HISTORY_DETAIL_FRAGMENT = "PaymentHistoryDetailFragment"
         const val RECIPIENT_APPROVAL_FRAGMENT = "RecipientApprovalFragment"
+        const val SEARCH_FRAGMENT = "SearchFragment"
     }
 }

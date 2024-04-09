@@ -9,6 +9,7 @@
         android:id="@+id/textView_spinner_item_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:text="최근 작성"
         android:textAppearance="@style/Suit.SemiBold14"
         android:textColor="@color/grayScale02"
