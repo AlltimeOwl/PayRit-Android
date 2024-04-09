@@ -52,6 +52,20 @@ class HomeFragment : Fragment() {
 
             materialToolbarHome.run {
                 title = SharedPreferencesManager.getUserName() + "님의 기록"
+
+                setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.item_search -> {
+
+                            mainActivity.replaceFragment(MainActivity.SEARCH_FRAGMENT, true, null)
+
+                            true
+                        }
+
+                        else -> false
+                    }
+                }
+
             }
 
             val category = resources.getStringArray(R.array.array_home_time_category)
