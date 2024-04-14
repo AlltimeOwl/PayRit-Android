@@ -9,6 +9,7 @@ import com.alltimeowl.payrit.data.model.MemoRequest
 import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.data.model.WithdrawalRequest
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
+import com.alltimeowl.payrit.data.model.UserCertificationResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -73,5 +74,14 @@ interface PayRitApi {
     fun deleteMemo(
         @Header("Authorization") accessToken: String,
         @Path("memoId") memoId: Int
+    ): Call<Void>
+
+    @GET("api/v1/oauth/check")
+    fun checkCertification(@Header("Authorization") accessToken: String): Call<Void>
+
+    @POST("api/v1/oauth/certification/init")
+    fun userCertification(
+        @Header("Authorization") accessToken: String,
+        @Body userCertificationResponse: UserCertificationResponse
     ): Call<Void>
 }

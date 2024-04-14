@@ -23,6 +23,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "${properties["kakao_native_app_key"]}")
+        buildConfigField("String", "USER_CODE", "${properties["user_code"]}")
         resValue("string", "kakao_oauth_host", "${properties["kakao_oauth_host"]}")
     }
 
@@ -88,4 +89,7 @@ dependencies {
 
     // dotsindicator
     implementation("com.tbuonomo:dotsindicator:5.0")
+
+    // iamport
+    implementation("com.github.iamport:iamport-android:v1.4.4")
 }
