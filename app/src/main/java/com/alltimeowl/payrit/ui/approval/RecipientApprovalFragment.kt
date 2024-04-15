@@ -95,72 +95,73 @@ class RecipientApprovalFragment : Fragment() {
     private fun observeData() {
         viewModel.iouDetail.observe(viewLifecycleOwner) { iouDetailInfo ->
 
+            Log.d(TAG, "iouDetailInfo : ${iouDetailInfo}")
+
             binding.progressBarRecipientApproval.visibility = View.GONE
             binding.scrollViewRecipientApproval.visibility = View.VISIBLE
 
             // 거래 내역
-            binding.textViewTransactionAmountRecipientApproval.text = mainActivity.convertMoneyFormat(iouDetailInfo.primeAmount) + "원"
-            binding.textViewTransactionDateRecipientApproval.text = mainActivity.convertDateFormat(iouDetailInfo.repaymentEndDate)
+            binding.textViewTransactionAmountRecipientApproval.text = mainActivity.convertMoneyFormat(iouDetailInfo.paperFormInfo.primeAmount) + "원"
+            binding.textViewTransactionDateRecipientApproval.text = mainActivity.convertDateFormat(iouDetailInfo.paperFormInfo.repaymentEndDate)
 
             // 추가 사항
-            if ((iouDetailInfo.interestRate <= 0.0 || iouDetailInfo.interestRate > 20.00) && iouDetailInfo.specialConditions.isEmpty()) {
-                binding.textViewAdditionContractTitleRecipientApproval.visibility = View.GONE
+            if ((iouDetailInfo.paperFormInfo.interestRate <= 0.0 || iouDetailInfo.paperFormInfo.interestRate > 20.00) && iouDetailInfo.paperFormInfo.specialConditions.isEmpty()) {
                 binding.cardViewAdditionContractRecipientApproval.visibility = View.GONE
             } else {
 
                 // 이자율
-                if ((iouDetailInfo.interestRate <= 0.0 || iouDetailInfo.interestRate > 20.00)) {
+                if ((iouDetailInfo.paperFormInfo.interestRate <= 0.0 || iouDetailInfo.paperFormInfo.interestRate > 20.00)) {
                     binding.linearLayoutAdditionContractInterestRateRecipientApproval.visibility = View.GONE
                 } else {
-                    binding.textViewAdditionContractInterestRateRecipientApproval.text = "${iouDetailInfo.interestRate}%"
+                    binding.textViewAdditionContractInterestRateRecipientApproval.text = "${iouDetailInfo.paperFormInfo.interestRate}%"
                 }
 
                 // 이자 지급일
-                if (iouDetailInfo.interestPaymentDate == 0) {
+                if (iouDetailInfo.paperFormInfo.interestPaymentDate == 0) {
                     binding.linearLayoutAdditionContractDateRecipientApproval.visibility = View.GONE
                 } else {
-                    binding.textViewAdditionContractDateRecipientApproval.text = "매월 ${iouDetailInfo.interestPaymentDate}일"
+                    binding.textViewAdditionContractDateRecipientApproval.text = "매월 ${iouDetailInfo.paperFormInfo.interestPaymentDate}일"
                 }
 
                 // 특약사항
-                if (iouDetailInfo.specialConditions.isEmpty()) {
+                if (iouDetailInfo.paperFormInfo.specialConditions.isEmpty()) {
                     binding.linearLayoutAdditionContractRecipientApproval.visibility = View.GONE
                 } else {
-                    binding.textViewAdditionContractRecipientApproval.text = iouDetailInfo.specialConditions
+                    binding.textViewAdditionContractRecipientApproval.text = iouDetailInfo.paperFormInfo.specialConditions
                 }
 
             }
 
             // 빌려준 사람
-            binding.textViewLendPersonNameRecipientApproval.text = iouDetailInfo.creditorName
-            binding.textViewLendPersonPhoneNumberRecipientApproval.text = mainActivity.convertPhoneNumber(iouDetailInfo.creditorPhoneNumber)
-            if (iouDetailInfo.creditorAddress.isEmpty()) {
+            binding.textViewLendPersonNameRecipientApproval.text = iouDetailInfo.creditorProfile.name
+            binding.textViewLendPersonPhoneNumberRecipientApproval.text = mainActivity.formatPhoneNumber(iouDetailInfo.creditorProfile.phoneNumber)
+            if (iouDetailInfo.creditorProfile.address.isEmpty()) {
                 binding.linearLayoutLendPersonAddressRecipientApproval.visibility = View.GONE
             } else {
-                binding.textViewLendPersonAddressRecipientApproval.text = iouDetailInfo.creditorAddress
+                binding.textViewLendPersonAddressRecipientApproval.text = iouDetailInfo.creditorProfile.address
             }
 
             // 빌린 사람
-            binding.textViewBorrowPersonNameRecipientApproval.text = iouDetailInfo.debtorName
-            binding.textViewBorrowPersonPhoneNumberRecipientApproval.text = mainActivity.convertPhoneNumber(iouDetailInfo.debtorPhoneNumber)
-            if (iouDetailInfo.debtorAddress.isEmpty()) {
+            binding.textViewBorrowPersonNameRecipientApproval.text = iouDetailInfo.debtorProfile.name
+            binding.textViewBorrowPersonPhoneNumberRecipientApproval.text = mainActivity.formatPhoneNumber(iouDetailInfo.debtorProfile.phoneNumber)
+            if (iouDetailInfo.debtorProfile.address.isEmpty()) {
                 binding.linearLayoutBorrowPersonAddressRecipientApproval.visibility = View.GONE
             } else {
-                binding.textViewBorrowPersonAddressRecipientApproval.text = iouDetailInfo.debtorAddress
+                binding.textViewBorrowPersonAddressRecipientApproval.text = iouDetailInfo.debtorProfile.address
             }
 
-            creditorName = iouDetailInfo.creditorName
-            creditorPhoneNumber = iouDetailInfo.creditorPhoneNumber
-            creditorAddress = iouDetailInfo.creditorAddress
-            debtorName = iouDetailInfo.debtorName
-            debtorPhoneNumber = iouDetailInfo.debtorPhoneNumber
-            debtorAddress = iouDetailInfo.debtorAddress
-            primeAmount = iouDetailInfo.primeAmount
-            interestRate = iouDetailInfo.interestRate
-            interestPaymentDate = iouDetailInfo.interestPaymentDate
-            repaymentEndDate = iouDetailInfo.repaymentEndDate
-            specialConditions = iouDetailInfo.specialConditions
-            transactionDate = iouDetailInfo.transactionDate
+            creditorName = iouDetailInfo.creditorProfile.name
+            creditorPhoneNumber = iouDetailInfo.creditorProfile.phoneNumber
+            creditorAddress = iouDetailInfo.creditorProfile.address
+            debtorName = iouDetailInfo.debtorProfile.name
+            debtorPhoneNumber = iouDetailInfo.debtorProfile.phoneNumber
+            debtorAddress = iouDetailInfo.debtorProfile.address
+            primeAmount = iouDetailInfo.paperFormInfo.primeAmount
+            interestRate = iouDetailInfo.paperFormInfo.interestRate
+            interestPaymentDate = iouDetailInfo.paperFormInfo.interestPaymentDate
+            repaymentEndDate = iouDetailInfo.paperFormInfo.repaymentEndDate
+            specialConditions = iouDetailInfo.paperFormInfo.specialConditions
+            transactionDate = iouDetailInfo.paperFormInfo.transactionDate
 
             iouFile()
 

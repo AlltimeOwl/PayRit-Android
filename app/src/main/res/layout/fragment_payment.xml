@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".ui.approval.RecipientApprovalFragment">
+    tools:context=".ui.payment.PaymentFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/materialToolbar_recipient_approval"
+        android:id="@+id/materialToolbar_payment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
@@ -24,7 +24,7 @@
         android:layout_height="match_parent">
 
         <ProgressBar
-            android:id="@+id/progressBar_recipient_approval"
+            android:id="@+id/progressBar_payment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -32,7 +32,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
-            android:id="@+id/scrollView_recipient_approval"
+            android:id="@+id/scrollView_payment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
@@ -81,7 +81,7 @@
                                 android:textAppearance="@style/Suit.Medium14" />
 
                             <TextView
-                                android:id="@+id/textView_transaction_amount_recipient_approval"
+                                android:id="@+id/textView_transaction_amount_payment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="70sp"
@@ -102,7 +102,7 @@
                                 android:textAppearance="@style/Suit.Medium14" />
 
                             <TextView
-                                android:id="@+id/textView_transaction_date_recipient_approval"
+                                android:id="@+id/textView_transaction_date_payment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="30sp"
@@ -151,7 +151,7 @@
                                 android:textAppearance="@style/Suit.Medium14" />
 
                             <TextView
-                                android:id="@+id/textView_lend_person_name_recipient_approval"
+                                android:id="@+id/textView_lend_person_name_payment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="42sp"
@@ -172,7 +172,7 @@
                                 android:textAppearance="@style/Suit.Medium14" />
 
                             <TextView
-                                android:id="@+id/textView_lend_person_phone_number_recipient_approval"
+                                android:id="@+id/textView_lend_person_phone_number_payment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="30sp"
@@ -182,7 +182,7 @@
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                         <androidx.appcompat.widget.LinearLayoutCompat
-                            android:id="@+id/linearLayout_lend_person_address_recipient_approval"
+                            android:id="@+id/linearLayout_lend_person_address_payment"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp">
@@ -194,7 +194,7 @@
                                 android:textAppearance="@style/Suit.Medium14" />
 
                             <TextView
-                                android:id="@+id/textView_lend_person_address_recipient_approval"
+                                android:id="@+id/textView_lend_person_address_payment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="42sp"
@@ -243,7 +243,7 @@
                                 android:textAppearance="@style/Suit.Medium14" />
 
                             <TextView
-                                android:id="@+id/textView_borrow_person_name_recipient_approval"
+                                android:id="@+id/textView_borrow_person_name_payment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="42sp"
@@ -264,7 +264,7 @@
                                 android:textAppearance="@style/Suit.Medium14" />
 
                             <TextView
-                                android:id="@+id/textView_borrow_person_phone_number_recipient_approval"
+                                android:id="@+id/textView_borrow_person_phone_number_payment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="30sp"
@@ -274,7 +274,7 @@
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                         <androidx.appcompat.widget.LinearLayoutCompat
-                            android:id="@+id/linearLayout_borrow_person_address_recipient_approval"
+                            android:id="@+id/linearLayout_borrow_person_address_payment"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp">
@@ -286,7 +286,7 @@
                                 android:textAppearance="@style/Suit.Medium14" />
 
                             <TextView
-                                android:id="@+id/textView_borrow_person_address_recipient_approval"
+                                android:id="@+id/textView_borrow_person_address_payment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="42sp"
@@ -300,7 +300,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView_addition_contract_recipient_approval"
+                    android:id="@+id/cardView_addition_contract_payment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
@@ -324,7 +324,7 @@
                             android:textColor="@color/primaryMint" />
 
                         <androidx.appcompat.widget.LinearLayoutCompat
-                            android:id="@+id/linearLayout_addition_contract_interest_rate_recipient_approval"
+                            android:id="@+id/linearLayout_addition_contract_interest_rate_payment"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp">
@@ -336,7 +336,7 @@
                                 android:textAppearance="@style/Suit.Medium14" />
 
                             <TextView
-                                android:id="@+id/textView_addition_contract_interest_rate_recipient_approval"
+                                android:id="@+id/textView_addition_contract_interest_rate_payment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="58sp"
@@ -346,7 +346,7 @@
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                         <androidx.appcompat.widget.LinearLayoutCompat
-                            android:id="@+id/linearLayout_addition_contract_date_recipient_approval"
+                            android:id="@+id/linearLayout_addition_contract_date_payment"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp">
@@ -358,7 +358,7 @@
                                 android:textAppearance="@style/Suit.Medium14" />
 
                             <TextView
-                                android:id="@+id/textView_addition_contract_date_recipient_approval"
+                                android:id="@+id/textView_addition_contract_date_payment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="30sp"
@@ -368,7 +368,7 @@
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                         <androidx.appcompat.widget.LinearLayoutCompat
-                            android:id="@+id/linearLayout_addition_contract_recipient_approval"
+                            android:id="@+id/linearLayout_addition_contract_payment"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp">
@@ -380,7 +380,7 @@
                                 android:textAppearance="@style/Suit.Medium14" />
 
                             <TextView
-                                android:id="@+id/textView_addition_contract_recipient_approval"
+                                android:id="@+id/textView_addition_contract_payment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="46sp"
@@ -401,7 +401,7 @@
                     android:layout_marginBottom="100dp">
 
                     <com.google.android.material.checkbox.MaterialCheckBox
-                        android:id="@+id/checkBox_recipient_approval"
+                        android:id="@+id/checkBox_payment"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:layout_marginTop="2dp"
@@ -422,7 +422,7 @@
         </ScrollView>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_recipient_approval"
+            android:id="@+id/button_payment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -430,7 +430,7 @@
             android:layout_marginBottom="8dp"
             android:background="@drawable/bg_gray_scale07_r12"
             android:stateListAnimator="@null"
-            android:text="수락하기"
+            android:text="결제하기"
             android:textAppearance="@style/Typography.Bold20"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent" />

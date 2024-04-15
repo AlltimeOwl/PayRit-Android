@@ -339,84 +339,84 @@ class IouDetailFragment : Fragment() {
             binding.progressBarLoadingIouDetail.visibility = View.GONE
             binding.scrollviewIouDetail.visibility = View.VISIBLE
 
-            binding.textViewNameIouDetail.text = iouDetailInfo.debtorName + "님께"
-            binding.textViewTotalAmountIouDetail.text = mainActivity.convertMoneyFormat(iouDetailInfo.amount)
-            binding.textViewPeriodIouDetail.text = "원금상환일 ${mainActivity.iouConvertDateFormat(iouDetailInfo.repaymentEndDate)}"
-            binding.textViewRemainingAmountIouDetail.text = mainActivity.convertMoneyFormat(iouDetailInfo.remainingAmount) + "원"
-
-            if (iouDetailInfo.dueDate >= 0) {
-                binding.textViewDayIouDetail.text = "D - ${iouDetailInfo.dueDate}"
-            } else {
-                binding.textViewDayIouDetail.text = "D + ${abs(iouDetailInfo.dueDate)}"
-            }
-
-            binding.progressBarIouDetail.progress = iouDetailInfo.repaymentRate.toInt()
-            binding.textViewPercentIouDetail.text = "(${iouDetailInfo.repaymentRate.toInt()}%)"
-
-            // 메모 개수
-            binding.textViewMemoCountIouDetail.text = iouDetailInfo.memoListResponses.size.toString() + "건"
-
-            // 빌려준 사람
-            binding.textViewLendPersonNameIouDetail.text = iouDetailInfo.creditorName
-            binding.textViewLendPersonPhoneNumberIouDetail.text = mainActivity.convertPhoneNumber(iouDetailInfo.creditorPhoneNumber)
-
-            if (iouDetailInfo.creditorAddress.isEmpty()) {
-                binding.linearLayoutLendPersonAddressIouDetail.visibility = View.GONE
-            } else {
-                binding.textViewLendPersonAddressIouDetail.text = iouDetailInfo.creditorAddress
-            }
-
-            // 빌린 사람
-            binding.textViewBorrowPersonNameIouDetail.text = iouDetailInfo.debtorName
-            binding.textViewBorrowPersonPhoneNumberIouDetail.text = mainActivity.convertPhoneNumber(iouDetailInfo.debtorPhoneNumber)
-
-            if (iouDetailInfo.debtorAddress.isEmpty()) {
-                binding.linearLayoutBorrowPersonAddressIouDetail.visibility = View.GONE
-            } else {
-                binding.textViewBorrowPersonAddressIouDetail.text = iouDetailInfo.debtorAddress
-            }
-
-            // 추가 사항
-            if ((iouDetailInfo.interestRate <= 0.0 || iouDetailInfo.interestRate > 20.00) && iouDetailInfo.interestPaymentDate == 0 && iouDetailInfo.specialConditions.isEmpty()) {
-                binding.cardViewAdditionInformationIouDetail.visibility = View.GONE
-            } else {
-
-                // 이자율
-                if (iouDetailInfo.interestRate <= 0.0 || iouDetailInfo.interestRate > 20.00) {
-                    binding.linearLayoutAdditionalInformationInterestRateIouDetail.visibility = View.GONE
-                } else {
-                    binding.textViewAdditionalInformationInterestRateIouDetail.text = "${iouDetailInfo.interestRate}%"
-                }
-
-                // 이자 지급일
-                if (iouDetailInfo.interestPaymentDate == 0) {
-                    binding.linearLayoutAdditionalInformationInterestDateIouDetail.visibility = View.GONE
-                } else {
-                    binding.textViewAdditionalInformationInterestDateIouDetail.text = "매월 ${iouDetailInfo.interestPaymentDate}일"
-                }
-
-                // 특약사항
-                if (iouDetailInfo.specialConditions.isEmpty()) {
-                    binding.linearLayoutAdditionalInformationIouDetail.visibility = View.GONE
-                } else {
-                    binding.textViewAdditionalInformationIouDetail.text = iouDetailInfo.specialConditions
-                }
-
-            }
-
-            creditorName = iouDetailInfo.creditorName
-            creditorPhoneNumber = iouDetailInfo.creditorPhoneNumber
-            creditorAddress = iouDetailInfo.creditorAddress
-            debtorName = iouDetailInfo.debtorName
-            debtorPhoneNumber = iouDetailInfo.debtorPhoneNumber
-            debtorAddress = iouDetailInfo.debtorAddress
-            primeAmount = iouDetailInfo.primeAmount
-            interestRate = iouDetailInfo.interestRate
-            interestPaymentDate = iouDetailInfo.interestPaymentDate
-            repaymentEndDate = iouDetailInfo.repaymentEndDate
-            specialConditions = iouDetailInfo.specialConditions
-            transactionDate = iouDetailInfo.transactionDate
-            remainingAmount = iouDetailInfo.remainingAmount
+//            binding.textViewNameIouDetail.text = iouDetailInfo.debtorName + "님께"
+//            binding.textViewTotalAmountIouDetail.text = mainActivity.convertMoneyFormat(iouDetailInfo.amount)
+//            binding.textViewPeriodIouDetail.text = "원금상환일 ${mainActivity.iouConvertDateFormat(iouDetailInfo.repaymentEndDate)}"
+//            binding.textViewRemainingAmountIouDetail.text = mainActivity.convertMoneyFormat(iouDetailInfo.remainingAmount) + "원"
+//
+//            if (iouDetailInfo.dueDate >= 0) {
+//                binding.textViewDayIouDetail.text = "D - ${iouDetailInfo.dueDate}"
+//            } else {
+//                binding.textViewDayIouDetail.text = "D + ${abs(iouDetailInfo.dueDate)}"
+//            }
+//
+//            binding.progressBarIouDetail.progress = iouDetailInfo.repaymentRate.toInt()
+//            binding.textViewPercentIouDetail.text = "(${iouDetailInfo.repaymentRate.toInt()}%)"
+//
+//            // 메모 개수
+//            binding.textViewMemoCountIouDetail.text = iouDetailInfo.memoListResponses.size.toString() + "건"
+//
+//            // 빌려준 사람
+//            binding.textViewLendPersonNameIouDetail.text = iouDetailInfo.creditorName
+//            binding.textViewLendPersonPhoneNumberIouDetail.text = mainActivity.convertPhoneNumber(iouDetailInfo.creditorPhoneNumber)
+//
+//            if (iouDetailInfo.creditorAddress.isEmpty()) {
+//                binding.linearLayoutLendPersonAddressIouDetail.visibility = View.GONE
+//            } else {
+//                binding.textViewLendPersonAddressIouDetail.text = iouDetailInfo.creditorAddress
+//            }
+//
+//            // 빌린 사람
+//            binding.textViewBorrowPersonNameIouDetail.text = iouDetailInfo.debtorName
+//            binding.textViewBorrowPersonPhoneNumberIouDetail.text = mainActivity.convertPhoneNumber(iouDetailInfo.debtorPhoneNumber)
+//
+//            if (iouDetailInfo.debtorAddress.isEmpty()) {
+//                binding.linearLayoutBorrowPersonAddressIouDetail.visibility = View.GONE
+//            } else {
+//                binding.textViewBorrowPersonAddressIouDetail.text = iouDetailInfo.debtorAddress
+//            }
+//
+//            // 추가 사항
+//            if ((iouDetailInfo.interestRate <= 0.0 || iouDetailInfo.interestRate > 20.00) && iouDetailInfo.interestPaymentDate == 0 && iouDetailInfo.specialConditions.isEmpty()) {
+//                binding.cardViewAdditionInformationIouDetail.visibility = View.GONE
+//            } else {
+//
+//                // 이자율
+//                if (iouDetailInfo.interestRate <= 0.0 || iouDetailInfo.interestRate > 20.00) {
+//                    binding.linearLayoutAdditionalInformationInterestRateIouDetail.visibility = View.GONE
+//                } else {
+//                    binding.textViewAdditionalInformationInterestRateIouDetail.text = "${iouDetailInfo.interestRate}%"
+//                }
+//
+//                // 이자 지급일
+//                if (iouDetailInfo.interestPaymentDate == 0) {
+//                    binding.linearLayoutAdditionalInformationInterestDateIouDetail.visibility = View.GONE
+//                } else {
+//                    binding.textViewAdditionalInformationInterestDateIouDetail.text = "매월 ${iouDetailInfo.interestPaymentDate}일"
+//                }
+//
+//                // 특약사항
+//                if (iouDetailInfo.specialConditions.isEmpty()) {
+//                    binding.linearLayoutAdditionalInformationIouDetail.visibility = View.GONE
+//                } else {
+//                    binding.textViewAdditionalInformationIouDetail.text = iouDetailInfo.specialConditions
+//                }
+//
+//            }
+//
+//            creditorName = iouDetailInfo.creditorName
+//            creditorPhoneNumber = iouDetailInfo.creditorPhoneNumber
+//            creditorAddress = iouDetailInfo.creditorAddress
+//            debtorName = iouDetailInfo.debtorName
+//            debtorPhoneNumber = iouDetailInfo.debtorPhoneNumber
+//            debtorAddress = iouDetailInfo.debtorAddress
+//            primeAmount = iouDetailInfo.primeAmount
+//            interestRate = iouDetailInfo.interestRate
+//            interestPaymentDate = iouDetailInfo.interestPaymentDate
+//            repaymentEndDate = iouDetailInfo.repaymentEndDate
+//            specialConditions = iouDetailInfo.specialConditions
+//            transactionDate = iouDetailInfo.transactionDate
+//            remainingAmount = iouDetailInfo.remainingAmount
 
         }
 

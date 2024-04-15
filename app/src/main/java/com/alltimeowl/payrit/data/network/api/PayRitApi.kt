@@ -1,12 +1,14 @@
 package com.alltimeowl.payrit.data.network.api
 
 import com.alltimeowl.payrit.data.model.GetIouDetailResponse
+import com.alltimeowl.payrit.data.model.GetPaymentInformationResponse
 import com.alltimeowl.payrit.data.model.IouWriteRequest
 import com.alltimeowl.payrit.data.model.IouWriteResponse
 import com.alltimeowl.payrit.data.model.LoginRequest
 import com.alltimeowl.payrit.data.model.LoginResponse
 import com.alltimeowl.payrit.data.model.MemoRequest
 import com.alltimeowl.payrit.data.model.RepaymentRequest
+import com.alltimeowl.payrit.data.model.SavePaymentInformationRequest
 import com.alltimeowl.payrit.data.model.WithdrawalRequest
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
 import com.alltimeowl.payrit.data.model.UserCertificationResponse
@@ -83,5 +85,17 @@ interface PayRitApi {
     fun userCertification(
         @Header("Authorization") accessToken: String,
         @Body userCertificationResponse: UserCertificationResponse
+    ): Call<Void>
+
+    @POST("api/v1/transaction/paymentInfo/{paperId}/PAPER_TRANSACTION")
+    fun getPaymentInformation(
+        @Header("Authorization") accessToken: String,
+        @Path("paperId") paperId: Int
+    ): Call<GetPaymentInformationResponse>
+
+    @POST("api/v1/transaction/save")
+    fun savePaymentInformation(
+        @Header("Authorization") accessToken: String,
+        @Body savePaymentInformationRequest: SavePaymentInformationRequest
     ): Call<Void>
 }

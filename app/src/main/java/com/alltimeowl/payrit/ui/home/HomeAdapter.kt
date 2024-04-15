@@ -64,6 +64,12 @@ class HomeAdapter(val mainActivity: MainActivity, var myIouList: MutableList<get
                         bundle.putInt("paperId", iou.paperId)
 
                         mainActivity.replaceFragment(MainActivity.RECIPIENT_APPROVAL_FRAGMENT, true, bundle)
+                    } else if (iou.isWriter && iou.paperStatus == "PAYMENT_REQUIRED") {  // 차용증 결제 요청
+
+                        val bundle = Bundle()
+                        bundle.putInt("paperId", iou.paperId)
+
+                        mainActivity.replaceFragment(MainActivity.PAYMENT_FRAGMENT, true, bundle)
                     }
                 }
             }
