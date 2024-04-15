@@ -188,12 +188,12 @@ class RecipientApprovalFragment : Fragment() {
 
         // 채권자 정보
         itemDocumentBinding.textViewIouCreditorNameItemDocument.text = creditorName
-        itemDocumentBinding.textViewIouCreditorPhoneNumberItemDocument.text = mainActivity.convertPhoneNumber(creditorPhoneNumber)
+        itemDocumentBinding.textViewIouCreditorPhoneNumberItemDocument.text = mainActivity.formatPhoneNumber(creditorPhoneNumber)
         itemDocumentBinding.textViewIouCreditorAddressItemDocument.text = creditorAddress
 
         // 채무자 정보
         itemDocumentBinding.textViewIouDebtorNameItemDocument.text = debtorName
-        itemDocumentBinding.textViewIouDebtorPhoneNumberItemDocument.text = mainActivity.convertPhoneNumber(debtorPhoneNumber)
+        itemDocumentBinding.textViewIouDebtorPhoneNumberItemDocument.text = mainActivity.formatPhoneNumber(debtorPhoneNumber)
         itemDocumentBinding.textViewIouDebtorAddressItemDocument.text = debtorAddress
 
         // 차용금액 및 변제 조건

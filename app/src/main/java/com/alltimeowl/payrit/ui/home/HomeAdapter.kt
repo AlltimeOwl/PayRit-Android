@@ -108,9 +108,9 @@ class HomeAdapter(val mainActivity: MainActivity, var myIouList: MutableList<get
             when(iou.paperStatus) {
                 "WAITING_AGREE" -> binding.textViewPaperStatusIou.text = "승인 대기중"
                 "MODIFYING" -> binding.textViewPaperStatusIou.text = "수정중"
-                "PAYMENT_REQUIRED" -> binding.textViewPaperStatusIou.text = "결제 필요"
+                "PAYMENT_REQUIRED" -> binding.textViewPaperStatusIou.text = "결제 대기중"
                 "COMPLETE_WRITING" -> binding.textViewPaperStatusIou.text = "상환 진행중"
-                "EXPIRED" -> binding.textViewPaperStatusIou.text = "만료됨"
+                "EXPIRED" -> binding.textViewPaperStatusIou.text = "상환 완료"
             }
 
         }
