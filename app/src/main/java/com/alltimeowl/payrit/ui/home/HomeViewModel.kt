@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.alltimeowl.payrit.data.model.DeleteRepaymentRequest
 import com.alltimeowl.payrit.data.model.GetIouDetailResponse
 import com.alltimeowl.payrit.data.model.MemoListResponse
 import com.alltimeowl.payrit.data.model.MemoRequest
@@ -46,6 +47,14 @@ class HomeViewModel : ViewModel() {
 
     fun postRepayment(accessToken: String, repaymentRequest: RepaymentRequest, paperId: Int) {
         iouRepository.postRepayment(accessToken, repaymentRequest) { success ->
+            if (success) {
+                getIouDetail(accessToken, paperId)
+            }
+        }
+    }
+
+    fun deleteRepayment(accessToken: String, deleteRepaymentRequest: DeleteRepaymentRequest, paperId: Int) {
+        iouRepository.deleteRepayment(accessToken, deleteRepaymentRequest) { success ->
             if (success) {
                 getIouDetail(accessToken, paperId)
             }

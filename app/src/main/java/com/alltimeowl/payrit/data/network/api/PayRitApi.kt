@@ -1,5 +1,6 @@
 package com.alltimeowl.payrit.data.network.api
 
+import com.alltimeowl.payrit.data.model.DeleteRepaymentRequest
 import com.alltimeowl.payrit.data.model.GetIouDetailResponse
 import com.alltimeowl.payrit.data.model.GetPaymentInformationResponse
 import com.alltimeowl.payrit.data.model.IouWriteRequest
@@ -61,6 +62,12 @@ interface PayRitApi {
     fun postRepayment(
         @Header("Authorization") accessToken: String,
         @Body request : RepaymentRequest
+    ): Call<Void>
+
+    @POST("api/v1/paper/repayment/cancel")
+    fun deleteRepayment(
+        @Header("Authorization") accessToken: String,
+        @Body deleteRepaymentRequest: DeleteRepaymentRequest
     ): Call<Void>
 
     @POST("api/v1/memo/{paperId}")

@@ -29,6 +29,7 @@ class IouDetailAmountReceivedFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
 
     private var paperId = 0
+    private var remainingAmount = 0
     private var repaymentDate = ""
     private var repaymentAmount = 0
 
@@ -88,7 +89,7 @@ class IouDetailAmountReceivedFragment : Fragment() {
 
             recyclerViewIouDetailAmountReceived.run {
                 recyclerViewIouDetailAmountReceived.layoutManager = LinearLayoutManager(context)
-                adapter = IouDetailAmountReceivedAdapter(mainActivity, mutableListOf())
+                adapter = IouDetailAmountReceivedAdapter(mainActivity, viewModel, paperId, mutableListOf())
             }
 
             buttonInputIouDetailAmountReceived.setOnClickListener {
@@ -110,26 +111,44 @@ class IouDetailAmountReceivedFragment : Fragment() {
                 // 콤마를 제거한 깨끗한 문자열을 생성합니다.
                 val cleanString = text.replace(",", "")
 
-                // 빈 문자열을 체크하고, 빈 문자열이 아닐 때만 정수로 변환합니다.
                 if (cleanString.isNotEmpty()) {
                     try {
                         // 콤마가 제거된 문자열을 이용하여 repaymentAmount를 설정합니다.
-                        repaymentAmount = cleanString.toInt()
+                        val inputAmount = cleanString.toInt()
+
+                        // 입력된 값이 remainingAmount보다 큰지 확인합니다.
+                        if (inputAmount > remainingAmount) {
+                            // remainingAmount로 repaymentAmount를 설정합니다.
+                            repaymentAmount = remainingAmount
+
+                            // remainingAmount 값을 문자열로 변환하고, 콤마를 추가합니다.
+                            val formattedRemainingAmount = NumberFormat.getNumberInstance(Locale.getDefault()).format(remainingAmount)
+                            editText.removeTextChangedListener(this)
+                            editText.setText(formattedRemainingAmount)
+                            editText.setSelection(formattedRemainingAmount.length)
+                            editText.addTextChangedListener(this)
+                        } else {
+                            // 입력된 값이 remainingAmount보다 작거나 같을 경우 정상 처리합니다.
+                            repaymentAmount = inputAmount
+
+                            val parsed = cleanString.toDoubleOrNull() ?: 0.0
+                            val formatted = NumberFormat.getNumberInstance(Locale.getDefault()).format(parsed)
+                            editText.removeTextChangedListener(this)
+                            editText.setText(formatted)
+                            editText.setSelection(formatted.length)
+                            editText.addTextChangedListener(this)
+                        }
                     } catch (e: NumberFormatException) {
                         Log.d(TAG, "NumberFormatException for input string: \"$cleanString\"", e)
-                        // 올바른 정수 값을 설정하거나 사용자에게 입력 오류를 알리는 등의 처리를 할 수 있습니다.
+                        // 입력값 오류 처리
                     }
                 } else {
-                    // 빈 문자열일 경우, repaymentAmount를 0 또는 기본값으로 설정할 수 있습니다.
+                    // 빈 문자열일 경우 처리
                     repaymentAmount = 0
+                    editText.removeTextChangedListener(this)
+                    editText.setText("")
+                    editText.addTextChangedListener(this)
                 }
-
-                val parsed = cleanString.toDoubleOrNull() ?: 0.0
-                val formatted = NumberFormat.getNumberInstance(Locale.getDefault()).format(parsed)
-                editText.removeTextChangedListener(this)
-                editText.setText(formatted)
-                editText.setSelection(formatted.length)
-                editText.addTextChangedListener(this)
             }
 
         }
@@ -140,12 +159,18 @@ class IouDetailAmountReceivedFragment : Fragment() {
             val repaymentRequest = RepaymentRequest(paperId, repaymentDate, repaymentAmount)
             val accessToken = SharedPreferencesManager.getAccessToken()
             viewModel.postRepayment(accessToken, repaymentRequest, paperId)
+            binding.editTextAmountIouDetailAmountReceived.text?.clear()
+            binding.editTextAmountIouDetailAmountReceived.clearFocus()
         } else {
             return
         }
     }
 
     private fun observeData() {
+        viewModel.iouDetail.observe(viewLifecycleOwner) { iou ->
+            remainingAmount = iou.paperFormInfo.remainingAmount
+        }
+
         viewModel.repaymentList.observe(viewLifecycleOwner) { repaymentList->
             // repaymentDate를 기준으로 내림차순 정렬
             val sortedList = repaymentList.sortedByDescending { it.repaymentDate }

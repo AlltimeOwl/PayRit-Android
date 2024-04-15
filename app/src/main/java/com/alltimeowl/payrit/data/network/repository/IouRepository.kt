@@ -2,6 +2,7 @@ package com.alltimeowl.payrit.data.network.repository
 
 import android.util.Log
 import com.alltimeowl.payrit.data.model.ApprovalIouErrorResponse
+import com.alltimeowl.payrit.data.model.DeleteRepaymentRequest
 import com.alltimeowl.payrit.data.model.GetIouDetailResponse
 import com.alltimeowl.payrit.data.model.MemoRequest
 import com.alltimeowl.payrit.data.model.RepaymentErrorResponse
@@ -105,6 +106,29 @@ class IouRepository {
                 Log.d("IouDetailAmountReceivedFragment", "네트워크 오류: ${t.message}")
                 callback(false)
             }
+        })
+    }
+
+    fun deleteRepayment(accessToken: String, deleteRepaymentRequest: DeleteRepaymentRequest, callback: (Boolean) -> Unit) {
+        payRitApi.deleteRepayment("Bearer $accessToken", deleteRepaymentRequest).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Log.d("IouDetailAmountReceivedFragment", "deleteRepayment 성공시 response.code : ${response.code()}")
+                    callback(true)
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val gson = Gson()
+                    val errorResponse: RepaymentErrorResponse? = gson.fromJson(errorBody, RepaymentErrorResponse::class.java)
+                    Log.d("IouDetailAmountReceivedFragment", "deleteRepayment errorResponse : ${errorResponse}")
+                    callback(false)
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("IouDetailAmountReceivedFragment", "네트워크 오류: ${t.message}")
+                callback(false)
+            }
+
         })
     }
 
