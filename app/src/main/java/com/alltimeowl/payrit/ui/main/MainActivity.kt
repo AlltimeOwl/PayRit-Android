@@ -22,6 +22,7 @@ import com.alltimeowl.payrit.ui.mypage.NotificationSettingFragment
 import com.alltimeowl.payrit.ui.mypage.PaymentHistoryDetailFragment
 import com.alltimeowl.payrit.ui.mypage.PaymentHistoryFragment
 import com.alltimeowl.payrit.ui.mypage.WithdrawalFragment
+import com.alltimeowl.payrit.ui.payment.PaymentFragment
 import com.alltimeowl.payrit.ui.search.SearchFragment
 import com.alltimeowl.payrit.ui.write.IouContentCheckFragment
 import com.alltimeowl.payrit.ui.write.IouMainFragment
@@ -100,6 +101,7 @@ class MainActivity : AppCompatActivity() {
             PAYMENT_HISTORY_DETAIL_FRAGMENT -> PaymentHistoryDetailFragment()
             RECIPIENT_APPROVAL_FRAGMENT -> RecipientApprovalFragment()
             SEARCH_FRAGMENT -> SearchFragment()
+            PAYMENT_FRAGMENT -> PaymentFragment()
 
             else -> Fragment()
         }
@@ -176,6 +178,19 @@ class MainActivity : AppCompatActivity() {
     fun hideKeyboard() {
         val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+    }
+
+    fun formatPhoneNumber(phoneNumber: String): String {
+        // 정규식을 사용하여 입력된 전화번호에서 숫자만 추출합니다.
+        val digits = phoneNumber.filter { it.isDigit() }
+
+        // 숫자만 추출된 전화번호를 원하는 형식으로 변환합니다.
+        return if (digits.length == 11) {
+            "${digits.substring(0, 3)}-${digits.substring(3, 7)}-${digits.substring(7, 11)}"
+        } else {
+            // 입력된 전화번호의 길이가 11자리가 아닌 경우, 원본 전화번호를 반환합니다.
+            phoneNumber
+        }
     }
 
     fun convertPhoneNumber(phoneNumber : String): String {
@@ -284,5 +299,6 @@ class MainActivity : AppCompatActivity() {
         const val PAYMENT_HISTORY_DETAIL_FRAGMENT = "PaymentHistoryDetailFragment"
         const val RECIPIENT_APPROVAL_FRAGMENT = "RecipientApprovalFragment"
         const val SEARCH_FRAGMENT = "SearchFragment"
+        const val PAYMENT_FRAGMENT = "PaymentFragment"
     }
 }
