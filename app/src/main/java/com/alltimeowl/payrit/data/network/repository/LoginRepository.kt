@@ -3,7 +3,6 @@ package com.alltimeowl.payrit.data.network.repository
 import android.util.Log
 import com.alltimeowl.payrit.data.model.LoginRequest
 import com.alltimeowl.payrit.data.model.LoginResponse
-import com.alltimeowl.payrit.data.model.WithdrawalRequest
 import com.alltimeowl.payrit.data.network.api.PayRitApi
 import retrofit2.Call
 import retrofit2.Callback
@@ -65,8 +64,8 @@ class LoginRepository {
         })
     }
 
-    fun withdrawalUser(accessToken: String, withdrawalRequest: WithdrawalRequest) {
-        payRitApi.withdrawalUser("Bearer $accessToken", withdrawalRequest).enqueue(object : Callback<Void> {
+    fun withdrawalUser(accessToken: String) {
+        payRitApi.withdrawalUser("Bearer $accessToken").enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Log.d("WithdrawalFragment", "회원 탈퇴 성공시 response.code : ${response.code()}")

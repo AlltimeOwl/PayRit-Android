@@ -9,7 +9,6 @@ import com.alltimeowl.payrit.data.model.LoginResponse
 import com.alltimeowl.payrit.data.model.MemoRequest
 import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.data.model.SavePaymentInformationRequest
-import com.alltimeowl.payrit.data.model.WithdrawalRequest
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
 import com.alltimeowl.payrit.data.model.UserCertificationResponse
 import okhttp3.MultipartBody
@@ -31,10 +30,9 @@ interface PayRitApi {
     @GET("api/v1/oauth/logout")
     fun logoutUser(@Header("Authorization") accessToken: String): Call<Void>
 
-    @POST("api/v1/oauth/revoke")
+    @DELETE("api/v1/oauth/revoke")
     fun withdrawalUser(
-        @Header("Authorization") accessToken: String,
-        @Body request: WithdrawalRequest
+        @Header("Authorization") accessToken: String
     ): Call<Void>
 
     @POST("api/v1/paper/write")
