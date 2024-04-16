@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.alltimeowl.payrit.R
+import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentAccountInformationBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 
@@ -36,6 +37,10 @@ class AccountInformationFragment : Fragment() {
                     mainActivity.removeFragment(MainActivity.ACCOUNT_INFORMATION_FRAGMENT)
                 }
             }
+            
+            buttonUserNameAccountInformation.text = SharedPreferencesManager.getUserName()
+            buttonUserEmailAccountInformation.text = SharedPreferencesManager.getUserEmail()
+            buttonUserPhoneNumberAccountInformation.text = SharedPreferencesManager.getUserPhoneNumber()
 
             // 회원탈퇴
             textViewUserWithdrawalAccountInformation.setOnClickListener {
