@@ -47,6 +47,7 @@ class MyPageMainFragment : Fragment() {
         mainActivity.showBottomNavigationView()
 
         initUi()
+        moveToCertificationInfo()
         moveToAccountInformation()
         moveToPaymentHistory()
         moveToNotificationSetting()
@@ -70,6 +71,13 @@ class MyPageMainFragment : Fragment() {
                 binding.imageViewVerificationCompleteMyPageMain.visibility = View.GONE
             }
         )
+    }
+
+    // 본인인증 완료됨 클릭
+    private fun moveToCertificationInfo() {
+        binding.textViewVerificationCompleteMyPageMain.setOnClickListener {
+            mainActivity.replaceFragment(MainActivity.CERTIFICATION_INFO_FRAGMENT, true, null)
+        }
     }
 
     // 계정 정보 클릭

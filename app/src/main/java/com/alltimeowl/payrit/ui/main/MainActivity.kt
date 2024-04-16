@@ -17,6 +17,7 @@ import com.alltimeowl.payrit.ui.home.IouDetailAmountReceivedFragment
 import com.alltimeowl.payrit.ui.home.IouDetailFragment
 import com.alltimeowl.payrit.ui.home.IouDetailMemoFragment
 import com.alltimeowl.payrit.ui.mypage.AccountInformationFragment
+import com.alltimeowl.payrit.ui.mypage.CertificationInfoFragment
 import com.alltimeowl.payrit.ui.mypage.MyPageMainFragment
 import com.alltimeowl.payrit.ui.mypage.NotificationSettingFragment
 import com.alltimeowl.payrit.ui.mypage.PaymentHistoryDetailFragment
@@ -102,6 +103,7 @@ class MainActivity : AppCompatActivity() {
             RECIPIENT_APPROVAL_FRAGMENT -> RecipientApprovalFragment()
             SEARCH_FRAGMENT -> SearchFragment()
             PAYMENT_FRAGMENT -> PaymentFragment()
+            CERTIFICATION_INFO_FRAGMENT -> CertificationInfoFragment()
 
             else -> Fragment()
         }
@@ -300,5 +302,6 @@ class MainActivity : AppCompatActivity() {
         const val RECIPIENT_APPROVAL_FRAGMENT = "RecipientApprovalFragment"
         const val SEARCH_FRAGMENT = "SearchFragment"
         const val PAYMENT_FRAGMENT = "PaymentFragment"
+        const val CERTIFICATION_INFO_FRAGMENT = "CertificationInfoFragment"
     }
 }

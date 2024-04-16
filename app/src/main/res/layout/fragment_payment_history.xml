@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white100"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".ui.mypage.PaymentHistoryFragment">
 
@@ -19,23 +19,48 @@
         app:titleCentered="true"
         app:titleTextAppearance="@style/Suit.SemiBold18" />
 
-    <Spinner
-        android:id="@+id/spinner_payment_history"
-        android:layout_width="108sp"
-        android:layout_height="36dp"
-        android:layout_gravity="end"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/selector_spinner_payment_history"
-        android:elevation="5sp"
-        android:popupBackground="@drawable/bg_white_r12_no" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_payment_history"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:id="@+id/progressBar_loading_payment_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linearLayout_existence_payment_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Spinner
+                android:id="@+id/spinner_payment_history"
+                android:layout_width="108sp"
+                android:layout_height="36dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/selector_spinner_payment_history"
+                android:elevation="5sp"
+                android:popupBackground="@drawable/bg_white_r12_no" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_payment_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
