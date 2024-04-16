@@ -50,18 +50,26 @@ class CertificationRepository {
         })
     }
 
-    fun userCertification(accessToken: String, userCertificationResponse: UserCertificationResponse) {
+    fun userCertification(
+        accessToken: String,
+        userCertificationResponse: UserCertificationResponse,
+        onSuccess: (Int) -> Unit,
+        onFailure: (Int?) -> Unit
+    ) {
         payRitApi.userCertification("Bearer $accessToken", userCertificationResponse).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Log.d("WriteMainFragment", "certification 성공: ${response.code()}")
+                    onSuccess.invoke(response.code())
                 } else {
                     Log.d("WriteMainFragment", "certification errorCode: ${response.code()}")
+                    onFailure.invoke(response.code())
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Log.d("WriteMainFragment", "certification 네트워크 오류: ${t.message}")
+                onFailure.invoke(null)
             }
 
         })
