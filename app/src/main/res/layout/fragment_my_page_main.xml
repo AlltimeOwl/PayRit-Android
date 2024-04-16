@@ -19,38 +19,55 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imageView_user_profile_myPageMain"
-                android:layout_width="77dp"
-                android:layout_height="77dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/img_profile"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="40dp">
 
             <TextView
                 android:id="@+id/textView_user_name_myPageMain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="14dp"
                 android:layout_marginTop="8dp"
                 android:text="정주성"
                 android:textAppearance="@style/Suit.SemiBold26"
-                app:layout_constraintStart_toEndOf="@+id/imageView_user_profile_myPageMain"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView_verification_complete_myPageMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="4dp"
+                android:text="본인인증 완료됨"
+                android:textAppearance="@style/Suit.Medium16"
+                android:textColor="@color/primaryMint"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_user_name_myPageMain" />
+
+            <ImageView
+                android:id="@+id/imageView_verification_complete_myPageMain"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="4dp"
+                android:paddingBottom="2dp"
+                android:src="@drawable/ic_verified"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/textView_user_email_myPageMain"
+                app:layout_constraintStart_toEndOf="@+id/textView_verification_complete_myPageMain"
+                app:layout_constraintTop_toBottomOf="@+id/textView_user_name_myPageMain" />
 
             <TextView
                 android:id="@+id/textView_user_email_myPageMain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="4dp"
                 android:text="wjdwntjd55@naver.com"
                 android:textAppearance="@style/Typography.Regular16"
                 android:textColor="@color/grayScale05"
-                app:layout_constraintStart_toEndOf="@+id/imageView_user_profile_myPageMain"
-                app:layout_constraintTop_toBottomOf="@+id/textView_user_name_myPageMain" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_verification_complete_myPageMain" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

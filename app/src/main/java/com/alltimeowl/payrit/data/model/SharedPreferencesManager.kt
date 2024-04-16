@@ -18,10 +18,11 @@ object SharedPreferencesManager {
         editor.apply()
     }
 
-    fun saveUserInfo(name: String?, phoneNumber: String?) {
+    fun saveUserInfo(name: String?, phoneNumber: String?, email: String?) {
         val editor = sharedPref.edit()
         editor.putString("name", name)
         editor.putString("phoneNumber", phoneNumber)
+        editor.putString("email", email)
         editor.apply()
     }
 
@@ -46,6 +47,10 @@ object SharedPreferencesManager {
         return sharedPref.getString("phoneNumber", "") ?: ""
     }
 
+    fun getUserEmail(): String {
+        return sharedPref.getString("email", "") ?: ""
+    }
+
     fun clearUserInfo() {
         val editor = sharedPref.edit()
         editor.remove("accessToken")
@@ -53,6 +58,7 @@ object SharedPreferencesManager {
         editor.remove("name")
         editor.remove("phoneNumber")
         editor.remove("firebaseToken")
+        editor.remove("email")
         editor.apply()
     }
 }
