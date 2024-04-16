@@ -16,6 +16,7 @@ import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.data.model.UserCertificationResponse
 import com.alltimeowl.payrit.databinding.FragmentWriteMainBinding
 import com.alltimeowl.payrit.databinding.ItemUserCertificationBinding
+import com.alltimeowl.payrit.ui.home.HomeViewModel
 import com.alltimeowl.payrit.ui.main.MainActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iamport.sdk.data.sdk.IamPortCertification
@@ -28,6 +29,7 @@ class WriteMainFragment : Fragment() {
     private lateinit var binding: FragmentWriteMainBinding
 
     private lateinit var viewModel: WriteMainViewModel
+    private lateinit var homeViewModel: HomeViewModel
 
     val TAG = "WriteMainFragment"
 
@@ -40,6 +42,7 @@ class WriteMainFragment : Fragment() {
         binding = FragmentWriteMainBinding.inflate(layoutInflater)
 
         viewModel = ViewModelProvider(this)[WriteMainViewModel::class.java]
+        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         initUI()
 
@@ -141,7 +144,14 @@ class WriteMainFragment : Fragment() {
             if (it != null) {
                 it.imp_uid?.let {
                     if (userCertificationResponse != null) {
-                        viewModel.userCertification(accessToken, userCertificationResponse)
+                        viewModel.userCertification(accessToken, userCertificationResponse,
+                            onSuccess = {
+                                homeViewModel.reloadIou(accessToken)
+                            }, onFailure = {
+                                Log.d(TAG, "갱신 실패함")
+                            }
+                        )
+
                         mainActivity.replaceFragment(MainActivity.IOU_MAIN_FRAGMENT, true, null)
                     }
                 }

@@ -73,4 +73,8 @@ class HomeViewModel : ViewModel() {
         iouRepository.deleteMemo(accessToken, memoId)
     }
 
+    fun reloadIou(accessToken: String) {
+        iouRepository.reloadIou(accessToken)
+    }
+
 }

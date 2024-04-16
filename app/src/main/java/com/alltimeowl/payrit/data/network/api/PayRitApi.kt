@@ -118,4 +118,7 @@ interface PayRitApi {
         @Header("Authorization") accessToken: String,
         @Path("id") id: Int
     ): Call<GetTransactionDetailResponse>
+
+    @POST("api/v1/paper/reload")
+    fun reloadIou(@Header("Authorization") accessToken: String): Call<Void>
 }

@@ -22,8 +22,13 @@ class WriteMainViewModel : ViewModel() {
         certificationRepository.checkCertification(accessToken, onSuccess, onFailure)
     }
 
-    fun userCertification(accessToken: String, userCertificationResponse: UserCertificationResponse) {
-        certificationRepository.userCertification(accessToken, userCertificationResponse)
+    fun userCertification(
+        accessToken: String,
+        userCertificationResponse: UserCertificationResponse,
+        onSuccess: (Int) -> Unit,
+        onFailure: (Int?) -> Unit
+        ) {
+        certificationRepository.userCertification(accessToken, userCertificationResponse, onSuccess, onFailure)
     }
 
     fun getCertificationInfo(accessToken: String) {

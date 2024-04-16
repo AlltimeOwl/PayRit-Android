@@ -4,6 +4,7 @@ import android.util.Log
 import com.alltimeowl.payrit.data.model.ApprovalIouErrorResponse
 import com.alltimeowl.payrit.data.model.DeleteRepaymentRequest
 import com.alltimeowl.payrit.data.model.GetIouDetailResponse
+import com.alltimeowl.payrit.data.model.GetPaymentInformationErrorResponse
 import com.alltimeowl.payrit.data.model.MemoRequest
 import com.alltimeowl.payrit.data.model.RepaymentErrorResponse
 import com.alltimeowl.payrit.data.model.RepaymentRequest
@@ -166,6 +167,24 @@ class IouRepository {
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Log.d("IouDetailMemoFragment", "네트워크 오류: ${t.message}")
+            }
+
+        })
+    }
+
+    fun reloadIou(accessToken: String) {
+        payRitApi.reloadIou("Bearer $accessToken").enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Log.d("WriteMainFragment", "reloadIou 성공시 response.code : ${response.code()}")
+                } else {
+                    Log.d("WriteMainFragment", "reloadIou 실패시 response.code : ${response.code()}")
+                    Log.d("WriteMainFragment", "reloadIou 실패시 response.code : ${response.errorBody()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("WriteMainFragment", "네트워크 오류: ${t.message}")
             }
 
         })
