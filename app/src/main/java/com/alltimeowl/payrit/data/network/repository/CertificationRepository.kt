@@ -1,6 +1,7 @@
 package com.alltimeowl.payrit.data.network.repository
 
 import android.util.Log
+import com.alltimeowl.payrit.data.model.CertificationInfoResponse
 import com.alltimeowl.payrit.data.model.UserCertificationResponse
 import com.alltimeowl.payrit.data.network.api.PayRitApi
 import retrofit2.Call
@@ -9,7 +10,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class certificationRepository {
+class CertificationRepository {
 
     private val payRitApi: PayRitApi
 
@@ -61,6 +62,23 @@ class certificationRepository {
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Log.d("WriteMainFragment", "certification 네트워크 오류: ${t.message}")
+            }
+
+        })
+    }
+
+    fun getCertificationInfo(accessToken: String, callback: (CertificationInfoResponse) -> Unit) {
+        payRitApi.getCertificationInfo("Bearer $accessToken").enqueue(object : Callback<CertificationInfoResponse> {
+            override fun onResponse(call: Call<CertificationInfoResponse>, response: Response<CertificationInfoResponse>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { callback(it) }
+                } else {
+                    Log.d("CertificationInfoFragment", "getCertificationInfo errorCode: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<CertificationInfoResponse>, t: Throwable) {
+                Log.d("CertificationInfoFragment", "getCertificationInfo 네트워크 오류: ${t.message}")
             }
 
         })

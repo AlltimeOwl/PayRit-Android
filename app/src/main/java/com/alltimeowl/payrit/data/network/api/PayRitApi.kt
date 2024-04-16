@@ -1,5 +1,6 @@
 package com.alltimeowl.payrit.data.network.api
 
+import com.alltimeowl.payrit.data.model.CertificationInfoResponse
 import com.alltimeowl.payrit.data.model.DeleteRepaymentRequest
 import com.alltimeowl.payrit.data.model.GetIouDetailResponse
 import com.alltimeowl.payrit.data.model.GetPaymentInformationResponse
@@ -103,4 +104,7 @@ interface PayRitApi {
         @Header("Authorization") accessToken: String,
         @Body savePaymentInformationRequest: SavePaymentInformationRequest
     ): Call<Void>
+
+    @GET("api/v1/profile/certification")
+    fun getCertificationInfo(@Header("Authorization") accessToken: String): Call<CertificationInfoResponse>
 }

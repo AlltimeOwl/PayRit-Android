@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".ui.mypage.CertificationInfoFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar_certification_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="인증 정보"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/Suit.SemiBold18" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="이름"
+                android:textAppearance="@style/Suit.Medium16"
+                android:textColor="@color/grayScale03" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_user_name_certification_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_gray_scale09_r12"
+                android:paddingStart="20dp"
+                android:stateListAnimator="@null"
+                android:text="정주성"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/Suit.Medium16"
+                android:textColor="@color/grayScale06" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="성별"
+                android:textAppearance="@style/Suit.Medium16"
+                android:textColor="@color/grayScale03" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_user_gender_certification_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_gray_scale09_r12"
+                android:paddingStart="20dp"
+                android:stateListAnimator="@null"
+                android:text="male"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/Suit.Medium16"
+                android:textColor="@color/grayScale06" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="생년월일"
+                android:textAppearance="@style/Suit.Medium16"
+                android:textColor="@color/grayScale03" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_user_birthday_certification_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_gray_scale09_r12"
+                android:paddingStart="20dp"
+                android:stateListAnimator="@null"
+                android:text="1900-01-01"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/Suit.Medium16"
+                android:textColor="@color/grayScale06" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="휴대폰 번호"
+                android:textAppearance="@style/Suit.Medium16"
+                android:textColor="@color/grayScale03" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_user_phone_number_certification_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_gray_scale09_r12"
+                android:paddingStart="20dp"
+                android:stateListAnimator="@null"
+                android:text="010-1234-5678"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/Suit.Medium16"
+                android:textColor="@color/grayScale06" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

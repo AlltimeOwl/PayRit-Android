@@ -1,12 +1,18 @@
 package com.alltimeowl.payrit.ui.write
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.alltimeowl.payrit.data.model.CertificationInfoResponse
 import com.alltimeowl.payrit.data.model.UserCertificationResponse
-import com.alltimeowl.payrit.data.network.repository.certificationRepository
+import com.alltimeowl.payrit.data.network.repository.CertificationRepository
 
 class WriteMainViewModel : ViewModel() {
 
-    private val certificationRepository = certificationRepository()
+    private val certificationRepository = CertificationRepository()
+
+    private val _certificationUserInfo = MutableLiveData<CertificationInfoResponse>()
+    val certificationUserInfo: LiveData<CertificationInfoResponse> = _certificationUserInfo
 
     fun checkCertification(
         accessToken: String,
@@ -18,5 +24,11 @@ class WriteMainViewModel : ViewModel() {
 
     fun userCertification(accessToken: String, userCertificationResponse: UserCertificationResponse) {
         certificationRepository.userCertification(accessToken, userCertificationResponse)
+    }
+
+    fun getCertificationInfo(accessToken: String) {
+        certificationRepository.getCertificationInfo(accessToken) { certificationInfoResponse ->
+            _certificationUserInfo.value = certificationInfoResponse
+        }
     }
 }
