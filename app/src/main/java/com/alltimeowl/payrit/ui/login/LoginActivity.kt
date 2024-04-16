@@ -41,8 +41,9 @@ class LoginActivity : AppCompatActivity() {
                 } else if (user != null) {
                     val name = user.kakaoAccount?.name // 사용자의 실제 이름 (이름 정보에 접근 권한이 필요합니다)
                     val phoneNumber = user.kakaoAccount?.phoneNumber
+                    val email = user.kakaoAccount?.email
 
-                    SharedPreferencesManager.saveUserInfo(name, phoneNumber)
+                    SharedPreferencesManager.saveUserInfo(name, phoneNumber, email)
                 }
             }
 
@@ -113,8 +114,9 @@ class LoginActivity : AppCompatActivity() {
                             } else if (user != null) {
                                 val name = user.kakaoAccount?.name // 사용자의 실제 이름 (이름 정보에 접근 권한이 필요합니다)
                                 val phoneNumber = user.kakaoAccount?.phoneNumber
+                                val email = user.kakaoAccount?.email
 
-                                SharedPreferencesManager.saveUserInfo(name, phoneNumber)
+                                SharedPreferencesManager.saveUserInfo(name, phoneNumber, email)
                             }
                         }
 

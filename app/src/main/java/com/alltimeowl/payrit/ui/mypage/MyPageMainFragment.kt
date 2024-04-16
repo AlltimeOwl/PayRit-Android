@@ -13,6 +13,7 @@ import com.alltimeowl.payrit.databinding.FragmentMyPageMainBinding
 import com.alltimeowl.payrit.databinding.ItemUserLogoutBinding
 import com.alltimeowl.payrit.ui.login.LoginActivity
 import com.alltimeowl.payrit.ui.main.MainActivity
+import com.alltimeowl.payrit.ui.write.WriteMainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kakao.sdk.user.UserApiClient
 
@@ -22,6 +23,10 @@ class MyPageMainFragment : Fragment() {
     private lateinit var binding: FragmentMyPageMainBinding
 
     private lateinit var myPageViewModel: MyPageViewModel
+    private lateinit var writeMainViewModel: WriteMainViewModel
+
+    private var accessToken = ""
+    private var email = ""
 
     val TAG = "MyPageMainFragment"
 
@@ -34,6 +39,10 @@ class MyPageMainFragment : Fragment() {
         binding = FragmentMyPageMainBinding.inflate(layoutInflater)
 
         myPageViewModel = ViewModelProvider(this)[MyPageViewModel::class.java]
+        writeMainViewModel = ViewModelProvider(this)[WriteMainViewModel::class.java]
+
+        accessToken = SharedPreferencesManager.getAccessToken()
+        email = SharedPreferencesManager.getUserEmail()
 
         mainActivity.showBottomNavigationView()
 
@@ -48,6 +57,19 @@ class MyPageMainFragment : Fragment() {
 
     private fun initUi() {
         binding.textViewUserNameMyPageMain.text = SharedPreferencesManager.getUserName()
+        binding.textViewUserEmailMyPageMain.text = SharedPreferencesManager.getUserEmail()
+
+        writeMainViewModel.checkCertification(
+            accessToken,
+            onSuccess = {
+                binding.textViewVerificationCompleteMyPageMain.visibility = View.VISIBLE
+                binding.imageViewVerificationCompleteMyPageMain.visibility = View.VISIBLE
+            },
+            onFailure = {
+                binding.textViewVerificationCompleteMyPageMain.visibility = View.GONE
+                binding.imageViewVerificationCompleteMyPageMain.visibility = View.GONE
+            }
+        )
     }
 
     // 계정 정보 클릭
