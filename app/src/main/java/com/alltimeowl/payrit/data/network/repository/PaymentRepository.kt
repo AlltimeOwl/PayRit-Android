@@ -1,8 +1,10 @@
 package com.alltimeowl.payrit.data.network.repository
 
 import android.util.Log
+import com.alltimeowl.payrit.data.model.GetMyTransactionListResponse
 import com.alltimeowl.payrit.data.model.GetPaymentInformationErrorResponse
 import com.alltimeowl.payrit.data.model.GetPaymentInformationResponse
+import com.alltimeowl.payrit.data.model.GetTransactionDetailResponse
 import com.alltimeowl.payrit.data.model.SavePaymentInformationRequest
 import com.alltimeowl.payrit.data.network.api.PayRitApi
 import com.google.gson.Gson
@@ -76,6 +78,42 @@ class PaymentRepository {
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Log.d("PaymentFragment", "savePaymentInformation 네트워크 오류: ${t.message}")
                 callback.onFailure()
+            }
+
+        })
+    }
+
+    fun getMyTransactionList(accessToken: String, callback: (List<GetMyTransactionListResponse>) -> Unit) {
+        payRitApi.getMyTransactionList("Bearer $accessToken").enqueue(object : Callback<List<GetMyTransactionListResponse>> {
+            override fun onResponse(call: Call<List<GetMyTransactionListResponse>>, response: Response<List<GetMyTransactionListResponse>>) {
+                if (response.isSuccessful) {
+                    callback(response.body() ?: emptyList())
+                } else {
+                    callback(emptyList())
+                }
+            }
+
+            override fun onFailure(call: Call<List<GetMyTransactionListResponse>>, t: Throwable) {
+                Log.d("PaymentHistoryFragment", "getMyTransactionList 네트워크 오류: ${t.message}")
+                callback(emptyList())
+            }
+        })
+
+    }
+
+    fun getTransactionDetail(accessToken: String, historyId: Int, callback: (GetTransactionDetailResponse?) -> Unit) {
+        payRitApi.getTransactionDetail("Bearer $accessToken", historyId).enqueue(object : Callback<GetTransactionDetailResponse> {
+            override fun onResponse(call: Call<GetTransactionDetailResponse>, response: Response<GetTransactionDetailResponse>) {
+                if (response.isSuccessful) {
+                    callback(response.body())
+                } else {
+                    Log.d("PaymentHistoryDetailFragment", "getTransactionDetail 실패시 response.body : ${response.body()}")
+                    callback(null)
+                }
+            }
+
+            override fun onFailure(call: Call<GetTransactionDetailResponse>, t: Throwable) {
+                Log.d("RecipientApprovalFragment", "getTransactionDetail 실패시 네트워크 오류: ${t.message}")
             }
 
         })

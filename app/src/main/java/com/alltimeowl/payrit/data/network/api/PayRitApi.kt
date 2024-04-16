@@ -3,7 +3,9 @@ package com.alltimeowl.payrit.data.network.api
 import com.alltimeowl.payrit.data.model.CertificationInfoResponse
 import com.alltimeowl.payrit.data.model.DeleteRepaymentRequest
 import com.alltimeowl.payrit.data.model.GetIouDetailResponse
+import com.alltimeowl.payrit.data.model.GetMyTransactionListResponse
 import com.alltimeowl.payrit.data.model.GetPaymentInformationResponse
+import com.alltimeowl.payrit.data.model.GetTransactionDetailResponse
 import com.alltimeowl.payrit.data.model.IouWriteRequest
 import com.alltimeowl.payrit.data.model.IouWriteResponse
 import com.alltimeowl.payrit.data.model.LoginRequest
@@ -107,4 +109,13 @@ interface PayRitApi {
 
     @GET("api/v1/profile/certification")
     fun getCertificationInfo(@Header("Authorization") accessToken: String): Call<CertificationInfoResponse>
+
+    @GET("api/v1/transaction/list")
+    fun getMyTransactionList(@Header("Authorization") accessToken: String): Call<List<GetMyTransactionListResponse>>
+
+    @GET("api/v1/transaction/detail/{id}")
+    fun getTransactionDetail(
+        @Header("Authorization") accessToken: String,
+        @Path("id") id: Int
+    ): Call<GetTransactionDetailResponse>
 }
