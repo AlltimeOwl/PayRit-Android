@@ -84,6 +84,17 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
+                <Button
+                    android:id="@+id/button_no_certification_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="170dp"
+                    android:backgroundTint="@color/primaryMint"
+                    android:text="본인인증 후 조회하기"
+                    android:textAppearance="@style/Typography.Regular16"
+                    android:visibility="gone" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
