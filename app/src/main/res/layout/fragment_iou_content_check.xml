@@ -392,7 +392,7 @@
             android:layout_marginBottom="8dp"
             android:background="@drawable/bg_primary_mint_r12"
             android:stateListAnimator="@null"
-            android:text="요청 전송하기"
+            android:text="공유하기"
             android:textAppearance="@style/Typography.Bold20"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent" />

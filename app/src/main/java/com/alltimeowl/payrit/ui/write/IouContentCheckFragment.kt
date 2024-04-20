@@ -12,10 +12,16 @@ import com.alltimeowl.payrit.data.model.IouWriteRequest
 import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentIouContentCheckBinding
 import com.alltimeowl.payrit.databinding.ItemCancelBinding
-import com.alltimeowl.payrit.databinding.ItemMmsBinding
-import com.alltimeowl.payrit.databinding.ItemMmsCompleteBinding
+import com.alltimeowl.payrit.databinding.ItemKakaolBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.kakao.sdk.common.util.KakaoCustomTabsClient
+import com.kakao.sdk.share.ShareClient
+import com.kakao.sdk.share.WebSharerClient
+import com.kakao.sdk.template.model.Button
+import com.kakao.sdk.template.model.Content
+import com.kakao.sdk.template.model.FeedTemplate
+import com.kakao.sdk.template.model.Link
 
 class IouContentCheckFragment : Fragment() {
 
@@ -43,6 +49,8 @@ class IouContentCheckFragment : Fragment() {
     private var opponentName = ""
     private var opponentPhoneNumber = ""
     private var opponentAddress = ""
+
+    private var writeUserName = ""
 
     private lateinit var iouWriteRequest: IouWriteRequest
 
@@ -82,6 +90,8 @@ class IouContentCheckFragment : Fragment() {
                 opponentName = arguments?.getString("debtorName").toString()
                 opponentPhoneNumber = arguments?.getString("debtorPhoneNumber").toString()
                 opponentAddress = arguments?.getString("debtorAddress").toString()
+
+                writeUserName = creditorName
             }
 
             "DEBTOR" -> {
@@ -92,6 +102,8 @@ class IouContentCheckFragment : Fragment() {
                 debtorName = arguments?.getString("debtorName").toString()
                 debtorPhoneNumber = arguments?.getString("debtorPhoneNumber").toString()
                 debtorAddress = arguments?.getString("debtorAddress").toString()
+
+                writeUserName = debtorName
             }
         }
 
@@ -118,9 +130,9 @@ class IouContentCheckFragment : Fragment() {
 
                 settingIou()
 
-                // 요청 전송하기
+                // 공유하기
                 buttonSendIouContentCheck.setOnClickListener {
-                    showMmsAlertDialog()
+                    showKakaoDialog()
                 }
 
             }
@@ -228,42 +240,24 @@ class IouContentCheckFragment : Fragment() {
         dialog.show()
     }
 
-    private fun showMmsAlertDialog() {
-        val itemMmsBinding = ItemMmsBinding.inflate(layoutInflater)
+    private fun showKakaoDialog() {
+        val itemKakaolBinding = ItemKakaolBinding.inflate(layoutInflater)
         val builder = MaterialAlertDialogBuilder(mainActivity)
-        builder.setView(itemMmsBinding.root)
+        builder.setView(itemKakaolBinding.root)
         val dialog = builder.create()
 
-        // MMS 요청 전송 - 아니오
-        itemMmsBinding.textViewNoMms.setOnClickListener {
+        // 카카오톡 공유 - 아니오
+        itemKakaolBinding.textViewNoKakao.setOnClickListener {
             dialog.dismiss()
         }
 
-        // MMS 요청 전송 - 네
-        itemMmsBinding.textViewYesMms.setOnClickListener {
+        // 카카오톡 공유 - 네
+        itemKakaolBinding.textViewYesKakao.setOnClickListener {
             dialog.dismiss()
             writeIouApi()
-            showMmsCompleteAlertDialog()
+            sendKakao()
         }
 
-        dialog.show()
-    }
-
-    private fun showMmsCompleteAlertDialog() {
-        val itemMmsCompleteBinding = ItemMmsCompleteBinding.inflate(layoutInflater)
-        val builder = MaterialAlertDialogBuilder(mainActivity)
-        builder.setView(itemMmsCompleteBinding.root)
-        val dialog = builder.create()
-
-        // MMS 요청완료 - 확인
-        itemMmsCompleteBinding.textViewCompleteMms.setOnClickListener {
-            dialog.dismiss()
-
-            mainActivity.removeAllBackStack()
-            mainActivity.selectBottomNavigationItem(R.id.home_menu)
-        }
-
-        dialog.setCancelable(false)
         dialog.show()
     }
 
@@ -287,4 +281,68 @@ class IouContentCheckFragment : Fragment() {
         viewModel.iouWrite(accessToken, iouWriteRequest)
     }
 
+    private fun sendKakao() {
+        val defaultFeed = FeedTemplate(
+            content = Content(
+                title = "${writeUserName}님이 작성하신\n" +
+                        "페이릿 차용증이 작성되었습니다.\n" +
+                        "앱에서 확인해주세요",
+                imageUrl = "https://github.com/wjdwntjd55/Blog/assets/73345198/1c29ffef-0176-4add-9e1b-cfb4d8e321cc",
+                link = Link(
+                    webUrl = "https://developers.kakao.com",
+                    mobileWebUrl = "https://developers.kakao.com"
+                )
+            ),
+            buttons = listOf(
+                Button(
+                    "앱으로 보기",
+                    Link(
+                        androidExecutionParams = mapOf("key1" to "value1", "key2" to "value2"),
+                        iosExecutionParams = mapOf("key1" to "value1", "key2" to "value2"),
+                    )
+                )
+            )
+        )
+
+        // 피드 메시지 보내기
+
+        // 카카오톡 설치여부 확인
+        if (ShareClient.instance.isKakaoTalkSharingAvailable(requireActivity())) {
+            // 카카오톡으로 카카오톡 공유 가능
+            ShareClient.instance.shareDefault(
+                requireActivity(),
+                defaultFeed
+            ) { sharingResult, error ->
+                if (error != null) {
+                    Log.e(TAG, "카카오톡 공유 실패", error)
+                } else if (sharingResult != null) {
+                    Log.d(TAG, "카카오톡 공유 성공 ${sharingResult.intent}")
+                    startActivity(sharingResult.intent)
+
+                    mainActivity.selectBottomNavigationItem(R.id.home_menu)
+
+                    // 카카오톡 공유에 성공했지만 아래 경고 메시지가 존재할 경우 일부 컨텐츠가 정상 동작하지 않을 수 있습니다.
+                    Log.w(TAG, "Warning Msg: ${sharingResult.warningMsg}")
+                    Log.w(TAG, "Argument Msg: ${sharingResult.argumentMsg}")
+                }
+            }
+
+        } else {
+            // 카카오톡 미설치: 웹 공유 사용 권장
+            // 웹 공유 예시 코드
+            val sharerUrl = WebSharerClient.instance.makeDefaultUrl(defaultFeed)
+
+            // CustomTabs으로 웹 브라우저 열기
+
+            // 1. CustomTabsServiceConnection 지원 브라우저 열기
+            // ex) Chrome, 삼성 인터넷, FireFox, 웨일 등
+            try {
+                KakaoCustomTabsClient.openWithDefault(requireContext(), sharerUrl)
+                mainActivity.activityMainBinding.bottomNavigationViewMain.selectedItemId = R.id.home_menu
+            } catch (e: UnsupportedOperationException) {
+                // CustomTabsServiceConnection 지원 브라우저가 없을 때의 예외 처리
+            }
+
+        }
+    }
 }
