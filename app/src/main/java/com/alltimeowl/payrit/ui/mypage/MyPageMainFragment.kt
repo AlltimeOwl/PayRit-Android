@@ -1,6 +1,7 @@
 package com.alltimeowl.payrit.ui.mypage
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,6 +16,8 @@ import com.alltimeowl.payrit.ui.login.LoginActivity
 import com.alltimeowl.payrit.ui.main.MainActivity
 import com.alltimeowl.payrit.ui.write.WriteMainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.kakao.sdk.common.util.KakaoCustomTabsClient
+import com.kakao.sdk.talk.TalkApiClient
 import com.kakao.sdk.user.UserApiClient
 
 class MyPageMainFragment : Fragment() {
@@ -51,7 +54,9 @@ class MyPageMainFragment : Fragment() {
         moveToAccountInformation()
         moveToPaymentHistory()
         moveToNotificationSetting()
+        moveToKakaoInquiryTalk()
         moveToLogOut()
+        moveToEmailWrite()
 
         return binding.root
     }
@@ -102,6 +107,17 @@ class MyPageMainFragment : Fragment() {
         }
     }
 
+    // Payrit 클릭
+    private fun moveToKakaoInquiryTalk() {
+        binding.linearLayoutKakaoInquiryMyPageMain.setOnClickListener {
+            // 카카오톡 채널 채팅 URL
+            val url = TalkApiClient.instance.chatChannelUrl("_djxmxiG")
+
+            // CustomTabs 로 열기
+            KakaoCustomTabsClient.openWithDefault(requireContext(), url)
+        }
+    }
+
     private fun moveToLogOut() {
         binding.linearLayoutLogoutMyPageMain.setOnClickListener {
             val itemUserLogoutBinding = ItemUserLogoutBinding.inflate(layoutInflater)
@@ -140,6 +156,30 @@ class MyPageMainFragment : Fragment() {
             }
 
             dialog.show()
+        }
+    }
+
+    // cs@payrit.info 클릭시
+    private fun moveToEmailWrite() {
+        binding.textViewPayritEmailMyPageMain.setOnClickListener {
+            sendEmailWithGmail()
+        }
+
+    }
+
+    private fun sendEmailWithGmail() {
+        val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:") // only email apps should handle this
+            putExtra(Intent.EXTRA_EMAIL, arrayOf("cs@payrit.info"))
+        }
+
+        // Check if Gmail app is available
+        emailIntent.setPackage("com.google.android.gm")
+        if (emailIntent.resolveActivity(mainActivity.packageManager) != null) {
+            startActivity(emailIntent)
+        } else {
+            // If Gmail app is not available, start email chooser
+            startActivity(Intent.createChooser(emailIntent, "Send Email"))
         }
     }
 
