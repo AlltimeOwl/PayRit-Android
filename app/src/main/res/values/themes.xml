@@ -12,12 +12,16 @@
     <style name="Theme.PayRit" parent="Base.Theme.PayRit" />
 
     <style name="Splash" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/mint</item>
+        <item name="colorPrimary">#22D6D1</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="Login" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimary">@color/white</item>
+        <!-- 스테이터스 바 배경색 설정 -->
+        <item name="android:statusBarColor">@color/white</item>
+        <!-- 스테이터스 바 글자색을 검정으로 설정 (true일 때 검정) -->
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="MyDatePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
