@@ -149,7 +149,6 @@ class IouContentCheckFragment : Fragment() {
 
             // 특약 사항
             if ((interestRate!! <= 0.0 || interestRate!! > 20.00) && interestPaymentDate == null && specialConditions.isEmpty()) {
-                textViewSpecialContractTitleIouContentCheck.visibility = View.GONE
                 cardViewSpecialContractIouContentCheck.visibility = View.GONE
             } else {
 

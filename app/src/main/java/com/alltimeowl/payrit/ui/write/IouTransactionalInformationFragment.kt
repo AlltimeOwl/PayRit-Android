@@ -67,6 +67,12 @@ class IouTransactionalInformationFragment : Fragment() {
 
             }
 
+            // 차용증 작성자의 상태
+            when(writerRole) {
+                "CREDITOR" -> textViewLendConditionIouTransactionalInformation.visibility = View.VISIBLE
+                "DEBTOR" -> textViewBorrowConditionIouTransactionalInformation.visibility = View.VISIBLE
+            }
+
             // 금액 입력
             editTextAmountIouTransactionalInformation.addTextChangedListener(
                 getTextWatcher(editTextAmountIouTransactionalInformation)

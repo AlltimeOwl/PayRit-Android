@@ -36,8 +36,25 @@
                 android:paddingEnd="16dp">
 
                 <TextView
+                    android:id="@+id/textView_lend_condition_iou_transactional_information"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="빌려주기로 한 돈의\n정보를 입력해 주세요."
+                    android:textAppearance="@style/Suit.Bold22"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/textView_borrow_condition_iou_transactional_information"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="빌리기로 한 돈의\n정보를 입력해 주세요."
+                    android:textAppearance="@style/Suit.Bold22"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:text="얼마를 빌려주기로 했나요?"
                     android:textAppearance="@style/Suit.SemiBold14"
                     android:textColor="@color/grayScale04" />
