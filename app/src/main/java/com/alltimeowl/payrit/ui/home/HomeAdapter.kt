@@ -40,23 +40,12 @@ class HomeAdapter(val mainActivity: MainActivity, var myIouList: MutableList<get
 
                         mainActivity.replaceFragment(MainActivity.IOU_BORROW_DETAIL_FRAGMENT, true, bundle)
                     } else if (iou.isWriter && iou.paperStatus == "WAITING_AGREE") {
+                        // 차용증 작성자가 승인 대기중 클릭시
 
-                        val itemApprovalRequestBinding = ItemApprovalRequestBinding.inflate(mainActivity.layoutInflater)
-                        val builder = MaterialAlertDialogBuilder(mainActivity)
-                        builder.setView(itemApprovalRequestBinding.root)
-                        val dialog = builder.create()
+                        val bundle = Bundle()
+                        bundle.putInt("paperId", iou.paperId)
 
-                        // 승인 요청 - 아니오
-                        itemApprovalRequestBinding.textViewNoApprovalRequest.setOnClickListener {
-                            dialog.dismiss()
-                        }
-
-                        // 승인 요청 - 예
-                        itemApprovalRequestBinding.textViewYesApprovalRequest.setOnClickListener {
-                            dialog.dismiss()
-                        }
-
-                        dialog.show()
+                        mainActivity.replaceFragment(MainActivity.IOU_WRITER_APPROVAL_WAITING_FRAGMENT, true, bundle)
 
                     } else if (!iou.isWriter && iou.paperStatus == "WAITING_AGREE") {  // 다른 사람이 보낸 차용증 승인 요청
 

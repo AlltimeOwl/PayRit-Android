@@ -32,6 +32,7 @@ import com.alltimeowl.payrit.ui.write.IouWriteMyFragment
 import com.alltimeowl.payrit.ui.write.IouWriteOpponentFragment
 import com.alltimeowl.payrit.ui.write.KakaoZipCodeFragment
 import com.alltimeowl.payrit.ui.write.WriteMainFragment
+import com.alltimeowl.payrit.ui.writer.IouWriterApprovalWaitingFragment
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -104,6 +105,7 @@ class MainActivity : AppCompatActivity() {
             SEARCH_FRAGMENT -> SearchFragment()
             PAYMENT_FRAGMENT -> PaymentFragment()
             CERTIFICATION_INFO_FRAGMENT -> CertificationInfoFragment()
+            IOU_WRITER_APPROVAL_WAITING_FRAGMENT -> IouWriterApprovalWaitingFragment()
 
             else -> Fragment()
         }
@@ -303,5 +305,6 @@ class MainActivity : AppCompatActivity() {
         const val SEARCH_FRAGMENT = "SearchFragment"
         const val PAYMENT_FRAGMENT = "PaymentFragment"
         const val CERTIFICATION_INFO_FRAGMENT = "CertificationInfoFragment"
+        const val IOU_WRITER_APPROVAL_WAITING_FRAGMENT = "IouWriterApprovalWaitingFragment"
     }
 }
