@@ -28,6 +28,7 @@ class IouWriterApprovalWaitingFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
 
     private var paperId: Int = 0
+    private var paperStatus: String = ""
     private var writeUserName = ""
 
     val TAG = "IouWriterApprovalWaitingFragment"
@@ -43,6 +44,7 @@ class IouWriterApprovalWaitingFragment : Fragment() {
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         paperId = arguments?.getInt("paperId")!!
+        paperStatus = arguments?.getString("paperStatus")!!
 
         val accessToken = SharedPreferencesManager.getAccessToken()
         viewModel.getIouDetail(accessToken, paperId)
@@ -65,6 +67,17 @@ class IouWriterApprovalWaitingFragment : Fragment() {
                 }
             }
 
+            when(paperStatus) {
+                "WAITING_AGREE" -> {
+                    buttonIouWriterApprovalWaiting.visibility = View.VISIBLE
+                    buttonModifyIouWriterApprovalWaiting.visibility = View.GONE
+                }
+                "MODIFYING" -> {
+                    buttonIouWriterApprovalWaiting.visibility = View.GONE
+                    buttonModifyIouWriterApprovalWaiting.visibility = View.VISIBLE
+                }
+            }
+
         }
     }
 
@@ -80,6 +93,13 @@ class IouWriterApprovalWaitingFragment : Fragment() {
             binding.progressBarIouWriterApprovalWaiting.visibility = View.GONE
             binding.scrollViewIouWriterApprovalWaiting.visibility = View.VISIBLE
 
+            if (iouDetailInfo.modifyRequest?.isNotEmpty() == true) {
+                binding.cardViewModifyContentsIouWriterApprovalWaiting.visibility = View.VISIBLE
+                binding.textViewModifyContentsIouWriterApprovalWaiting.text = iouDetailInfo.modifyRequest
+            } else {
+                binding.cardViewModifyContentsIouWriterApprovalWaiting.visibility = View.GONE
+            }
+
             // 거래 내역
             binding.textViewTransactionAmountIouWriterApprovalWaiting.text = mainActivity.convertMoneyFormat(iouDetailInfo.paperFormInfo.primeAmount) + "원"
             binding.textViewTransactionDateIouWriterApprovalWaiting.text = mainActivity.convertDateFormat(iouDetailInfo.paperFormInfo.repaymentEndDate)
@@ -87,6 +107,9 @@ class IouWriterApprovalWaitingFragment : Fragment() {
             // 추가 사항
             if ((iouDetailInfo.paperFormInfo.interestRate <= 0.0 || iouDetailInfo.paperFormInfo.interestRate > 20.00) && iouDetailInfo.paperFormInfo.specialConditions.isEmpty()) {
                 binding.cardViewAdditionContractIouWriterApprovalWaiting.visibility = View.GONE
+                val layoutParams = binding.cardViewLendPersonInfoIouWriterApprovalWaiting.layoutParams as ViewGroup.MarginLayoutParams
+                layoutParams.bottomMargin = resources.getDimensionPixelSize(R.dimen.margin_100dp)
+                binding.cardViewLendPersonInfoIouWriterApprovalWaiting.layoutParams = layoutParams
             } else {
 
                 // 이자율
