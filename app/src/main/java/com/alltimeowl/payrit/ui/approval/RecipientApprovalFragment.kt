@@ -29,6 +29,7 @@ import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -255,18 +256,19 @@ class RecipientApprovalFragment : Fragment() {
         canvas.drawBitmap(bitmap, 0f, 0f, null)
         pdfDocument.finishPage(page)
 
-        // PDF를 저장
-        val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"document.pdf")
+        // ByteArrayOutputStream을 사용하여 PDF를 메모리에 저장
+        val outputStream = ByteArrayOutputStream()
         try {
-            pdfDocument.writeTo(FileOutputStream(file))
+            pdfDocument.writeTo(outputStream)
         } catch (e: IOException) {
             e.printStackTrace()
         }
+        val bytes = outputStream.toByteArray()
         pdfDocument.close()
 
-        // 파일을 MultipartBody.Part로 변환
-        val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
-        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+        // 바이트 배열을 RequestBody로 변환
+        val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), bytes)
+        val body = MultipartBody.Part.createFormData("file", "document.pdf", requestFile)
 
         approvalIou(body)
     }
