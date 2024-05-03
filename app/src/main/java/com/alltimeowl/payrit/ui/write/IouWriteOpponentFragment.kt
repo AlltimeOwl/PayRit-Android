@@ -50,6 +50,12 @@ class IouWriteOpponentFragment : Fragment() {
     private var detailAddress = ""
     private var opponentAddress = ""
 
+    private lateinit var currentState: String
+    private var paperId: Int = 0
+    private lateinit var modifyOpponentName: String
+    private lateinit var modifyOpponentPhoneNumber: String
+    private lateinit var modifyOpponentAddress: String
+
     val TAG = "IouWriteOpponentFragment"
 
     override fun onCreateView(
@@ -87,9 +93,28 @@ class IouWriteOpponentFragment : Fragment() {
             }
         }
 
-        initUI()
+        currentState = arguments?.getString("currentState").toString()
+        paperId = arguments?.getInt("paperId")!!
+        modifyOpponentName = arguments?.getString("opponentName").toString()
+        modifyOpponentPhoneNumber = arguments?.getString("opponentPhoneNumber").toString()
+        modifyOpponentAddress = arguments?.getString("opponentAddress").toString()
+
+        opponentAddress = modifyOpponentAddress
+
+        settingUI()
 
         return binding.root
+    }
+
+    private fun settingUI() {
+        binding.run {
+            Log.d(TAG, "currentState : $currentState")
+            if (currentState == "modify") {
+                modifyInitUI()
+            } else {
+                initUI()
+            }
+        }
     }
 
     private fun initUI() {
@@ -107,9 +132,13 @@ class IouWriteOpponentFragment : Fragment() {
                     }
                     false
                 }
-
             }
+            settingFunction()
+        }
+    }
 
+    private fun settingFunction() {
+        binding.run {
             // 이름 입력
             editTextNameIouWriteOpponent.addTextChangedListener(
                 getTextWatcher(editTextNameIouWriteOpponent)
@@ -174,6 +203,11 @@ class IouWriteOpponentFragment : Fragment() {
                             bundle.putString("debtorPhoneNumber", opponentPhoneNumber)
                             bundle.putString("debtorAddress", opponentAddress)
 
+                            bundle.putString("currentState", currentState)
+                            bundle.putInt("paperId", paperId)
+
+                            Log.d(TAG, "bundle : $bundle")
+
                             mainActivity.replaceFragment(MainActivity.IOU_CONTENT_CHECK_FRAGMENT, true, bundle)
                         }
 
@@ -198,6 +232,11 @@ class IouWriteOpponentFragment : Fragment() {
                             bundle.putString("debtorPhoneNumber", debtorPhoneNumber)
                             bundle.putString("debtorAddress", debtorAddress)
 
+                            bundle.putString("currentState", currentState)
+                            bundle.putInt("paperId", paperId)
+
+                            Log.d(TAG, "bundle : $bundle")
+
                             mainActivity.replaceFragment(MainActivity.IOU_CONTENT_CHECK_FRAGMENT, true, bundle)
 
                         }
@@ -205,7 +244,6 @@ class IouWriteOpponentFragment : Fragment() {
                     }
                 }
             }
-
         }
     }
 
@@ -345,6 +383,56 @@ class IouWriteOpponentFragment : Fragment() {
 
         // 최종 주소 문자열을 구성
         opponentAddress = formattedRoadAddress + formattedDetailAddress + formattedZonecode
+    }
+
+    private fun modifyInitUI() {
+        binding.run {
+            materialToolbarIouWriteOpponent.run {
+                // 뒤로가기 버튼
+                setNavigationOnClickListener {
+                    mainActivity.removeFragment(MainActivity.IOU_WRITE_OPPONENT_FRAGMENT)
+                }
+
+                // X 버튼
+                setOnMenuItemClickListener {
+                    when(it.itemId) {
+                        R.id.item_cancel -> mainActivity.showModifyAlertDialog()
+                    }
+                    false
+                }
+            }
+
+            editTextNameIouWriteOpponent.setText(modifyOpponentName)
+            editTextPhoneNumberIouWriteOpponent.setText(mainActivity.formatPhoneNumber(modifyOpponentPhoneNumber))
+
+            if (modifyOpponentName.isNotEmpty() && modifyOpponentPhoneNumber.isNotEmpty()) {
+                isButtonClickable = true
+                binding.buttonNextIouWriteOpponent.setBackgroundResource(R.drawable.bg_primary_mint_r12)
+            }
+
+            when(writerRole) {
+                "CREDITOR" -> {
+                    opponentName = modifyOpponentName
+                    opponentPhoneNumber = mainActivity.formatPhoneNumber(modifyOpponentPhoneNumber)
+                }
+
+                "DEBTOR" -> {
+                    opponentName = modifyOpponentName
+                    opponentPhoneNumber = mainActivity.formatPhoneNumber(modifyOpponentPhoneNumber)
+                }
+            }
+
+            val fullAddress = mainActivity.extractAddressComponents(opponentAddress)
+            if (fullAddress != null) {
+                val (totalAddress, postalCode) = fullAddress
+                editTextZipCodeIouWriteOpponent.setText(postalCode)
+                editTextAddressIouWriteOpponent.setText(totalAddress)
+
+                zonecode = postalCode
+                roadAddress = totalAddress
+            }
+            settingFunction()
+        }
     }
 
 }

@@ -128,4 +128,11 @@ interface PayRitApi {
         @Header("Authorization") accessToken: String,
         @Body modifyRequest: ModifyRequest
     ): Call<Void>
+
+    @PUT("api/v1/paper/modify/accept/{id}")
+    fun modifyAcceptIou(
+        @Header("Authorization") accessToken: String,
+        @Body iouWriteRequest: IouWriteRequest,
+        @Path("id") id: Int
+    ): Call<Void>
 }

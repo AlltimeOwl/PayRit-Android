@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.databinding.ActivityMainBinding
+import com.alltimeowl.payrit.databinding.ItemModifyCancelBinding
 import com.alltimeowl.payrit.ui.approval.RecipientApprovalFragment
 import com.alltimeowl.payrit.ui.home.HomeFragment
 import com.alltimeowl.payrit.ui.home.IouBorrowDetailFragment
@@ -33,6 +34,7 @@ import com.alltimeowl.payrit.ui.write.IouWriteOpponentFragment
 import com.alltimeowl.payrit.ui.write.KakaoZipCodeFragment
 import com.alltimeowl.payrit.ui.write.WriteMainFragment
 import com.alltimeowl.payrit.ui.writer.IouWriterApprovalWaitingFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -278,6 +280,38 @@ class MainActivity : AppCompatActivity() {
         }
 
         return result + "원"
+    }
+
+    fun showModifyAlertDialog() {
+        val itemModifyCancelBinding = ItemModifyCancelBinding.inflate(layoutInflater)
+        val builder = MaterialAlertDialogBuilder(this)
+        builder.setView(itemModifyCancelBinding.root)
+        val dialog = builder.create()
+
+        // 작성 중단 - 네
+        itemModifyCancelBinding.textViewYesModifyCancel.setOnClickListener {
+            dialog.dismiss()
+
+            removeAllBackStack()
+        }
+
+        // 작성 중단 - 아니오
+        itemModifyCancelBinding.textViewNoModifyCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    fun extractAddressComponents(fullAddress: String): Pair<String, String>? {
+        // 주소 형식: "전체주소 (우편번호)"
+        val regex = """^(.+?)\s+\((\d+)\)$""".toRegex()
+        val matchResult = regex.find(fullAddress)
+
+        return matchResult?.let {
+            val (address, postalCode) = it.destructured
+            Pair(address, postalCode)
+        }
     }
 
 

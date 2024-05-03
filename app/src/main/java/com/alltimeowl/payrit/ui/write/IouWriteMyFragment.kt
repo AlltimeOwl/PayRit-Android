@@ -38,6 +38,13 @@ class IouWriteMyFragment : Fragment() {
     private var detailAddress = ""
     private var address = ""
 
+    private lateinit var currentState: String
+    private var paperId: Int = 0
+    private lateinit var myAddress: String
+    private lateinit var opponentName: String
+    private lateinit var opponentPhoneNumber: String
+    private lateinit var opponentAddress: String
+
     val TAG = "IouWriteMyFragment"
 
     override fun onCreateView(
@@ -61,9 +68,26 @@ class IouWriteMyFragment : Fragment() {
             else null
         }
 
-        initUI()
+        currentState = arguments?.getString("currentState").toString()
+        paperId = arguments?.getInt("paperId")!!
+        myAddress = arguments?.getString("myAddress").toString()
+        opponentName = arguments?.getString("opponentName").toString()
+        opponentPhoneNumber = arguments?.getString("opponentPhoneNumber").toString()
+        opponentAddress = arguments?.getString("opponentAddress").toString()
+
+        address = myAddress
+
+        settingUI()
 
         return binding.root
+    }
+
+    private fun settingUI() {
+        if (currentState == "modify") {
+            modifyInitUI()
+        } else {
+            initUI()
+        }
     }
 
     private fun initUI() {
@@ -83,7 +107,12 @@ class IouWriteMyFragment : Fragment() {
                 }
 
             }
+            settingFunction()
+        }
+    }
 
+    private fun settingFunction() {
+        binding.run {
             // 로그인한 유저 이름, 연락처 설정
             editTextNameIouWriteMy.setText(SharedPreferencesManager.getUserName())
             editTextPhoneNumberIouWriteMy.setText(mainActivity.convertPhoneNumber(SharedPreferencesManager.getUserPhoneNumber()))
@@ -135,9 +164,16 @@ class IouWriteMyFragment : Fragment() {
                         bundle.putString("creditorName", SharedPreferencesManager.getUserName())
                         bundle.putString("creditorPhoneNumber", SharedPreferencesManager.getUserPhoneNumber())
                         bundle.putString("creditorAddress", address)
+                        bundle.putString("currentState", currentState)
+                        bundle.putInt("paperId", paperId)
+                        bundle.putString("opponentName", opponentName)
+                        bundle.putString("opponentPhoneNumber", opponentPhoneNumber)
+                        bundle.putString("opponentAddress", opponentAddress)
 
+                        Log.d(TAG, "creditor bundle : $bundle")
                         mainActivity.replaceFragment(MainActivity.IOU_WRITE_OPPONENT_FRAGMENT, true, bundle)
                     }
+
                     "DEBTOR" -> {
                         val bundle = Bundle()
 
@@ -153,12 +189,17 @@ class IouWriteMyFragment : Fragment() {
                         bundle.putString("debtorName", SharedPreferencesManager.getUserName())
                         bundle.putString("debtorPhoneNumber", SharedPreferencesManager.getUserPhoneNumber())
                         bundle.putString("debtorAddress", address)
+                        bundle.putString("currentState", currentState)
+                        bundle.putInt("paperId", paperId)
+                        bundle.putString("opponentName", opponentName)
+                        bundle.putString("opponentPhoneNumber", opponentPhoneNumber)
+                        bundle.putString("opponentAddress", opponentAddress)
 
+                        Log.d(TAG, "bundle : ${bundle}")
                         mainActivity.replaceFragment(MainActivity.IOU_WRITE_OPPONENT_FRAGMENT, true, bundle)
                     }
                 }
             }
-
         }
     }
 
@@ -205,6 +246,36 @@ class IouWriteMyFragment : Fragment() {
 
         // 최종 주소 문자열을 구성
         address = formattedRoadAddress + formattedDetailAddress + formattedZonecode
+    }
+
+    private fun modifyInitUI() {
+        binding.run {
+            materialToolbarIouTransactionalInformation.run {
+                // 뒤로가기 버튼
+                setNavigationOnClickListener {
+                    mainActivity.removeFragment(MainActivity.IOU_WRITE_MY_FRAGMENT)
+                }
+
+                // X 버튼
+                setOnMenuItemClickListener {
+                    when(it.itemId) {
+                        R.id.item_cancel -> mainActivity.showModifyAlertDialog()
+                    }
+                    false
+                }
+            }
+
+            val fullAddress = mainActivity.extractAddressComponents(myAddress)
+            if (fullAddress != null) {
+                val (totalAddress, postalCode) = fullAddress
+                editTextZipCodeIouWriteMy.setText(postalCode)
+                editTextAddressIouWriteMy.setText(totalAddress)
+
+                zonecode = postalCode
+                roadAddress = totalAddress
+            }
+            settingFunction()
+        }
     }
 
 }
