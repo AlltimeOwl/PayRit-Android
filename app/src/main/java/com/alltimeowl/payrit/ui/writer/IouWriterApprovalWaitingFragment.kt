@@ -6,12 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.alltimeowl.payrit.R
+import com.alltimeowl.payrit.data.model.IouWriteRequest
 import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentIouWriterApprovalWaitingBinding
 import com.alltimeowl.payrit.ui.home.HomeViewModel
 import com.alltimeowl.payrit.ui.main.MainActivity
+import com.alltimeowl.payrit.ui.write.IouWriteViewModel
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient
@@ -26,9 +29,13 @@ class IouWriterApprovalWaitingFragment : Fragment() {
     lateinit var binding: FragmentIouWriterApprovalWaitingBinding
 
     private lateinit var viewModel: HomeViewModel
+    private val iouWriteViewModel: IouWriteViewModel by activityViewModels()
 
     private var paperId: Int = 0
+    private var paperStatus: String = ""
     private var writeUserName = ""
+
+    private lateinit var iouWriteRequest: IouWriteRequest
 
     val TAG = "IouWriterApprovalWaitingFragment"
 
@@ -43,6 +50,7 @@ class IouWriterApprovalWaitingFragment : Fragment() {
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         paperId = arguments?.getInt("paperId")!!
+        paperStatus = arguments?.getString("paperStatus")!!
 
         val accessToken = SharedPreferencesManager.getAccessToken()
         viewModel.getIouDetail(accessToken, paperId)
@@ -50,6 +58,7 @@ class IouWriterApprovalWaitingFragment : Fragment() {
         initUI()
         observeData()
         KakaoTalkShare()
+        moveToModify()
 
         return binding.root
     }
@@ -62,6 +71,17 @@ class IouWriterApprovalWaitingFragment : Fragment() {
             materialToolbarIouWriterApprovalWaiting.run {
                 setNavigationOnClickListener {
                     mainActivity.removeFragment(MainActivity.IOU_WRITER_APPROVAL_WAITING_FRAGMENT)
+                }
+            }
+
+            when(paperStatus) {
+                "WAITING_AGREE" -> {
+                    buttonIouWriterApprovalWaiting.visibility = View.VISIBLE
+                    buttonModifyIouWriterApprovalWaiting.visibility = View.GONE
+                }
+                "MODIFYING" -> {
+                    buttonIouWriterApprovalWaiting.visibility = View.GONE
+                    buttonModifyIouWriterApprovalWaiting.visibility = View.VISIBLE
                 }
             }
 
@@ -80,6 +100,13 @@ class IouWriterApprovalWaitingFragment : Fragment() {
             binding.progressBarIouWriterApprovalWaiting.visibility = View.GONE
             binding.scrollViewIouWriterApprovalWaiting.visibility = View.VISIBLE
 
+            if (iouDetailInfo.modifyRequest?.isNotEmpty() == true) {
+                binding.cardViewModifyContentsIouWriterApprovalWaiting.visibility = View.VISIBLE
+                binding.textViewModifyContentsIouWriterApprovalWaiting.text = iouDetailInfo.modifyRequest
+            } else {
+                binding.cardViewModifyContentsIouWriterApprovalWaiting.visibility = View.GONE
+            }
+
             // 거래 내역
             binding.textViewTransactionAmountIouWriterApprovalWaiting.text = mainActivity.convertMoneyFormat(iouDetailInfo.paperFormInfo.primeAmount) + "원"
             binding.textViewTransactionDateIouWriterApprovalWaiting.text = mainActivity.convertDateFormat(iouDetailInfo.paperFormInfo.repaymentEndDate)
@@ -87,6 +114,9 @@ class IouWriterApprovalWaitingFragment : Fragment() {
             // 추가 사항
             if ((iouDetailInfo.paperFormInfo.interestRate <= 0.0 || iouDetailInfo.paperFormInfo.interestRate > 20.00) && iouDetailInfo.paperFormInfo.specialConditions.isEmpty()) {
                 binding.cardViewAdditionContractIouWriterApprovalWaiting.visibility = View.GONE
+                val layoutParams = binding.cardViewLendPersonInfoIouWriterApprovalWaiting.layoutParams as ViewGroup.MarginLayoutParams
+                layoutParams.bottomMargin = resources.getDimensionPixelSize(R.dimen.margin_100dp)
+                binding.cardViewLendPersonInfoIouWriterApprovalWaiting.layoutParams = layoutParams
             } else {
 
                 // 이자율
@@ -128,6 +158,17 @@ class IouWriterApprovalWaitingFragment : Fragment() {
                 binding.linearLayoutBorrowPersonAddressIouWriterApprovalWaiting.visibility = View.GONE
             } else {
                 binding.textViewBorrowPersonAddressIouWriterApprovalWaiting.text = iouDetailInfo.debtorProfile.address
+            }
+
+            // 수정 요청중 일때 데이터 셋팅
+            if (paperStatus == "MODIFYING") {
+                iouWriteRequest = IouWriteRequest(iouDetailInfo.memberRole, iouDetailInfo.paperFormInfo.primeAmount, iouDetailInfo.paperFormInfo.interest,
+                    iouDetailInfo.paperFormInfo.transactionDate, iouDetailInfo.paperFormInfo.repaymentStartDate, iouDetailInfo.paperFormInfo.repaymentEndDate, iouDetailInfo.paperFormInfo.specialConditions,
+                    iouDetailInfo.paperFormInfo.interestRate, iouDetailInfo.paperFormInfo.interestPaymentDate,
+                    iouDetailInfo.creditorProfile.name, iouDetailInfo.creditorProfile.phoneNumber, iouDetailInfo.creditorProfile.address,
+                    iouDetailInfo.debtorProfile.name, iouDetailInfo.debtorProfile.phoneNumber, iouDetailInfo.debtorProfile.address)
+
+                setModifyData(iouWriteRequest)
             }
 
         }
@@ -197,6 +238,20 @@ class IouWriterApprovalWaitingFragment : Fragment() {
 
             }
         }
+    }
+
+    private fun moveToModify() {
+        binding.buttonModifyIouWriterApprovalWaiting.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("currentState", "modify")
+            bundle.putInt("paperId", paperId)
+
+            mainActivity.replaceFragment(MainActivity.IOU_TRANSACTIONAL_INFORMATION_FRAGMENT, true, bundle)
+        }
+    }
+
+    private fun setModifyData(iouWriteRequest: IouWriteRequest) {
+        iouWriteViewModel.setModifyData(iouWriteRequest)
     }
 
 }

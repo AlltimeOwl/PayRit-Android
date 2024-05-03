@@ -13,6 +13,7 @@ import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentIouContentCheckBinding
 import com.alltimeowl.payrit.databinding.ItemCancelBinding
 import com.alltimeowl.payrit.databinding.ItemKakaolBinding
+import com.alltimeowl.payrit.ui.approval.RecipientApprovalViewModel
 import com.alltimeowl.payrit.ui.main.MainActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
@@ -55,6 +56,10 @@ class IouContentCheckFragment : Fragment() {
     private lateinit var iouWriteRequest: IouWriteRequest
 
     private lateinit var viewModel: IouWriteViewModel
+    private lateinit var recipientApprovalViewModel: RecipientApprovalViewModel
+
+    private lateinit var currentState: String
+    private var paperId: Int = 0
 
     val TAG = "IouContentCheckFragment"
 
@@ -67,6 +72,7 @@ class IouContentCheckFragment : Fragment() {
         binding = FragmentIouContentCheckBinding.inflate(layoutInflater)
 
         viewModel = ViewModelProvider(this)[IouWriteViewModel::class.java]
+        recipientApprovalViewModel = ViewModelProvider(this)[RecipientApprovalViewModel::class.java]
 
         writerRole = arguments?.getString("writerRole").toString()
         amount = arguments?.getInt("amount")
@@ -107,9 +113,26 @@ class IouContentCheckFragment : Fragment() {
             }
         }
 
-        initUI()
+        currentState = arguments?.getString("currentState").toString()
+        paperId = arguments?.getInt("paperId")!!
+
+        settingUI()
 
         return binding.root
+    }
+
+    private fun settingUI() {
+        binding.run {
+            if (currentState == "modify") {
+                modifyInitUI()
+                buttonSendIouContentCheck.visibility = View.GONE
+                buttonModifySendIouContentCheck.visibility = View.VISIBLE
+            } else {
+                initUI()
+                buttonSendIouContentCheck.visibility = View.VISIBLE
+                buttonModifySendIouContentCheck.visibility = View.GONE
+            }
+        }
     }
 
     private fun initUI() {
@@ -145,7 +168,7 @@ class IouContentCheckFragment : Fragment() {
 
             // 거래 내역
             textViewTransactionAmountIouContentCheck.text = mainActivity.convertMoneyFormat(amount!!) + "원"
-            textViewTransactionDateIouContentCheck.text = repaymentStartDate
+            textViewTransactionDateIouContentCheck.text = repaymentEndDate
 
             // 특약 사항
             if ((interestRate!! <= 0.0 || interestRate!! > 20.00) && interestPaymentDate == null && specialConditions.isEmpty()) {
@@ -252,15 +275,22 @@ class IouContentCheckFragment : Fragment() {
 
         // 카카오톡 공유 - 네
         itemKakaolBinding.textViewYesKakao.setOnClickListener {
-            dialog.dismiss()
-            writeIouApi()
-            sendKakao()
+
+            if(currentState == "modify") {
+                dialog.dismiss()
+                writeIouApi(currentState)
+                sendKakao(currentState)
+            } else {
+                dialog.dismiss()
+                writeIouApi(currentState)
+                sendKakao(currentState)
+            }
         }
 
         dialog.show()
     }
 
-    private fun writeIouApi() {
+    private fun writeIouApi(currentState: String) {
 
         when(writerRole) {
             "CREDITOR" -> {
@@ -277,31 +307,72 @@ class IouContentCheckFragment : Fragment() {
         }
 
         val accessToken = SharedPreferencesManager.getAccessToken()
-        viewModel.iouWrite(accessToken, iouWriteRequest)
+
+        if (currentState == "modify") {
+            recipientApprovalViewModel.modifyAcceptIou(accessToken, iouWriteRequest, paperId)
+        } else {
+            viewModel.iouWrite(accessToken, iouWriteRequest)
+        }
+
     }
 
-    private fun sendKakao() {
-        val defaultFeed = FeedTemplate(
-            content = Content(
-                title = "${writeUserName}님이 작성하신\n" +
-                        "페이릿 차용증이 작성되었습니다.\n" +
-                        "앱에서 확인해주세요",
-                imageUrl = "https://github.com/wjdwntjd55/Blog/assets/73345198/1c29ffef-0176-4add-9e1b-cfb4d8e321cc",
-                link = Link(
-                    webUrl = "https://developers.kakao.com",
-                    mobileWebUrl = "https://developers.kakao.com"
-                )
-            ),
-            buttons = listOf(
-                Button(
-                    "앱으로 보기",
-                    Link(
-                        androidExecutionParams = mapOf("key1" to "value1", "key2" to "value2"),
-                        iosExecutionParams = mapOf("key1" to "value1", "key2" to "value2"),
+    private fun sendKakao(currentState: String) {
+
+        val defaultFeed : FeedTemplate
+
+        when(currentState) {
+            "modify" -> {
+                defaultFeed = FeedTemplate(
+                    content = Content(
+                        title = "${writeUserName}님이 작성하신\n" +
+                                "페이릿 차용증이 수정되었습니다.\n" +
+                                "앱에서 확인해주세요",
+                        imageUrl = "https://github.com/AlltimeOwl/PayRit-Android/assets/73345198/4c9779ae-eba6-4f63-a81c-e7b3517d3e6d",
+                        imageWidth = 400,
+                        imageHeight = 200,
+                        link = Link(
+                            webUrl = "https://developers.kakao.com",
+                            mobileWebUrl = "https://developers.kakao.com"
+                        )
+                    ),
+                    buttons = listOf(
+                        Button(
+                            "앱으로 보기",
+                            Link(
+                                androidExecutionParams = mapOf("key1" to "value1", "key2" to "value2"),
+                                iosExecutionParams = mapOf("key1" to "value1", "key2" to "value2"),
+                            )
+                        )
                     )
                 )
-            )
-        )
+            }
+
+            else -> {
+                defaultFeed = FeedTemplate(
+                    content = Content(
+                        title = "${writeUserName}님이 작성하신\n" +
+                                "페이릿 차용증이 작성되었습니다.\n" +
+                                "앱에서 확인해주세요",
+                        imageUrl = "https://github.com/AlltimeOwl/PayRit-Android/assets/73345198/4c9779ae-eba6-4f63-a81c-e7b3517d3e6d",
+                        imageWidth = 400,
+                        imageHeight = 200,
+                        link = Link(
+                            webUrl = "https://developers.kakao.com",
+                            mobileWebUrl = "https://developers.kakao.com"
+                        )
+                    ),
+                    buttons = listOf(
+                        Button(
+                            "앱으로 보기",
+                            Link(
+                                androidExecutionParams = mapOf("key1" to "value1", "key2" to "value2"),
+                                iosExecutionParams = mapOf("key1" to "value1", "key2" to "value2"),
+                            )
+                        )
+                    )
+                )
+            }
+        }
 
         // 피드 메시지 보내기
 
@@ -340,6 +411,32 @@ class IouContentCheckFragment : Fragment() {
                 mainActivity.activityMainBinding.bottomNavigationViewMain.selectedItemId = R.id.home_menu
             } catch (e: UnsupportedOperationException) {
                 // CustomTabsServiceConnection 지원 브라우저가 없을 때의 예외 처리
+            }
+
+        }
+    }
+
+    private fun modifyInitUI() {
+        binding.run {
+            materialToolbarIouContentCheck.run {
+                // 뒤로가기 버튼
+                setNavigationOnClickListener {
+                    mainActivity.removeFragment(MainActivity.IOU_CONTENT_CHECK_FRAGMENT)
+                }
+
+                // X 버튼
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.item_cancel -> mainActivity.showModifyAlertDialog()
+                    }
+                    false
+                }
+            }
+            settingIou()
+
+            // 수정 요청 전송
+            buttonModifySendIouContentCheck.setOnClickListener {
+                showKakaoDialog()
             }
 
         }

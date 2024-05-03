@@ -10,6 +10,7 @@ import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
 import com.alltimeowl.payrit.databinding.ItemApprovalRequestBinding
 import com.alltimeowl.payrit.databinding.ItemIouBinding
+import com.alltimeowl.payrit.databinding.ItemModifyingBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.lang.Math.abs
@@ -44,6 +45,7 @@ class HomeAdapter(val mainActivity: MainActivity, var myIouList: MutableList<get
 
                         val bundle = Bundle()
                         bundle.putInt("paperId", iou.paperId)
+                        bundle.putString("paperStatus", iou.paperStatus)
 
                         mainActivity.replaceFragment(MainActivity.IOU_WRITER_APPROVAL_WAITING_FRAGMENT, true, bundle)
 
@@ -59,6 +61,29 @@ class HomeAdapter(val mainActivity: MainActivity, var myIouList: MutableList<get
                         bundle.putInt("paperId", iou.paperId)
 
                         mainActivity.replaceFragment(MainActivity.PAYMENT_FRAGMENT, true, bundle)
+                    } else if (iou.isWriter && iou.paperStatus == "MODIFYING") {
+                        // 차용증 작성자가 수정 요청중 클릭시
+
+                        val bundle = Bundle()
+                        bundle.putInt("paperId", iou.paperId)
+                        bundle.putString("paperStatus", iou.paperStatus)
+
+                        Log.d("HomeFragment", "bundle : ${bundle}")
+
+                        mainActivity.replaceFragment(MainActivity.IOU_WRITER_APPROVAL_WAITING_FRAGMENT, true, bundle)
+                    } else if (!iou.isWriter && iou.paperStatus == "MODIFYING") {
+                        // 차용증 받은 사람이 수정 요청중 클릭시
+
+                        val itemModifyingBinding = ItemModifyingBinding.inflate(mainActivity.layoutInflater)
+                        val builder = MaterialAlertDialogBuilder(mainActivity)
+                        builder.setView(itemModifyingBinding.root)
+                        val dialog = builder.create()
+
+                        itemModifyingBinding.textViewCheckModifiying.setOnClickListener {
+                            dialog.dismiss()
+                        }
+
+                        dialog.show()
                     }
                 }
             }
@@ -96,7 +121,7 @@ class HomeAdapter(val mainActivity: MainActivity, var myIouList: MutableList<get
 
             when(iou.paperStatus) {
                 "WAITING_AGREE" -> binding.textViewPaperStatusIou.text = "승인 대기중"
-                "MODIFYING" -> binding.textViewPaperStatusIou.text = "수정중"
+                "MODIFYING" -> binding.textViewPaperStatusIou.text = "수정 요청중"
                 "PAYMENT_REQUIRED" -> binding.textViewPaperStatusIou.text = "결제 대기중"
                 "COMPLETE_WRITING" -> binding.textViewPaperStatusIou.text = "상환 진행중"
                 "EXPIRED" -> binding.textViewPaperStatusIou.text = "상환 완료"

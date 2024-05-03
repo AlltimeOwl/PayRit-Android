@@ -421,16 +421,51 @@
 
         </ScrollView>
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linearLayout_recipient_approval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_refuse_recipient_approval"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.5"
+                android:background="@drawable/bg_gray_scale07_r12"
+                android:stateListAnimator="@null"
+                android:text="거절"
+                android:textAppearance="@style/Typography.Bold20"
+                android:textColor="@color/white" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_recipient_approval"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_primary_mint_r12"
+                android:stateListAnimator="@null"
+                android:text="수락하기"
+                android:textAppearance="@style/Typography.Bold20"
+                android:textColor="@color/white" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_recipient_approval"
+            android:id="@+id/button_modify_request_recipient_approval"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/bg_gray_scale07_r12"
+            android:background="@drawable/bg_primary_mint_r12"
             android:stateListAnimator="@null"
-            android:text="수락하기"
+            android:text="수정 요청하기"
             android:textAppearance="@style/Typography.Bold20"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent" />

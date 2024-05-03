@@ -5,6 +5,8 @@ import android.graphics.Canvas
 import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import android.os.Environment
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,11 +15,16 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import com.alltimeowl.payrit.R
+import com.alltimeowl.payrit.data.model.ModifyRequest
 import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentRecipientApprovalBinding
+import com.alltimeowl.payrit.databinding.ItemCompleteModifyBinding
 import com.alltimeowl.payrit.databinding.ItemDocumentBinding
+import com.alltimeowl.payrit.databinding.ItemFailureModifyBinding
+import com.alltimeowl.payrit.databinding.ItemModifyRequestBinding
 import com.alltimeowl.payrit.ui.home.HomeViewModel
 import com.alltimeowl.payrit.ui.main.MainActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -38,7 +45,7 @@ class RecipientApprovalFragment : Fragment() {
     private lateinit var recipientApprovalViewModel: RecipientApprovalViewModel
 
     private var paperId: Int = 0
-    private var buttonClickable = false
+    private var accessToken = ""
 
     private var creditorName = ""
     private var creditorPhoneNumber = ""
@@ -68,12 +75,13 @@ class RecipientApprovalFragment : Fragment() {
 
         paperId = arguments?.getInt("paperId")!!
 
-        val accessToken = SharedPreferencesManager.getAccessToken()
+        accessToken = SharedPreferencesManager.getAccessToken()
         viewModel.getIouDetail(accessToken, paperId)
 
         initUI()
         observeData()
         checkBoxState()
+        modifyRequestButton()
 
         return binding.root
     }
@@ -172,12 +180,12 @@ class RecipientApprovalFragment : Fragment() {
 
         binding.checkBoxRecipientApproval.setOnClickListener {
 
-            buttonClickable = if (binding.checkBoxRecipientApproval.isChecked) {
-                binding.buttonRecipientApproval.setBackgroundResource(R.drawable.bg_primary_mint_r12)
-                true
+            if (binding.checkBoxRecipientApproval.isChecked) {
+                binding.buttonModifyRequestRecipientApproval.visibility = View.GONE
+                binding.linearLayoutRecipientApproval.visibility = View.VISIBLE
             } else {
-                binding.buttonRecipientApproval.setBackgroundResource(R.drawable.bg_gray_scale07_r12)
-                false
+                binding.buttonModifyRequestRecipientApproval.visibility = View.VISIBLE
+                binding.linearLayoutRecipientApproval.visibility = View.GONE
             }
         }
 
@@ -266,13 +274,90 @@ class RecipientApprovalFragment : Fragment() {
     private fun approvalIou(body: MultipartBody.Part) {
 
         binding.buttonRecipientApproval.setOnClickListener {
-            if (buttonClickable) {
-                val accessToken = SharedPreferencesManager.getAccessToken()
-                recipientApprovalViewModel.approvalIou(accessToken, paperId, body)
-                mainActivity.removeFragment(MainActivity.RECIPIENT_APPROVAL_FRAGMENT)
-            }
+            recipientApprovalViewModel.approvalIou(accessToken, paperId, body)
+            mainActivity.removeFragment(MainActivity.RECIPIENT_APPROVAL_FRAGMENT)
         }
 
+    }
+
+    // 수정 요청하기 버튼
+    private fun modifyRequestButton() {
+        binding.buttonModifyRequestRecipientApproval.setOnClickListener {
+            val itemModifyRequestBinding = ItemModifyRequestBinding.inflate(layoutInflater)
+            val builder = MaterialAlertDialogBuilder(mainActivity)
+            builder.setView(itemModifyRequestBinding.root)
+            val dialog = builder.create()
+
+            var modifyRequestContents = ""
+
+            itemModifyRequestBinding.editTextModifyRequest.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+                override fun afterTextChanged(s: Editable?) {
+                    modifyRequestContents = s.toString()
+
+                    if (modifyRequestContents.isEmpty()) {
+                        itemModifyRequestBinding.textViewHintModifyRequest.visibility = View.VISIBLE
+                    } else {
+                        itemModifyRequestBinding.textViewHintModifyRequest.visibility = View.GONE
+                    }
+                }
+
+            })
+
+            // 수정사항 요청 - 취소
+            itemModifyRequestBinding.textViewCancelModifyRequest.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            // 수정사항 요청 - 보내기
+            itemModifyRequestBinding.textViewSendModifyRequest.setOnClickListener {
+
+                val modifyRequest = ModifyRequest(paperId, modifyRequestContents)
+                recipientApprovalViewModel.modifyIouRequest(accessToken, modifyRequest,
+                    onSuccess = {
+                        showCompleteAlertDialog()
+                    }, onFailure = {
+                        showFailureAlertDialog()
+                    }
+                )
+
+                dialog.dismiss()
+            }
+
+            dialog.show()
+        }
+    }
+
+    // 수정 요청 성공
+    private fun showCompleteAlertDialog() {
+        val itemCompleteModifyBinding = ItemCompleteModifyBinding.inflate(layoutInflater)
+        val builder = MaterialAlertDialogBuilder(mainActivity)
+        builder.setView(itemCompleteModifyBinding.root)
+        val dialog = builder.create()
+
+        itemCompleteModifyBinding.textViewCheckCompleteModify.setOnClickListener {
+            mainActivity.removeFragment(MainActivity.RECIPIENT_APPROVAL_FRAGMENT)
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    // 수정 요청 실패
+    private fun showFailureAlertDialog() {
+        val itemFailureModifyBinding = ItemFailureModifyBinding.inflate(layoutInflater)
+        val builder = MaterialAlertDialogBuilder(mainActivity)
+        builder.setView(itemFailureModifyBinding.root)
+        val dialog = builder.create()
+
+        itemFailureModifyBinding.textViewCheckFailureModify.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
 }

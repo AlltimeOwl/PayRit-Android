@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.fragment.app.activityViewModels
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.databinding.FragmentIouTransactionalInformationBinding
 import com.alltimeowl.payrit.databinding.ItemCancelBinding
@@ -29,7 +30,16 @@ class IouTransactionalInformationFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
     lateinit var binding: FragmentIouTransactionalInformationBinding
 
+    private val iouWriteViewModel: IouWriteViewModel by activityViewModels()
+
     private lateinit var writerRole: String
+    private lateinit var currentState: String
+    private var paperId: Int = 0
+
+    private var myAddress: String = ""
+    private var opponentName: String = ""
+    private var opponentPhoneNumber: String = ""
+    private var opponentAddress: String = ""
 
     val TAG = "IouTransactionalInformationFragment"
 
@@ -42,10 +52,20 @@ class IouTransactionalInformationFragment : Fragment() {
         binding = FragmentIouTransactionalInformationBinding.inflate(layoutInflater)
 
         writerRole = arguments?.getString("writerRole").toString()
+        currentState = arguments?.getString("currentState").toString()
+        paperId = arguments?.getInt("paperId")!!
 
-        initUI()
+        settingUI()
 
         return binding.root
+    }
+
+    private fun settingUI() {
+        if (currentState == "modify") {
+            modifyInitUI()
+        } else {
+            initUI()
+        }
     }
 
     private fun initUI() {
@@ -72,7 +92,13 @@ class IouTransactionalInformationFragment : Fragment() {
                 "CREDITOR" -> textViewLendConditionIouTransactionalInformation.visibility = View.VISIBLE
                 "DEBTOR" -> textViewBorrowConditionIouTransactionalInformation.visibility = View.VISIBLE
             }
+            settingFunction()
+            validationButton()
+        }
+    }
 
+    private fun settingFunction() {
+        binding.run {
             // 금액 입력
             editTextAmountIouTransactionalInformation.addTextChangedListener(
                 getTextWatcher(editTextAmountIouTransactionalInformation)
@@ -171,8 +197,6 @@ class IouTransactionalInformationFragment : Fragment() {
 
                 validationButton()
             }
-
-            validationButton()
         }
     }
 
@@ -362,7 +386,7 @@ class IouTransactionalInformationFragment : Fragment() {
                     toast.show()
 
                     val amountText = binding.editTextAmountIouTransactionalInformation.text.toString()
-                    binding.textTotalAmountIouTransactionalInformation.text = "$amountText 원"
+                    binding.textTotalAmountIouTransactionalInformation.text = "${amountText}원"
 
                     binding.includeIouTransactionalInformation.editTextInterestRateLayoutInterestOn.text?.clear()
                     binding.includeIouTransactionalInformation.textViewInterestAmountLayoutInterestOn.text = "0"
@@ -416,7 +440,7 @@ class IouTransactionalInformationFragment : Fragment() {
                 // 합계 계산
                 val totalAmountWithoutDecimal = (amount + interest).toInt()
                 val formattedTotalAmount = NumberFormat.getNumberInstance(Locale.getDefault()).format(totalAmountWithoutDecimal)
-                binding.textTotalAmountIouTransactionalInformation.text = "$formattedTotalAmount 원"
+                binding.textTotalAmountIouTransactionalInformation.text = "${formattedTotalAmount}원"
             }
 
         }
@@ -515,6 +539,12 @@ class IouTransactionalInformationFragment : Fragment() {
                                 if (!switchIouTransactionalInformation.isChecked) {
 
                                     val bundle = Bundle()
+                                    bundle.putString("currentState", currentState)
+                                    bundle.putInt("paperId", paperId)
+                                    bundle.putString("myAddress", myAddress)
+                                    bundle.putString("opponentName", opponentName)
+                                    bundle.putString("opponentPhoneNumber", opponentPhoneNumber)
+                                    bundle.putString("opponentAddress", opponentAddress)
                                     bundle.putString("writerRole", writerRole)
                                     bundle.putInt("amount", amountWithoutComma.toInt())
                                     bundle.putInt("interest", interestAmountInt)
@@ -527,6 +557,17 @@ class IouTransactionalInformationFragment : Fragment() {
                                         bundle.putInt("interestPaymentDate", paymentDateInt)
                                     }
 
+                                    if (paymentDateInt != null && rage != 0.0) {
+                                        updateModifyData(
+                                            amountWithoutComma.toInt(), today, repaymentStartDate.toString(), repaymentEndDate.toString(),
+                                            significant, rage.toFloat(), paymentDateInt, interestAmountInt
+                                        )
+                                    } else {
+                                        updateModifyData(
+                                            amountWithoutComma.toInt(), today, repaymentStartDate.toString(), repaymentEndDate.toString(),
+                                            significant, rage.toFloat(), newInterestPaymentDate = 0, interestAmountInt
+                                        )
+                                    }
                                     mainActivity.replaceFragment(MainActivity.IOU_WRITE_MY_FRAGMENT, true, bundle)
                                 }
                                 return@setOnClickListener
@@ -594,6 +635,12 @@ class IouTransactionalInformationFragment : Fragment() {
                                 if (includeIouTransactionalInformation.switchLayoutInterestOn.isChecked) {
 
                                     val bundle = Bundle()
+                                    bundle.putString("currentState", currentState)
+                                    bundle.putInt("paperId", paperId)
+                                    bundle.putString("myAddress", myAddress)
+                                    bundle.putString("opponentName", opponentName)
+                                    bundle.putString("opponentPhoneNumber", opponentPhoneNumber)
+                                    bundle.putString("opponentAddress", opponentAddress)
                                     bundle.putString("writerRole", writerRole)
                                     bundle.putInt("amount", amountWithoutComma.toInt())
                                     bundle.putInt("interest", interestAmountInt)
@@ -606,6 +653,17 @@ class IouTransactionalInformationFragment : Fragment() {
                                         bundle.putInt("interestPaymentDate", paymentDateInt)
                                     }
 
+                                    if (paymentDateInt != null && rage != 0.0) {
+                                        updateModifyData(
+                                            amountWithoutComma.toInt(), today, repaymentStartDate.toString(), repaymentEndDate.toString(),
+                                            significant, rage.toFloat(), paymentDateInt, interestAmountInt
+                                        )
+                                    } else {
+                                        updateModifyData(
+                                            amountWithoutComma.toInt(), today, repaymentStartDate.toString(), repaymentEndDate.toString(),
+                                            significant, rage.toFloat(), newInterestPaymentDate = 0, interestAmountInt
+                                        )
+                                    }
                                     mainActivity.replaceFragment(MainActivity.IOU_WRITE_MY_FRAGMENT, true, bundle)
                                 }
                             }
@@ -752,6 +810,86 @@ class IouTransactionalInformationFragment : Fragment() {
         }
 
         dialog.show()
+    }
+
+    private fun modifyInitUI() {
+        binding.run {
+            materialToolbarIouTransactionalInformation.run {
+
+                // 뒤로가기 버튼
+                setNavigationOnClickListener {
+                    mainActivity.removeFragment(MainActivity.IOU_TRANSACTIONAL_INFORMATION_FRAGMENT)
+                }
+
+                // X 버튼
+                setOnMenuItemClickListener {
+                    when(it.itemId) {
+                        R.id.item_cancel -> mainActivity.showModifyAlertDialog()
+                    }
+                    false
+                }
+
+                iouWriteViewModel.modifyData.observe(viewLifecycleOwner) { data ->
+                    Log.d(TAG, "data : ${data}")
+
+                    // 차용증 작성자의 상태
+                    when(data.writerRole) {
+                        "CREDITOR" -> {
+                            textViewLendConditionIouTransactionalInformation.visibility = View.VISIBLE
+                            myAddress = data.creditorAddress.toString()
+                            opponentName = data.debtorName
+                            opponentPhoneNumber = data.debtorPhoneNumber
+                            opponentAddress = data.debtorAddress.toString()
+                        }
+
+                        "DEBTOR" -> {
+                            textViewBorrowConditionIouTransactionalInformation.visibility = View.VISIBLE
+                            myAddress = data.debtorAddress.toString()
+                            opponentName = data.creditorName
+                            opponentPhoneNumber = data.creditorPhoneNumber
+                            opponentAddress = data.creditorAddress.toString()
+                        }
+                    }
+
+                    writerRole = data.writerRole
+                    editTextAmountIouTransactionalInformation.setText(data.amount.toString())
+                    editTextStartIouTransactionalInformation.setText(mainActivity.convertDateFormat(data.repaymentStartDate))
+                    editTextDeadlineIouTransactionalInformation.setText(mainActivity.convertDateFormat(data.repaymentEndDate))
+                    editTextSignificantIouTransactionalInformation.setText(data.specialConditions)
+                    includeIouTransactionalInformation.editTextInterestRateLayoutInterestOn.setText(data.interestRate.toString())
+                    val interestPaymentDate = data.interestPaymentDate
+                    if (interestPaymentDate in 1..31) {
+                        includeIouTransactionalInformation.editTextPaymentDateLayoutInterestOn.setText(interestPaymentDate.toString())
+                    }
+                }
+
+                settingFunction()
+                validationButton()
+            }
+        }
+
+    }
+
+    private fun updateModifyData(
+        newAmount: Int,
+        newTransactionDate: String,
+        newRepaymentStartDate: String,
+        newRepaymentEndDate: String,
+        newSpecialConditions: String,
+        newInterestRate: Float,
+        newInterestPaymentDate: Int,
+        newInterest: Int
+    ) {
+        iouWriteViewModel.updateModifyTransactionData(
+            newAmount,
+            newTransactionDate,
+            newRepaymentStartDate,
+            newRepaymentEndDate,
+            newSpecialConditions,
+            newInterestRate,
+            newInterestPaymentDate,
+            newInterest
+        )
     }
 
 }

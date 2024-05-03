@@ -11,6 +11,7 @@ import com.alltimeowl.payrit.data.model.IouWriteResponse
 import com.alltimeowl.payrit.data.model.LoginRequest
 import com.alltimeowl.payrit.data.model.LoginResponse
 import com.alltimeowl.payrit.data.model.MemoRequest
+import com.alltimeowl.payrit.data.model.ModifyRequest
 import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.data.model.SavePaymentInformationRequest
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
@@ -121,4 +122,17 @@ interface PayRitApi {
 
     @POST("api/v1/paper/reload")
     fun reloadIou(@Header("Authorization") accessToken: String): Call<Void>
+
+    @POST("api/v1/paper/modify/request")
+    fun modifyIouRequest(
+        @Header("Authorization") accessToken: String,
+        @Body modifyRequest: ModifyRequest
+    ): Call<Void>
+
+    @PUT("api/v1/paper/modify/accept/{id}")
+    fun modifyAcceptIou(
+        @Header("Authorization") accessToken: String,
+        @Body iouWriteRequest: IouWriteRequest,
+        @Path("id") id: Int
+    ): Call<Void>
 }

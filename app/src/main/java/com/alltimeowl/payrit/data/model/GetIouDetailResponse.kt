@@ -9,7 +9,8 @@ data class GetIouDetailResponse(
     val creditorProfile: Profile,
     val debtorProfile: Profile,
     val memoListResponses: List<MemoListResponse>,
-    val repaymentHistories: List<RepaymentHistory>
+    val repaymentHistories: List<RepaymentHistory>,
+    val modifyRequest: String?
 )
 
 data class PaperFormInfo(

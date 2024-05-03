@@ -5,7 +5,9 @@ import com.alltimeowl.payrit.data.model.ApprovalIouErrorResponse
 import com.alltimeowl.payrit.data.model.DeleteRepaymentRequest
 import com.alltimeowl.payrit.data.model.GetIouDetailResponse
 import com.alltimeowl.payrit.data.model.GetPaymentInformationErrorResponse
+import com.alltimeowl.payrit.data.model.IouWriteRequest
 import com.alltimeowl.payrit.data.model.MemoRequest
+import com.alltimeowl.payrit.data.model.ModifyRequest
 import com.alltimeowl.payrit.data.model.RepaymentErrorResponse
 import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
@@ -185,6 +187,49 @@ class IouRepository {
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Log.d("WriteMainFragment", "네트워크 오류: ${t.message}")
+            }
+
+        })
+    }
+
+    fun modifyIouRequest(
+        accessToken: String,
+        modifyRequest: ModifyRequest,
+        onSuccess: (Boolean) -> Unit,
+        onFailure: (Boolean) -> Unit
+    ) {
+        payRitApi.modifyIouRequest("Bearer $accessToken", modifyRequest).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Log.d("RecipientApprovalFragment", "modifyIouRequest 성공시 response.code : ${response.code()}")
+                    onSuccess.invoke(true)
+                } else {
+                    Log.d("RecipientApprovalFragment", "modifyIouRequest 실패시 response.code : ${response.code()}")
+                    Log.d("RecipientApprovalFragment", "modifyIouRequest 실패시 response.code : ${response.errorBody()}")
+                    onFailure.invoke(false)
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("RecipientApprovalFragment", "네트워크 오류: ${t.message}")
+                onFailure.invoke(false)
+            }
+
+        })
+    }
+
+    fun modifyAcceptIou(accessToken: String, iouWriteRequest: IouWriteRequest, id:Int) {
+        payRitApi.modifyAcceptIou("Bearer $accessToken", iouWriteRequest, id).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Log.d("IouContentCheckFragment", "modifyAcceptIou 성공시 response.code : ${response.code()}")
+                } else {
+                    Log.d("IouContentCheckFragment", "modifyAcceptIou 실패시 response.code : ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("IouContentCheckFragment", "modifyAcceptIou 네트워크 오류: ${t.message}")
             }
 
         })
