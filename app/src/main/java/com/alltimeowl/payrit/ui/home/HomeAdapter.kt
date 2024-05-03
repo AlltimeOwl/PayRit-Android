@@ -11,6 +11,7 @@ import com.alltimeowl.payrit.data.model.getMyIouListResponse
 import com.alltimeowl.payrit.databinding.ItemApprovalRequestBinding
 import com.alltimeowl.payrit.databinding.ItemIouBinding
 import com.alltimeowl.payrit.databinding.ItemModifyingBinding
+import com.alltimeowl.payrit.databinding.ItemPayingBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.lang.Math.abs
@@ -61,6 +62,18 @@ class HomeAdapter(val mainActivity: MainActivity, var myIouList: MutableList<get
                         bundle.putInt("paperId", iou.paperId)
 
                         mainActivity.replaceFragment(MainActivity.PAYMENT_FRAGMENT, true, bundle)
+                    } else if (!iou.isWriter && iou.paperStatus == "PAYMENT_REQUIRED") {
+                        // 차용증 받은 사람이 결제 대기중 클릭시
+                        val itemPayingBinding = ItemPayingBinding.inflate(mainActivity.layoutInflater)
+                        val builder = MaterialAlertDialogBuilder(mainActivity)
+                        builder.setView(itemPayingBinding.root)
+                        val dialog = builder.create()
+
+                        itemPayingBinding.textViewCheckPaying.setOnClickListener {
+                            dialog.dismiss()
+                        }
+
+                        dialog.show()
                     } else if (iou.isWriter && iou.paperStatus == "MODIFYING") {
                         // 차용증 작성자가 수정 요청중 클릭시
 
