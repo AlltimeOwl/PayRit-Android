@@ -235,4 +235,29 @@ class IouRepository {
         })
     }
 
+    fun refuseIou(
+        accessToken: String,
+        id: Int,
+        onSuccess: (Boolean) -> Unit,
+        onFailure: (Boolean) -> Unit
+    ) {
+        payRitApi.refuseIou("Bearer $accessToken", id).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Log.d("RecipientApprovalFragment", "refuseIou 성공시 response.code : ${response.code()}")
+                    onSuccess.invoke(true)
+                } else {
+                    Log.d("IouContentCheckFragment", "refuseIou 실패시 response.code : ${response.code()}")
+                    onFailure.invoke(false)
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("RecipientApprovalFragment", "refuseIou 네트워크 오류: ${t.message}")
+                onFailure.invoke(false)
+            }
+
+        })
+    }
+
 }

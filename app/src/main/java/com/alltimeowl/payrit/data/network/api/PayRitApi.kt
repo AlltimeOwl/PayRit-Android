@@ -135,4 +135,10 @@ interface PayRitApi {
         @Body iouWriteRequest: IouWriteRequest,
         @Path("id") id: Int
     ): Call<Void>
+
+    @PUT("api/v1/paper/refuse/{id}")
+    fun refuseIou(
+        @Header("Authorization") accessToken: String,
+        @Path("id") id: Int
+    ): Call<Void>
 }
