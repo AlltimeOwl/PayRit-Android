@@ -1,6 +1,8 @@
 package com.alltimeowl.payrit.ui.home
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.pdf.PdfDocument
@@ -14,6 +16,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import com.alltimeowl.payrit.R
@@ -27,6 +31,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import kotlin.math.abs
@@ -155,7 +160,14 @@ class IouBorrowDetailFragment : Fragment() {
 
             // PDF 다운
             bottomSheetView.linearLayoutDownloadPdfItemDocument.setOnClickListener {
-                downloadPdfFromView(bottomSheetView.cardViewItemDocument)
+
+                if (ContextCompat.checkSelfPermission(mainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(mainActivity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
+                } else {
+                    downloadPdfFromView(bottomSheetView.cardViewItemDocument)
+                }
+
                 bottomSheetDialog.dismiss()
             }
 
@@ -203,8 +215,10 @@ class IouBorrowDetailFragment : Fragment() {
             pdfDocument.writeTo(FileOutputStream(pdfFile))
             Snackbar.make(binding.root, "PDF 다운로드 성공", Snackbar.LENGTH_LONG)
                 .show()
+        } catch (e: IOException) {
+            Log.e(TAG, "PDF 저장 실패: ", e)
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e(TAG, "알 수 없는 에러 발생: ", e)
         } finally {
             pdfDocument.close()
         }

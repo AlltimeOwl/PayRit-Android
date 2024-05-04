@@ -1,6 +1,8 @@
 package com.alltimeowl.payrit.ui.home
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.pdf.PdfDocument
@@ -13,6 +15,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -209,7 +213,14 @@ class IouDetailFragment : Fragment() {
 
             // PDF 다운
             bottomSheetView.linearLayoutDownloadPdfItemDocument.setOnClickListener {
-                downloadPdfFromView(bottomSheetView.cardViewItemDocument)
+
+                if (ContextCompat.checkSelfPermission(mainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(mainActivity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
+                } else {
+                    downloadPdfFromView(bottomSheetView.cardViewItemDocument)
+                }
+
                 bottomSheetDialog.dismiss()
             }
 
