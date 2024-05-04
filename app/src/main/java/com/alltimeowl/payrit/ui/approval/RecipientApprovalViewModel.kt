@@ -26,4 +26,13 @@ class RecipientApprovalViewModel : ViewModel() {
     fun modifyAcceptIou(accessToken: String, iouWriteRequest: IouWriteRequest, id:Int) {
         iouRepository.modifyAcceptIou(accessToken, iouWriteRequest, id)
     }
+
+    fun refuseIou(
+        accessToken: String,
+        id:Int,
+        onSuccess: (Boolean) -> Unit,
+        onFailure: (Boolean) -> Unit
+    ) {
+        iouRepository.refuseIou(accessToken, id, onSuccess, onFailure)
+    }
 }

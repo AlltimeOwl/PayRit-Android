@@ -12,6 +12,7 @@ import com.alltimeowl.payrit.databinding.ItemApprovalRequestBinding
 import com.alltimeowl.payrit.databinding.ItemIouBinding
 import com.alltimeowl.payrit.databinding.ItemModifyingBinding
 import com.alltimeowl.payrit.databinding.ItemPayingBinding
+import com.alltimeowl.payrit.databinding.ItemRefuseBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.lang.Math.abs
@@ -97,6 +98,19 @@ class HomeAdapter(val mainActivity: MainActivity, var myIouList: MutableList<get
                         }
 
                         dialog.show()
+                    } else if (iou.paperStatus == "REFUSED") {
+                        // 차용증 작성자 하고 받은 사람이 거절됨 클릭시
+
+                        val itemOpponentRefuseBinding = ItemRefuseBinding.inflate(mainActivity.layoutInflater)
+                        val builder = MaterialAlertDialogBuilder(mainActivity)
+                        builder.setView(itemOpponentRefuseBinding.root)
+                        val dialog = builder.create()
+
+                        itemOpponentRefuseBinding.textViewOpponentRefuse.setOnClickListener {
+                            dialog.dismiss()
+                        }
+
+                        dialog.show()
                     }
                 }
             }
@@ -138,6 +152,10 @@ class HomeAdapter(val mainActivity: MainActivity, var myIouList: MutableList<get
                 "PAYMENT_REQUIRED" -> binding.textViewPaperStatusIou.text = "결제 대기중"
                 "COMPLETE_WRITING" -> binding.textViewPaperStatusIou.text = "상환 진행중"
                 "EXPIRED" -> binding.textViewPaperStatusIou.text = "상환 완료"
+                "REFUSED" -> {
+                    binding.textViewPaperStatusIou.text = "거절됨"
+                    binding.textViewRepaymentRateIou.text = ""
+                }
             }
 
         }

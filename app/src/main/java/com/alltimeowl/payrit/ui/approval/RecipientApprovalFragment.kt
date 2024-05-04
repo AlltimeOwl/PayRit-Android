@@ -18,9 +18,12 @@ import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.data.model.ModifyRequest
 import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentRecipientApprovalBinding
+import com.alltimeowl.payrit.databinding.ItemAskRefuseBinding
 import com.alltimeowl.payrit.databinding.ItemCompleteModifyBinding
+import com.alltimeowl.payrit.databinding.ItemCompleteRefuseBinding
 import com.alltimeowl.payrit.databinding.ItemDocumentBinding
 import com.alltimeowl.payrit.databinding.ItemFailureModifyBinding
+import com.alltimeowl.payrit.databinding.ItemFailureRefuseBinding
 import com.alltimeowl.payrit.databinding.ItemModifyRequestBinding
 import com.alltimeowl.payrit.ui.home.HomeViewModel
 import com.alltimeowl.payrit.ui.main.MainActivity
@@ -83,6 +86,7 @@ class RecipientApprovalFragment : Fragment() {
         observeData()
         checkBoxState()
         modifyRequestButton()
+        refuseButton()
 
         return binding.root
     }
@@ -356,6 +360,61 @@ class RecipientApprovalFragment : Fragment() {
         val dialog = builder.create()
 
         itemFailureModifyBinding.textViewCheckFailureModify.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    // 거절 버튼 클릭
+    private fun refuseButton() {
+        binding.buttonRefuseRecipientApproval.setOnClickListener {
+            val itemAskRefuseBinding = ItemAskRefuseBinding.inflate(layoutInflater)
+            val builder = MaterialAlertDialogBuilder(mainActivity)
+            builder.setView(itemAskRefuseBinding.root)
+            val dialog = builder.create()
+
+            itemAskRefuseBinding.textViewYesAskRefuse.setOnClickListener {
+                recipientApprovalViewModel.refuseIou(accessToken, paperId,
+                    onSuccess = {
+                        completeRefuseAlertDialog()
+                    }, onFailure = {
+                        failureRefuseAlertDialog()
+                    }
+                )
+                dialog.dismiss()
+            }
+
+            itemAskRefuseBinding.textViewNoAskRefuse.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            dialog.show()
+        }
+    }
+
+    private fun completeRefuseAlertDialog() {
+        val itemCompleteRefuseBinding = ItemCompleteRefuseBinding.inflate(layoutInflater)
+        val builder = MaterialAlertDialogBuilder(mainActivity)
+        builder.setView(itemCompleteRefuseBinding.root)
+        val dialog = builder.create()
+
+        itemCompleteRefuseBinding.textViewCompleteRefuse.setOnClickListener {
+            mainActivity.removeAllBackStack()
+            dialog.dismiss()
+        }
+
+        dialog.setCancelable(false)
+        dialog.show()
+    }
+
+    private fun failureRefuseAlertDialog() {
+        val itemFailureRefuseBinding = ItemFailureRefuseBinding.inflate(layoutInflater)
+        val builder = MaterialAlertDialogBuilder(mainActivity)
+        builder.setView(itemFailureRefuseBinding.root)
+        val dialog = builder.create()
+
+        itemFailureRefuseBinding.textViewCheckFailureRefuse.setOnClickListener {
             dialog.dismiss()
         }
 
