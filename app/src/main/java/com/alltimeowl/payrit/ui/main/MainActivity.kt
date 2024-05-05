@@ -25,6 +25,7 @@ import com.alltimeowl.payrit.ui.mypage.PaymentHistoryDetailFragment
 import com.alltimeowl.payrit.ui.mypage.PaymentHistoryFragment
 import com.alltimeowl.payrit.ui.mypage.WithdrawalFragment
 import com.alltimeowl.payrit.ui.payment.PaymentFragment
+import com.alltimeowl.payrit.ui.promise.PromiseMainFragment
 import com.alltimeowl.payrit.ui.search.SearchFragment
 import com.alltimeowl.payrit.ui.write.IouContentCheckFragment
 import com.alltimeowl.payrit.ui.write.IouMainFragment
@@ -108,6 +109,7 @@ class MainActivity : AppCompatActivity() {
             PAYMENT_FRAGMENT -> PaymentFragment()
             CERTIFICATION_INFO_FRAGMENT -> CertificationInfoFragment()
             IOU_WRITER_APPROVAL_WAITING_FRAGMENT -> IouWriterApprovalWaitingFragment()
+            PROMISE_MAIN_FRAGMENT -> PromiseMainFragment()
 
             else -> Fragment()
         }
@@ -340,5 +342,6 @@ class MainActivity : AppCompatActivity() {
         const val PAYMENT_FRAGMENT = "PaymentFragment"
         const val CERTIFICATION_INFO_FRAGMENT = "CertificationInfoFragment"
         const val IOU_WRITER_APPROVAL_WAITING_FRAGMENT = "IouWriterApprovalWaitingFragment"
+        const val PROMISE_MAIN_FRAGMENT = "PromiseMainFragment"
     }
 }

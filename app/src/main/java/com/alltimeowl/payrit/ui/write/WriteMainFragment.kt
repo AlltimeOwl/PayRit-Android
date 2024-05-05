@@ -103,6 +103,11 @@ class WriteMainFragment : Fragment() {
 
             }
 
+            // 약속 카드 만들기 클릭
+            cardViewWritePromiseWriteMain.setOnClickListener {
+                mainActivity.replaceFragment(MainActivity.PROMISE_MAIN_FRAGMENT, true, null)
+            }
+
         }
 
     }
