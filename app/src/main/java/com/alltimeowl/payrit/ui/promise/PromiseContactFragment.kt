@@ -91,7 +91,7 @@ class PromiseContactFragment : Fragment() {
             // 다음 버튼 클릭시
             buttonNextPromiseContact.setOnClickListener {
                 if (isButtonClickable) {
-
+                    mainActivity.replaceFragment(MainActivity.PROMISE_INFORMATION_FRAGMENT, true, null)
                 }
             }
 
