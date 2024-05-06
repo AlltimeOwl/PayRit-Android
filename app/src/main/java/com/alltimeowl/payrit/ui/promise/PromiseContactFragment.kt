@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.data.model.PromiseData
@@ -27,6 +28,8 @@ class PromiseContactFragment : Fragment() {
 
     lateinit var mainActivity: MainActivity
     lateinit var binding: FragmentPromiseContactBinding
+
+    private lateinit var viewModel: PromiseViewModel
 
     companion object {
         private const val REQUEST_SELECT_CONTACT = 1
@@ -44,7 +47,10 @@ class PromiseContactFragment : Fragment() {
         mainActivity = activity as MainActivity
         binding = FragmentPromiseContactBinding.inflate(layoutInflater)
 
+        viewModel = ViewModelProvider(this)[PromiseViewModel::class.java]
+
         initUI()
+        observeData()
 
         return binding.root
     }
@@ -69,7 +75,7 @@ class PromiseContactFragment : Fragment() {
 
             recyclerViewPromiseContact.run {
                 recyclerViewPromiseContact.layoutManager = LinearLayoutManager(context)
-                adapter = PromiseAdapter(this@PromiseContactFragment)
+                adapter = PromiseAdapter(this@PromiseContactFragment, mutableListOf(), viewModel)
             }
 
             // 연락처 입력
@@ -198,6 +204,12 @@ class PromiseContactFragment : Fragment() {
                 buttonNextPromiseContact.setBackgroundResource(R.drawable.bg_gray_scale07_r12)
                 isButtonClickable = false
             }
+        }
+    }
+
+    private fun observeData() {
+        viewModel.promiseList.observe(viewLifecycleOwner) { promiseList ->
+            (binding.recyclerViewPromiseContact.adapter as PromiseAdapter).updateData(promiseList)
         }
     }
 

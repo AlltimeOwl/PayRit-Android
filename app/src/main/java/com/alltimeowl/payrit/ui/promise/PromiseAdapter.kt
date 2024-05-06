@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alltimeowl.payrit.data.model.PromiseData
 import com.alltimeowl.payrit.databinding.ItemPromiseBinding
 
-class PromiseAdapter(private val fragment: PromiseContactFragment): RecyclerView.Adapter<PromiseAdapter.PromiseViewHolder>() {
-
-    private val promiseList = mutableListOf<PromiseData>()
+class PromiseAdapter(
+    private val fragment: PromiseContactFragment,
+    private var promiseList: MutableList<PromiseData>,
+    private val viewModel: PromiseViewModel
+) : RecyclerView.Adapter<PromiseAdapter.PromiseViewHolder>() {
 
     inner class PromiseViewHolder(private val binding: ItemPromiseBinding): RecyclerView.ViewHolder(binding.root) {
 
@@ -50,18 +52,19 @@ class PromiseAdapter(private val fragment: PromiseContactFragment): RecyclerView
     }
 
     fun addItem(promiseItem: PromiseData) {
-        promiseList.add(promiseItem)
-        notifyDataSetChanged()
-        fragment.checkButton()
+        viewModel.addPromiseData(promiseItem)
+        updateData(promiseList)
     }
 
     fun removeItem(position: Int) {
-        if (position >= 0 && position < promiseList.size) {
-            promiseList.removeAt(position)
-            notifyItemRemoved(position)
-            notifyDataSetChanged()
-            fragment.checkButton()
-        }
+        viewModel.removePromiseData(position)
+        updateData(promiseList)
+    }
+
+    fun updateData(newPromiseList: MutableList<PromiseData>) {
+        promiseList = newPromiseList
+        notifyDataSetChanged()
+        fragment.checkButton()
     }
 
 }
