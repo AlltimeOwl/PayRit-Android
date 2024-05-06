@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.databinding.ActivityMainBinding
+import com.alltimeowl.payrit.databinding.ItemCancelBinding
 import com.alltimeowl.payrit.databinding.ItemModifyCancelBinding
 import com.alltimeowl.payrit.ui.approval.RecipientApprovalFragment
 import com.alltimeowl.payrit.ui.home.HomeFragment
@@ -25,6 +26,7 @@ import com.alltimeowl.payrit.ui.mypage.PaymentHistoryDetailFragment
 import com.alltimeowl.payrit.ui.mypage.PaymentHistoryFragment
 import com.alltimeowl.payrit.ui.mypage.WithdrawalFragment
 import com.alltimeowl.payrit.ui.payment.PaymentFragment
+import com.alltimeowl.payrit.ui.promise.PromiseContactFragment
 import com.alltimeowl.payrit.ui.promise.PromiseMainFragment
 import com.alltimeowl.payrit.ui.search.SearchFragment
 import com.alltimeowl.payrit.ui.write.IouContentCheckFragment
@@ -110,6 +112,7 @@ class MainActivity : AppCompatActivity() {
             CERTIFICATION_INFO_FRAGMENT -> CertificationInfoFragment()
             IOU_WRITER_APPROVAL_WAITING_FRAGMENT -> IouWriterApprovalWaitingFragment()
             PROMISE_MAIN_FRAGMENT -> PromiseMainFragment()
+            PROMISE_CONTACT_FRAGMENT -> PromiseContactFragment()
 
             else -> Fragment()
         }
@@ -316,6 +319,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun showCancelAlertDialog() {
+        val itemCancelBinding = ItemCancelBinding.inflate(layoutInflater)
+        val builder = MaterialAlertDialogBuilder(this)
+        builder.setView(itemCancelBinding.root)
+        val dialog = builder.create()
+
+        // 작성 중단 - 네
+        itemCancelBinding.textViewYesCancel.setOnClickListener {
+            dialog.dismiss()
+
+            removeAllBackStack()
+        }
+
+        // 작성 중단 - 아니오
+        itemCancelBinding.textViewNoCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
 
     companion object {
 
@@ -343,5 +367,6 @@ class MainActivity : AppCompatActivity() {
         const val CERTIFICATION_INFO_FRAGMENT = "CertificationInfoFragment"
         const val IOU_WRITER_APPROVAL_WAITING_FRAGMENT = "IouWriterApprovalWaitingFragment"
         const val PROMISE_MAIN_FRAGMENT = "PromiseMainFragment"
+        const val PROMISE_CONTACT_FRAGMENT = "PromiseContactFragment"
     }
 }

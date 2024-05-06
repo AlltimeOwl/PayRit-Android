@@ -67,6 +67,11 @@ class PromiseMainFragment : Fragment() {
 
             imageLoaderTwo.enqueue(requestTwo)
 
+            // 약속 카드 만들기 클릭
+            cardViewMakePromiseCardPromiseMain.setOnClickListener {
+                mainActivity.replaceFragment(MainActivity.PROMISE_CONTACT_FRAGMENT, true, null)
+            }
+
         }
     }
 
