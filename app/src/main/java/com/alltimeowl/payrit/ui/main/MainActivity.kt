@@ -29,6 +29,7 @@ import com.alltimeowl.payrit.ui.payment.PaymentFragment
 import com.alltimeowl.payrit.ui.promise.PromiseContactFragment
 import com.alltimeowl.payrit.ui.promise.PromiseInformationFragment
 import com.alltimeowl.payrit.ui.promise.PromiseMainFragment
+import com.alltimeowl.payrit.ui.promise.PromiseMakeFragment
 import com.alltimeowl.payrit.ui.search.SearchFragment
 import com.alltimeowl.payrit.ui.write.IouContentCheckFragment
 import com.alltimeowl.payrit.ui.write.IouMainFragment
@@ -115,6 +116,7 @@ class MainActivity : AppCompatActivity() {
             PROMISE_MAIN_FRAGMENT -> PromiseMainFragment()
             PROMISE_CONTACT_FRAGMENT -> PromiseContactFragment()
             PROMISE_INFORMATION_FRAGMENT -> PromiseInformationFragment()
+            PROMISE_MAKE_FRAGMENT -> PromiseMakeFragment()
 
             else -> Fragment()
         }
@@ -371,5 +373,6 @@ class MainActivity : AppCompatActivity() {
         const val PROMISE_MAIN_FRAGMENT = "PromiseMainFragment"
         const val PROMISE_CONTACT_FRAGMENT = "PromiseContactFragment"
         const val PROMISE_INFORMATION_FRAGMENT = "PromiseInformationFragment"
+        const val PROMISE_MAKE_FRAGMENT = "PromiseMakeFragment"
     }
 }

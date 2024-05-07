@@ -142,6 +142,11 @@ class PromiseInformationFragment : Fragment() {
 
                 if (amount.isNotEmpty() && start.isNotEmpty() && deadline.isNotEmpty() && contents.isNotEmpty()) {
                     buttonNextPromiseInformation.setBackgroundResource(R.drawable.bg_primary_mint_r12)
+
+                    buttonNextPromiseInformation.setOnClickListener {
+                        mainActivity.replaceFragment(MainActivity.PROMISE_MAKE_FRAGMENT, true, null)
+                    }
+
                 } else {
                     buttonNextPromiseInformation.setBackgroundResource(R.drawable.bg_gray_scale07_r12)
                 }
