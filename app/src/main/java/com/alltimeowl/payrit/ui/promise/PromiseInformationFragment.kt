@@ -2,15 +2,18 @@ package com.alltimeowl.payrit.ui.promise
 
 import android.app.DatePickerDialog
 import android.icu.util.Calendar
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import com.alltimeowl.payrit.R
+import com.alltimeowl.payrit.data.model.PromiseData
 import com.alltimeowl.payrit.databinding.FragmentPromiseInformationBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 import java.text.SimpleDateFormat
@@ -23,6 +26,10 @@ class PromiseInformationFragment : Fragment() {
 
     private var promiseStartDate: Calendar? = null
 
+    private var promiseDataList: ArrayList<PromiseData>? = null
+
+    val TAG = "PromiseInformationFragment"
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,6 +37,12 @@ class PromiseInformationFragment : Fragment() {
 
         mainActivity = activity as MainActivity
         binding = FragmentPromiseInformationBinding.inflate(layoutInflater)
+
+        promiseDataList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getParcelableArrayList("promiseDataList", PromiseData::class.java)
+        }else {
+            arguments?.getParcelableArrayList("promiseDataList")
+        }
 
         initUI()
 
@@ -144,7 +157,15 @@ class PromiseInformationFragment : Fragment() {
                     buttonNextPromiseInformation.setBackgroundResource(R.drawable.bg_primary_mint_r12)
 
                     buttonNextPromiseInformation.setOnClickListener {
-                        mainActivity.replaceFragment(MainActivity.PROMISE_MAKE_FRAGMENT, true, null)
+
+                        val bundle = Bundle()
+                        bundle.putString("amount", amount)
+                        bundle.putString("promiseStartDate", start)
+                        bundle.putString("promiseEndDate", deadline)
+                        bundle.putString("contents", contents)
+                        bundle.putParcelableArrayList("promiseDataList", promiseDataList)
+
+                        mainActivity.replaceFragment(MainActivity.PROMISE_MAKE_FRAGMENT, true, bundle)
                     }
 
                 } else {

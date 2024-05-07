@@ -31,6 +31,8 @@ class PromiseContactFragment : Fragment() {
 
     private lateinit var viewModel: PromiseViewModel
 
+    private lateinit var recipientInfoList: MutableList<PromiseData>
+
     companion object {
         private const val REQUEST_SELECT_CONTACT = 1
     }
@@ -91,7 +93,11 @@ class PromiseContactFragment : Fragment() {
             // 다음 버튼 클릭시
             buttonNextPromiseContact.setOnClickListener {
                 if (isButtonClickable) {
-                    mainActivity.replaceFragment(MainActivity.PROMISE_INFORMATION_FRAGMENT, true, null)
+
+                    val bundle = Bundle()
+                    bundle.putParcelableArrayList("promiseDataList", ArrayList(recipientInfoList))
+
+                    mainActivity.replaceFragment(MainActivity.PROMISE_INFORMATION_FRAGMENT, true, bundle)
                 }
             }
 
@@ -210,6 +216,7 @@ class PromiseContactFragment : Fragment() {
     private fun observeData() {
         viewModel.promiseList.observe(viewLifecycleOwner) { promiseList ->
             (binding.recyclerViewPromiseContact.adapter as PromiseAdapter).updateData(promiseList)
+            recipientInfoList = promiseList
         }
     }
 

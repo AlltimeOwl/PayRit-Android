@@ -156,15 +156,15 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="이름 | 연락처"
+                            android:text="이름"
                             android:textAppearance="@style/Suit.Medium14" />
 
                         <TextView
-                            android:id="@+id/textView_sender_information_promise_make"
+                            android:id="@+id/textView_sender_name_promise_make"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20sp"
-                            android:text="박이릿  |  01055680412"
+                            android:layout_marginStart="30sp"
+                            android:text="박이릿"
                             android:textAppearance="@style/Suit.Bold16" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -197,26 +197,12 @@
                         android:textAppearance="@style/Suit.SemiBold14"
                         android:textColor="@color/grayScale04" />
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="match_parent"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView_recipient_promise_make"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="이름 | 연락처"
-                            android:textAppearance="@style/Suit.Medium14" />
-
-                        <TextView
-                            android:id="@+id/textView_recipient_information_promise_make"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20sp"
-                            android:text="박이릿  |  01055680412"
-                            android:textAppearance="@style/Suit.Bold16" />
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                        tools:itemCount="2"
+                        tools:listitem="@layout/item_recipient" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -263,7 +249,7 @@
     </ScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_share_promise_make"
+        android:id="@+id/button_save_promise_make"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -272,7 +258,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/bg_primary_mint_r12"
         android:stateListAnimator="@null"
-        android:text="공유하기"
+        android:text="저장하기"
         android:textAppearance="@style/Typography.Bold20"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent" />
