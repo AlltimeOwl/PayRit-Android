@@ -8,7 +8,9 @@ import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.databinding.FragmentPromiseMakeBinding
 import com.alltimeowl.payrit.databinding.ItemPromiseMakeBinding
 
-class PromiseMakeAdapter(val fragment: FragmentPromiseMakeBinding): RecyclerView.Adapter<PromiseMakeAdapter.PromiseMakeViewHolder>() {
+class PromiseMakeAdapter(val fragment: FragmentPromiseMakeBinding, private val listener: OnImageTypeSelectedListener): RecyclerView.Adapter<PromiseMakeAdapter.PromiseMakeViewHolder>() {
+
+    var imageType = ""
 
     inner class PromiseMakeViewHolder(val binding: ItemPromiseMakeBinding): RecyclerView.ViewHolder(binding.root) {
 
@@ -16,17 +18,50 @@ class PromiseMakeAdapter(val fragment: FragmentPromiseMakeBinding): RecyclerView
             binding.root.setOnClickListener {
 
                 val imageResource = when(adapterPosition) {
-                    0 -> R.drawable.img_money_coins
-                    1 -> R.drawable.img_heart
-                    2 -> R.drawable.img_hamburger
-                    3 -> R.drawable.img_bag
-                    4 -> R.drawable.img_coffee
-                    5 -> R.drawable.img_gift
-                    6 -> R.drawable.img_book
-                    7 -> R.drawable.img_money
+                    0 -> {
+                        imageType = "COIN"
+                        R.drawable.img_money_coins
+                    }
+
+                    1 -> {
+                        imageType = "HEART"
+                        R.drawable.img_heart
+                    }
+
+                    2 -> {
+                        imageType = "FOOD"
+                        R.drawable.img_hamburger
+                    }
+
+                    3 -> {
+                        imageType = "SHOPPING"
+                        R.drawable.img_bag
+                    }
+
+                    4 -> {
+                        imageType = "COFFEE"
+                        R.drawable.img_coffee
+                    }
+
+                    5 -> {
+                        imageType = "PRESENT"
+                        R.drawable.img_gift
+                    }
+
+                    6 -> {
+                        imageType = "BOOK"
+                        R.drawable.img_book
+                    }
+
+                    7 -> {
+                        imageType = "MONEY"
+                        R.drawable.img_money
+                    }
+
                     else -> 0
                 }
                 fragment.imageViewCardPromiseMake.setImageResource(imageResource)
+                listener.onImageTypeSelected(imageType)
             }
         }
 
@@ -60,6 +95,10 @@ class PromiseMakeAdapter(val fragment: FragmentPromiseMakeBinding): RecyclerView
             6 -> holder.binding.imageViewPromiseMake.setImageResource(R.drawable.img_book)
             7 -> holder.binding.imageViewPromiseMake.setImageResource(R.drawable.img_money)
         }
+    }
+
+    interface OnImageTypeSelectedListener {
+        fun onImageTypeSelected(imageType: String)
     }
 
 }

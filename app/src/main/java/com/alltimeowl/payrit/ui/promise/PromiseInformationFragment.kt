@@ -177,6 +177,25 @@ class PromiseInformationFragment : Fragment() {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable?) {
+
+                    // 입력된 값이 null이 아니고, 길이가 2 이상이며, '0'으로 시작하는 경우
+                    if (s != null && s.startsWith("0") && s.length > 1) {
+                        // '0' 다음의 숫자부터 시작하는 부분 문자열을 취득
+                        val correctedString = s.substring(1)
+
+                        // 무한 루프를 방지하기 위해 TextWatcher를 일시적으로 제거
+                        editTextAmount.removeTextChangedListener(this)
+
+                        // 수정된 문자열로 EditText를 업데이트
+                        editTextAmount.setText(correctedString)
+
+                        // 커서를 문자열 끝으로 이동
+                        editTextAmount.setSelection(correctedString.length)
+
+                        // TextWatcher를 다시 추가
+                        editTextAmount.addTextChangedListener(this)
+                    }
+
                     validateFields()
                 }
             })

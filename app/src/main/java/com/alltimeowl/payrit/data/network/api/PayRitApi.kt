@@ -16,6 +16,7 @@ import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.data.model.SavePaymentInformationRequest
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
 import com.alltimeowl.payrit.data.model.UserCertificationResponse
+import com.alltimeowl.payrit.data.model.WritePromiseRequest
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -141,4 +142,10 @@ interface PayRitApi {
         @Header("Authorization") accessToken: String,
         @Path("id") id: Int
     ): Call<Void>
+
+    @POST("api/v1/promise/write")
+    fun writePromise(
+        @Header("Authorization") accessToken: String,
+        @Body writePromiseRequest: WritePromiseRequest
+    ): Call<Long>
 }

@@ -4,8 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.alltimeowl.payrit.data.model.PromiseData
+import com.alltimeowl.payrit.data.model.WritePromiseRequest
+import com.alltimeowl.payrit.data.network.repository.PromiseRepository
 
 class PromiseViewModel : ViewModel() {
+
+    private val promiseRepository = PromiseRepository()
 
     private val _promiseList = MutableLiveData<MutableList<PromiseData>>(mutableListOf())
     val promiseList: LiveData<MutableList<PromiseData>> = _promiseList
@@ -22,6 +26,15 @@ class PromiseViewModel : ViewModel() {
             currentList.removeAt(position)
             _promiseList.value = currentList
         }
+    }
+
+    fun writePromise(
+        accessToken: String,
+        writePromiseRequest: WritePromiseRequest,
+        onSuccess: (Long) -> Unit,
+        onFailure: (Boolean) -> Unit
+    ) {
+        promiseRepository.writePromise(accessToken, writePromiseRequest, onSuccess, onFailure)
     }
 
 }
