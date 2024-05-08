@@ -12,6 +12,7 @@ import com.alltimeowl.payrit.data.model.LoginRequest
 import com.alltimeowl.payrit.data.model.LoginResponse
 import com.alltimeowl.payrit.data.model.MemoRequest
 import com.alltimeowl.payrit.data.model.ModifyRequest
+import com.alltimeowl.payrit.data.model.PromiseDetail
 import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.data.model.SavePaymentInformationRequest
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
@@ -148,4 +149,7 @@ interface PayRitApi {
         @Header("Authorization") accessToken: String,
         @Body writePromiseRequest: WritePromiseRequest
     ): Call<Long>
+
+    @GET("api/v1/promise/list")
+    fun getMyPromiseList(@Header("Authorization") accessToken: String): Call<List<PromiseDetail>>
 }

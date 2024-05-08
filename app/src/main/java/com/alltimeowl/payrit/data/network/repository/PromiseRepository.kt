@@ -2,6 +2,7 @@ package com.alltimeowl.payrit.data.network.repository
 
 import android.util.Log
 import com.alltimeowl.payrit.data.model.ApprovalIouErrorResponse
+import com.alltimeowl.payrit.data.model.PromiseDetail
 import com.alltimeowl.payrit.data.model.WritePromiseRequest
 import com.alltimeowl.payrit.data.network.api.PayRitApi
 import com.google.gson.Gson
@@ -54,5 +55,30 @@ class PromiseRepository {
                 }
 
             })
+    }
+
+    fun getMyPromiseList(accessToken: String, callback: (List<PromiseDetail>) -> Unit) {
+        payRitApi.getMyPromiseList("Bearer $accessToken").enqueue(object : Callback<List<PromiseDetail>> {
+            override fun onResponse(call: Call<List<PromiseDetail>>, response: Response<List<PromiseDetail>>) {
+                if (response.isSuccessful) {
+                    Log.d("getMyPromiseList", "getMyPromiseList 성공시 response.code : ${response.code()}")
+                    callback(response.body() ?: emptyList())
+                } else {
+                    Log.d("getMyPromiseList", "getMyPromiseList 실패시 response.code : ${response.code()}")
+                    val errorBody = response.errorBody()?.string()
+                    val gson = Gson()
+                    val errorResponse: ApprovalIouErrorResponse? = gson.fromJson(errorBody, ApprovalIouErrorResponse::class.java)
+                    Log.d("getMyPromiseList", "errorResponse : ${errorResponse}")
+                    callback(emptyList())
+                }
+            }
+
+            override fun onFailure(call: Call<List<PromiseDetail>>, t: Throwable) {
+                Log.d("getMyPromiseList", "getMyPromiseList 네트워크 오류: ${t.message}")
+                callback(emptyList())
+            }
+
+
+        })
     }
 }
