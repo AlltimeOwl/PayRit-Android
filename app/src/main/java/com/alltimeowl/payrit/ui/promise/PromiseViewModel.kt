@@ -47,4 +47,13 @@ class PromiseViewModel : ViewModel() {
         }
     }
 
+    fun deletePromise(
+        accessToken: String,
+        id:Int,
+        onSuccess: (Boolean) -> Unit,
+        onFailure: (Boolean) -> Unit
+    ) {
+        promiseRepository.deletePromise(accessToken, id, onSuccess, onFailure)
+    }
+
 }

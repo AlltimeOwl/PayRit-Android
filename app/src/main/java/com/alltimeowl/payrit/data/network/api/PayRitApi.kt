@@ -152,4 +152,10 @@ interface PayRitApi {
 
     @GET("api/v1/promise/list")
     fun getMyPromiseList(@Header("Authorization") accessToken: String): Call<List<PromiseDetail>>
+
+    @DELETE("api/v1/promise/remove/{id}")
+    fun deletePromise(
+        @Header("Authorization") accessToken: String,
+        @Path("id") id: Int
+    ): Call<Void>
 }

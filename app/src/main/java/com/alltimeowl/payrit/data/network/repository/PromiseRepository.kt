@@ -81,4 +81,33 @@ class PromiseRepository {
 
         })
     }
+
+    fun deletePromise(
+        accessToken: String,
+        id: Int,
+        onSuccess: (Boolean) -> Unit,
+        onFailure: (Boolean) -> Unit
+    ) {
+        payRitApi.deletePromise("Bearer $accessToken", id).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Log.d("HomePromiseInfoFragment", "deletePromise 성공시 response.code : ${response.code()}")
+                    onSuccess(true)
+                } else {
+                    Log.d("HomePromiseInfoFragment", "deletePromise 실패시 response.code : ${response.code()}")
+                    val errorBody = response.errorBody()?.string()
+                    val gson = Gson()
+                    val errorResponse: ApprovalIouErrorResponse? = gson.fromJson(errorBody, ApprovalIouErrorResponse::class.java)
+                    Log.d("HomePromiseInfoFragment", "errorResponse : ${errorResponse}")
+                    onFailure(false)
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("HomePromiseInfoFragment", "deletePromise 네트워크 오류: ${t.message}")
+                onFailure(false)
+            }
+
+        })
+    }
 }

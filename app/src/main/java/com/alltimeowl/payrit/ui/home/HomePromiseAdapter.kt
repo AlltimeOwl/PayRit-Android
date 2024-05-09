@@ -1,5 +1,6 @@
 package com.alltimeowl.payrit.ui.home
 
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +30,22 @@ class HomePromiseAdapter(val mainActivity: MainActivity, var myPromiseList: Muta
                     // TextView를 보여주고 ImageView를 흐리게 함
                     binding.frameLayoutHomePromiseCard.visibility = View.VISIBLE
                     binding.imageViewHomePromiseCard.alpha = 0.5f // 투명도 조절로 흐리게 표시
+
+                    // 내용 보기 클릭시
+                    binding.buttonDetailHomePromiseCard.setOnClickListener {
+
+                        val position = adapterPosition
+                        val promise = myPromiseList[position]
+
+                        Log.d("HomePromiseAdapter", "클릭된 promise 정보 : $promise")
+
+                        val bundle = Bundle()
+                        bundle.putParcelable("promiseDetailInfo", promise)
+                        Log.d("HomePromiseAdapter", "bundle : $bundle")
+
+                        mainActivity.replaceFragment(MainActivity.HOME_PROMISE_INFO_FRAGMENT, true, bundle)
+                    }
+
                 }
             }
         }
