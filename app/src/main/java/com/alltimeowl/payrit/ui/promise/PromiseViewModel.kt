@@ -56,4 +56,8 @@ class PromiseViewModel : ViewModel() {
         promiseRepository.deletePromise(accessToken, id, onSuccess, onFailure)
     }
 
+    fun sharePromise(accessToken: String, id: Int, onSuccess: (Boolean) -> Unit) {
+        promiseRepository.sharePromise(accessToken, id, onSuccess)
+    }
+
 }

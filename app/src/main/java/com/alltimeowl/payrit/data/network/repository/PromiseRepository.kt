@@ -110,4 +110,22 @@ class PromiseRepository {
 
         })
     }
+
+    fun sharePromise(accessToken: String, id: Int, onSuccess: (Boolean) -> Unit) {
+        payRitApi.sharePromise("Bearer $accessToken", id).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Log.d("HomeFragment", "sharePromise 성공시 response.code : ${response.code()}")
+                    onSuccess(true)
+                } else {
+                    Log.d("HomeFragment", "sharePromise 실패시 response.code : ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("HomeFragment", "sharePromise 네트워크 오류: ${t.message}")
+            }
+
+        })
+    }
 }

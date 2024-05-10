@@ -39,9 +39,21 @@
             android:theme="@style/Login" />
         <activity
             android:name=".ui.main.MainActivity"
-            android:exported="false"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan">
+            <!-- 딥링크 설정을 위한 intent-filter 추가 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:host="kakaolink"
+                    android:scheme="@string/kakao_oauth_host" />
+
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
@@ -65,8 +77,6 @@
                 <data android:host="oauth"
                     android:scheme="@string/kakao_oauth_host" />
 
-                <data android:host="kakaolink"
-                    android:scheme="@string/kakao_oauth_host" />
             </intent-filter>
         </activity>
         <service

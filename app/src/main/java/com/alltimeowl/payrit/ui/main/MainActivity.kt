@@ -1,8 +1,11 @@
 package com.alltimeowl.payrit.ui.main
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -52,6 +55,8 @@ class MainActivity : AppCompatActivity() {
     private var lastBackPressedTime: Long = 0
     private val BACK_PRESS_INTERVAL: Long = 2000
 
+    val TAG = "MainActivity1"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -60,6 +65,34 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding.bottomNavigationViewMain.itemIconTintList = null
 
         replaceFragment(HOME_FRAGMENT, false, null)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        // 인텐트에서 데이터 가져오기
+        val action: String? = intent?.action
+        val data: Uri? = intent?.data
+
+        Log.d(TAG, "data : ${data}")
+
+        if (action == Intent.ACTION_VIEW && data != null) {
+            // 쿼리 파라미터에서 promiseId 가져오기
+            val promiseId = data.getQueryParameter("promiseId")
+
+            if (promiseId != null) {
+                // promiseId가 존재하는 경우
+                Log.d(TAG, "promiseId : $promiseId")
+                // 필요한 API 호출 또는 다른 작업 수행
+
+                val bundle = Bundle()
+                bundle.putString("promiseId", promiseId)
+
+                replaceFragment(HOME_FRAGMENT, false, bundle)
+            } else {
+                Log.d(TAG, "promiseId 가 존재 하지 않을 때 data : ${data}")
+            }
+        }
     }
 
     override fun onBackPressed() {

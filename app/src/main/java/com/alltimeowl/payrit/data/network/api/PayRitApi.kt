@@ -158,4 +158,10 @@ interface PayRitApi {
         @Header("Authorization") accessToken: String,
         @Path("id") id: Int
     ): Call<Void>
+
+    @POST("api/v1/promise/share/{id}")
+    fun sharePromise(
+        @Header("Authorization") accessToken: String,
+        @Path("id") id: Int
+    ): Call<Void>
 }

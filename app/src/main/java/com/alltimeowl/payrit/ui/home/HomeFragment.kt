@@ -1,5 +1,6 @@
 package com.alltimeowl.payrit.ui.home
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +19,7 @@ import com.alltimeowl.payrit.BuildConfig
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.data.model.PromiseDetail
 import com.alltimeowl.payrit.data.model.SharedPreferencesManager
+import com.alltimeowl.payrit.data.model.SharedPreferencesPromiseManager
 import com.alltimeowl.payrit.data.model.UserCertificationResponse
 import com.alltimeowl.payrit.databinding.FragmentHomeBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
@@ -59,6 +61,18 @@ class HomeFragment : Fragment() {
         accessToken = SharedPreferencesManager.getAccessToken()
         viewModel.loadMyIouList(accessToken)
         promiseViewModel.getMyPromiseList(accessToken)
+
+        val promiseId = arguments?.getString("promiseId")
+
+        if (promiseId != null && !SharedPreferencesPromiseManager.isPromiseIdProcessed(promiseId)) {
+            // promiseId가 처리되지 않았다면, 여기서 처리
+            promiseViewModel.sharePromise(accessToken, promiseId.toInt(),
+                onSuccess = {
+                    promiseViewModel.getMyPromiseList(accessToken)
+                    SharedPreferencesPromiseManager.savePromiseId(promiseId) // 처리 후 promiseId 저장
+                }
+            )
+        }
 
         initUI()
         observeData()

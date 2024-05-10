@@ -12,11 +12,12 @@ data class PromiseDetail(
     val promiseEndDate: String,
     val writerName: String,
     val contents: String,
-    val participants: @RawValue List<ParticipantsInfo>,
+    val participants: List<ParticipantsInfo>,
     val promiseImageType: String
 ) : Parcelable
 
+@Parcelize
 data class ParticipantsInfo(
     val participantsName: String,
     val participantsPhone: String
-)
+) : Parcelable
