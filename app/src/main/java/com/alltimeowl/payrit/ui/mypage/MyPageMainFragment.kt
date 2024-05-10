@@ -54,6 +54,9 @@ class MyPageMainFragment : Fragment() {
         moveToAccountInformation()
         moveToPaymentHistory()
         moveToNotificationSetting()
+        moveToAnnouncement()
+        moveToFrequentlyAskedQuestions()
+        moveToTermsOfService()
         moveToKakaoInquiryTalk()
         moveToLogOut()
         moveToEmailWrite()
@@ -104,6 +107,33 @@ class MyPageMainFragment : Fragment() {
     private fun moveToNotificationSetting() {
         binding.linearLayoutNotificationSettingMyPageMain.setOnClickListener {
             mainActivity.replaceFragment(MainActivity.NOTIFICATION_SETTING_FRAGMENT, true, null)
+        }
+    }
+
+    // 공지사항 클릭
+    private fun moveToAnnouncement() {
+        binding.linearLayoutAnnouncementMyPageMain.setOnClickListener {
+            val context = it.context
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://phase-hurricane-4b0.notion.site/9fd4f4690a414206b3afbd21c30915d0"))
+            context.startActivity(intent)
+        }
+    }
+
+    // 자주 묻는 질문 클릭
+    private fun moveToFrequentlyAskedQuestions() {
+        binding.linearLayoutFrequentlyAskedQuestionsMyPageMain.setOnClickListener {
+            val context = it.context
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://phase-hurricane-4b0.notion.site/39014a62cf0844268c3001d7092a6f60"))
+            context.startActivity(intent)
+        }
+    }
+
+    // 서비스 이용 약관 클릭
+    private fun moveToTermsOfService() {
+        binding.linearLayoutTermsOfServiceMyPageMain.setOnClickListener {
+            val context = it.context
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://picayune-rhinoceros-77c.notion.site/57721e2e46bf46b7a15cc05afec24fc3"))
+            context.startActivity(intent)
         }
     }
 
