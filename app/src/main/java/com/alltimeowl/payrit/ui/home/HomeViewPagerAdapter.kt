@@ -1,5 +1,8 @@
 package com.alltimeowl.payrit.ui.home
 
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -22,61 +25,34 @@ class HomeViewPagerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     inner class ViewPagerViewHolderOne(private val binding: ItemBannerOneBinding) : RecyclerView.ViewHolder(binding.root) {
         // Banner One에 대한 ViewHolder 내용
         init {
-            // parent.context를 통해 context를 얻습니다.
-            val context = binding.root.context
+            binding.textViewShowBannerOne.setOnClickListener {
+                val context = it.context
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://payrit.info"))
+                context.startActivity(intent)
+            }
 
-            val imageLoader = ImageLoader.Builder(context)
-                .components {
-                    add(SvgDecoder.Factory())
-                }
-                .build()
-
-            val request = ImageRequest.Builder(context)
-                .data("https://github.com/wjdwntjd55/Algorithm-study/assets/73345198/181fbde9-49b9-4ef7-aa7b-19a594dbc847")
-                .target(binding.imageViewBannerOen)
-                .build()
-
-            imageLoader.enqueue(request)
         }
     }
 
     inner class ViewPagerViewHolderTwo(private val binding: ItemBannerTwoBinding) : RecyclerView.ViewHolder(binding.root) {
         // Banner Two에 대한 ViewHolder 내용
         init {
-            val context = binding.root.context
-
-            val imageLoader = ImageLoader.Builder(context)
-                .components {
-                    add(SvgDecoder.Factory())
-                }
-                .build()
-
-            val request = ImageRequest.Builder(context)
-                .data("https://github.com/wjdwntjd55/Kakao_Adress_Search/assets/73345198/6d3f6150-a5c4-4e80-8abc-a67b484ad33d")
-                .target(binding.imageViewBannerTwo)
-                .build()
-
-            imageLoader.enqueue(request)
+            binding.textViewShowBannerTwo.setOnClickListener {
+                val context = it.context
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://payrit.info"))
+                context.startActivity(intent)
+            }
         }
     }
 
     inner class ViewPagerViewHolderThree(private val binding: ItemBannerThreeBinding) : RecyclerView.ViewHolder(binding.root) {
         // Banner Three에 대한 ViewHolder 내용
         init {
-            val context = binding.root.context
-
-            val imageLoader = ImageLoader.Builder(context)
-                .components {
-                    add(SvgDecoder.Factory())
-                }
-                .build()
-
-            val request = ImageRequest.Builder(context)
-                .data("https://github.com/wjdwntjd55/Kakao_Adress_Search/assets/73345198/5737943e-fa5c-43e3-8395-4857f16508e5")
-                .target(binding.imageViewBannerThree)
-                .build()
-
-            imageLoader.enqueue(request)
+            binding.textViewShowBannerThree.setOnClickListener {
+                val context = it.context
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://payrit.info"))
+                context.startActivity(intent)
+            }
         }
     }
 

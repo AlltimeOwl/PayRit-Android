@@ -38,9 +38,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView_title_banner_two"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/img_banner_two" />
+                android:src="@drawable/img_banner_two" />
 
             <TextView
+                android:id="@+id/textView_show_banner_two"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"

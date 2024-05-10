@@ -35,12 +35,13 @@
                 android:layout_height="120dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                tools:src="@drawable/img_banner_one"
+                android:src="@drawable/img_banner_one"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView_title_banner_one"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/textView_show_banner_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
