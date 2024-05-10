@@ -4,15 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white100"
     android:orientation="vertical"
-    tools:context=".ui.write.WriteMainFragment">
+    android:background="@color/white"
+    tools:context=".ui.promise.PromiseMainFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar_promise_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="약속 작성하기"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/Suit.SemiBold18"
+        app:titleTextColor="@color/black100" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="16dp"
-        android:paddingTop="70dp">
+        android:paddingTop="10dp">
 
         <View
             android:layout_width="97sp"
@@ -29,7 +41,7 @@
     </FrameLayout>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView_write_iou_write_main"
+        android:id="@+id/cardView_make_promise_card_promise_main"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:layout_marginStart="16dp"
@@ -43,36 +55,36 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView_write_title"
+                android:id="@+id/textView_make_promise_card_title_promise_main"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="22dp"
                 android:layout_marginTop="32dp"
-                android:text="페이릿 작성하기"
+                android:text="약속 카드 만들기"
                 android:textAppearance="@style/Suit.Bold24"
-                app:layout_constraintBottom_toTopOf="@+id/textView_write_sub_title"
+                app:layout_constraintBottom_toTopOf="@+id/textView_make_promise_card_sub_title_promise_main"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView_write_sub_title"
+                android:id="@+id/textView_make_promise_card_sub_title_promise_main"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="22dp"
                 android:layout_marginTop="20dp"
-                android:text="차용증과 동일한 효력을\n가지고 있어요"
+                android:text="간단한 돈 약속 카드를\n제작해서 간직할 수 있어요"
                 android:textAppearance="@style/Suit.SemiBold14"
                 android:textColor="@color/grayScale05"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_write_title" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_make_promise_card_title_promise_main" />
 
             <ImageView
-                android:id="@+id/imageView_write_pay_rit"
+                android:id="@+id/imageView_make_promise_card_promise_main"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                tools:src="@drawable/img_write_pay_rit"
+                android:src="@drawable/img_write_promise"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,7 +93,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView_write_promise_write_main"
+        android:id="@+id/cardView_select_card_promise_main"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:layout_marginStart="16dp"
@@ -96,69 +108,42 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView_promise_write_title"
+                android:id="@+id/textView_select_card_title_promise_main"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="22dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="60dp"
-                android:text="약속 카드 만들기"
+                android:text="결제 카드 뽑기"
                 android:textAppearance="@style/Suit.Bold24"
-                app:layout_constraintBottom_toTopOf="@+id/textView_promise_write_sub_title"
+                app:layout_constraintBottom_toTopOf="@+id/textView_select_card_sub_title_promise_main"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView_promise_write_sub_title"
+                android:id="@+id/textView_select_card_sub_title_promise_main"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="22dp"
                 android:layout_marginTop="20dp"
-                android:text="간단한 돈 약속 카드를\n제작해서 간직할 수 있어요"
+                android:text="결제할 사람의 카드를\n뽑을 수 있어요"
                 android:textAppearance="@style/Suit.SemiBold14"
                 android:textColor="@color/grayScale05"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_promise_write_title" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_select_card_title_promise_main" />
 
             <ImageView
-                android:id="@+id/imageView_write_promise"
+                android:id="@+id/imageView_select_card_promise_main"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:src="@drawable/img_write_promise"
+                android:src="@drawable/img_card"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayout_write_main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="작성하기에 대한 궁금증은 여기서 해결!"
-            android:textAppearance="@style/Suit.Medium16"
-            android:textColor="@color/grayScale06" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:src="@drawable/ic_next_gray_scale06" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

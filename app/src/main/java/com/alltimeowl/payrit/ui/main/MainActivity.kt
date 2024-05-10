@@ -1,8 +1,11 @@
 package com.alltimeowl.payrit.ui.main
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -10,9 +13,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.databinding.ActivityMainBinding
+import com.alltimeowl.payrit.databinding.ItemCancelBinding
 import com.alltimeowl.payrit.databinding.ItemModifyCancelBinding
 import com.alltimeowl.payrit.ui.approval.RecipientApprovalFragment
 import com.alltimeowl.payrit.ui.home.HomeFragment
+import com.alltimeowl.payrit.ui.home.HomePromiseInfoFragment
 import com.alltimeowl.payrit.ui.home.IouBorrowDetailFragment
 import com.alltimeowl.payrit.ui.home.IouDetailAmountReceivedFragment
 import com.alltimeowl.payrit.ui.home.IouDetailFragment
@@ -25,6 +30,10 @@ import com.alltimeowl.payrit.ui.mypage.PaymentHistoryDetailFragment
 import com.alltimeowl.payrit.ui.mypage.PaymentHistoryFragment
 import com.alltimeowl.payrit.ui.mypage.WithdrawalFragment
 import com.alltimeowl.payrit.ui.payment.PaymentFragment
+import com.alltimeowl.payrit.ui.promise.PromiseContactFragment
+import com.alltimeowl.payrit.ui.promise.PromiseInformationFragment
+import com.alltimeowl.payrit.ui.promise.PromiseMainFragment
+import com.alltimeowl.payrit.ui.promise.PromiseMakeFragment
 import com.alltimeowl.payrit.ui.search.SearchFragment
 import com.alltimeowl.payrit.ui.write.IouContentCheckFragment
 import com.alltimeowl.payrit.ui.write.IouMainFragment
@@ -46,6 +55,8 @@ class MainActivity : AppCompatActivity() {
     private var lastBackPressedTime: Long = 0
     private val BACK_PRESS_INTERVAL: Long = 2000
 
+    val TAG = "MainActivity1"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,6 +65,34 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding.bottomNavigationViewMain.itemIconTintList = null
 
         replaceFragment(HOME_FRAGMENT, false, null)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        // 인텐트에서 데이터 가져오기
+        val action: String? = intent?.action
+        val data: Uri? = intent?.data
+
+        Log.d(TAG, "data : ${data}")
+
+        if (action == Intent.ACTION_VIEW && data != null) {
+            // 쿼리 파라미터에서 promiseId 가져오기
+            val promiseId = data.getQueryParameter("promiseId")
+
+            if (promiseId != null) {
+                // promiseId가 존재하는 경우
+                Log.d(TAG, "promiseId : $promiseId")
+                // 필요한 API 호출 또는 다른 작업 수행
+
+                val bundle = Bundle()
+                bundle.putString("promiseId", promiseId)
+
+                replaceFragment(HOME_FRAGMENT, false, bundle)
+            } else {
+                Log.d(TAG, "promiseId 가 존재 하지 않을 때 data : ${data}")
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -108,6 +147,11 @@ class MainActivity : AppCompatActivity() {
             PAYMENT_FRAGMENT -> PaymentFragment()
             CERTIFICATION_INFO_FRAGMENT -> CertificationInfoFragment()
             IOU_WRITER_APPROVAL_WAITING_FRAGMENT -> IouWriterApprovalWaitingFragment()
+            PROMISE_MAIN_FRAGMENT -> PromiseMainFragment()
+            PROMISE_CONTACT_FRAGMENT -> PromiseContactFragment()
+            PROMISE_INFORMATION_FRAGMENT -> PromiseInformationFragment()
+            PROMISE_MAKE_FRAGMENT -> PromiseMakeFragment()
+            HOME_PROMISE_INFO_FRAGMENT -> HomePromiseInfoFragment()
 
             else -> Fragment()
         }
@@ -314,6 +358,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun showCancelAlertDialog() {
+        val itemCancelBinding = ItemCancelBinding.inflate(layoutInflater)
+        val builder = MaterialAlertDialogBuilder(this)
+        builder.setView(itemCancelBinding.root)
+        val dialog = builder.create()
+
+        // 작성 중단 - 네
+        itemCancelBinding.textViewYesCancel.setOnClickListener {
+            dialog.dismiss()
+
+            removeAllBackStack()
+        }
+
+        // 작성 중단 - 아니오
+        itemCancelBinding.textViewNoCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
 
     companion object {
 
@@ -340,5 +405,10 @@ class MainActivity : AppCompatActivity() {
         const val PAYMENT_FRAGMENT = "PaymentFragment"
         const val CERTIFICATION_INFO_FRAGMENT = "CertificationInfoFragment"
         const val IOU_WRITER_APPROVAL_WAITING_FRAGMENT = "IouWriterApprovalWaitingFragment"
+        const val PROMISE_MAIN_FRAGMENT = "PromiseMainFragment"
+        const val PROMISE_CONTACT_FRAGMENT = "PromiseContactFragment"
+        const val PROMISE_INFORMATION_FRAGMENT = "PromiseInformationFragment"
+        const val PROMISE_MAKE_FRAGMENT = "PromiseMakeFragment"
+        const val HOME_PROMISE_INFO_FRAGMENT = "HomePromiseInfoFragment"
     }
 }

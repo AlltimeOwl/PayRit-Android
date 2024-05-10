@@ -25,54 +25,113 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager_banner_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="188dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
+                    android:id="@+id/springDotsIndicator_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    app:dampingRatio="0.5"
+                    app:dotsColor="@color/white"
+                    app:dotsCornerRadius="20dp"
+                    app:dotsSize="10dp"
+                    app:dotsSpacing="6dp"
+                    app:dotsStrokeColor="@color/grayScale07"
+                    app:dotsStrokeWidth="2dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:stiffness="300" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/linearLayout_text_type_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:paddingStart="16dp">
+
+                <TextView
+                    android:id="@+id/textView_payrit_type_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="페이릿"
+                    android:textAppearance="@style/Suit.Bold18"
+                    android:textColor="@color/primaryMint" />
+
+                <TextView
+                    android:id="@+id/textView_promise_type_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="26dp"
+                    android:text="약속"
+                    android:textAppearance="@style/Suit.Bold18"
+                    android:textColor="@color/grayScale06" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginTop="4dp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <View
+                    android:id="@+id/view_payrit_line"
+                    android:layout_width="46sp"
+                    android:layout_height="3dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@color/primaryMint" />
+
+                <View
+                    android:id="@+id/view_promise_line"
+                    android:layout_width="32sp"
+                    android:layout_height="3dp"
+                    android:layout_marginStart="26dp"
+                    android:background="@color/white100" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout_payrit_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:id="@+id/progressBar_loading_home"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/viewPager_banner_home"
-                        android:layout_width="match_parent"
-                        android:layout_height="188dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
-                        android:id="@+id/springDotsIndicator_home"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="10dp"
-                        app:dampingRatio="0.5"
-                        app:dotsColor="@color/white"
-                        app:dotsCornerRadius="20dp"
-                        app:dotsSize="10dp"
-                        app:dotsSpacing="6dp"
-                        app:dotsStrokeColor="@color/grayScale07"
-                        app:dotsStrokeWidth="2dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:stiffness="300" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="60dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/linearLayout_nonexistence_transaction_home"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="110dp"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -93,72 +152,122 @@
                     android:backgroundTint="@color/primaryMint"
                     android:text="본인인증 후 조회하기"
                     android:textAppearance="@style/Typography.Regular16"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linearLayout_existence_transaction_home"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ProgressBar
-                        android:id="@+id/progressBar_loading_home"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginTop="30dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/linearLayout_existence_transaction_home"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:orientation="vertical"
-                        android:visibility="gone"
-                        app:layout_constraintTop_toTopOf="parent">
+                        android:layout_height="wrap_content">
 
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/textView_iou_number_home"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="4dp"
-                                android:textAppearance="@style/Suit.Medium16"
-                                android:textColor="@color/grayScale02"
-                                tools:text="총3건" />
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="0dp"
-                                android:layout_weight="1" />
-
-                            <Spinner
-                                android:id="@+id/spinner_home"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/selector_spinner"
-                                android:popupBackground="@drawable/bg_white_r12" />
-
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerView_home"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/textView_iou_number_home"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp" />
+                            android:layout_marginStart="4dp"
+                            android:textAppearance="@style/Suit.Medium16"
+                            android:textColor="@color/grayScale02"
+                            tools:text="총3건" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <Spinner
+                            android:id="@+id/spinner_home"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/selector_spinner"
+                            android:popupBackground="@drawable/bg_white_r12" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView_home"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:clipToPadding="false"
+                        android:paddingBottom="20dp" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </ScrollView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout_promise_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/textView_no_promise_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="110dp"
+                    android:text="작성된 약속이 없습니다."
+                    android:textAlignment="center"
+                    android:textAppearance="@style/Typography.Regular20"
+                    android:textColor="@color/gray200"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linearLayout_existence_promise_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/textView_promise_number_home"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:textAppearance="@style/Suit.Medium16"
+                        android:textColor="@color/grayScale02"
+                        tools:text="총3건" />
+
+                    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                        android:id="@+id/refreshLayout_promise"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="6dp">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView_promise"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clipToPadding="false"
+                            android:paddingBottom="20dp"
+                            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            tools:listitem="@layout/item_home_promise_card"
+                            tools:spanCount="2" />
+
+                    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <android.widget.Button
             android:id="@+id/button_guide_home"

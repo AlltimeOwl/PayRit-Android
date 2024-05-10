@@ -12,10 +12,12 @@ import com.alltimeowl.payrit.data.model.LoginRequest
 import com.alltimeowl.payrit.data.model.LoginResponse
 import com.alltimeowl.payrit.data.model.MemoRequest
 import com.alltimeowl.payrit.data.model.ModifyRequest
+import com.alltimeowl.payrit.data.model.PromiseDetail
 import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.data.model.SavePaymentInformationRequest
 import com.alltimeowl.payrit.data.model.getMyIouListResponse
 import com.alltimeowl.payrit.data.model.UserCertificationResponse
+import com.alltimeowl.payrit.data.model.WritePromiseRequest
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -138,6 +140,27 @@ interface PayRitApi {
 
     @PUT("api/v1/paper/refuse/{id}")
     fun refuseIou(
+        @Header("Authorization") accessToken: String,
+        @Path("id") id: Int
+    ): Call<Void>
+
+    @POST("api/v1/promise/write")
+    fun writePromise(
+        @Header("Authorization") accessToken: String,
+        @Body writePromiseRequest: WritePromiseRequest
+    ): Call<Long>
+
+    @GET("api/v1/promise/list")
+    fun getMyPromiseList(@Header("Authorization") accessToken: String): Call<List<PromiseDetail>>
+
+    @DELETE("api/v1/promise/remove/{id}")
+    fun deletePromise(
+        @Header("Authorization") accessToken: String,
+        @Path("id") id: Int
+    ): Call<Void>
+
+    @POST("api/v1/promise/share/{id}")
+    fun sharePromise(
         @Header("Authorization") accessToken: String,
         @Path("id") id: Int
     ): Call<Void>

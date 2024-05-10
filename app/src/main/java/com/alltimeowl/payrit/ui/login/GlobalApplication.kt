@@ -3,6 +3,7 @@ package com.alltimeowl.payrit.ui.login
 import android.app.Application
 import com.alltimeowl.payrit.BuildConfig
 import com.alltimeowl.payrit.data.model.SharedPreferencesManager
+import com.alltimeowl.payrit.data.model.SharedPreferencesPromiseManager
 import com.iamport.sdk.domain.core.Iamport
 import com.kakao.sdk.common.KakaoSdk
 
@@ -15,6 +16,7 @@ class GlobalApplication : Application() {
         // Kakao SDK 초기화
         KakaoSdk.init(this, BuildConfig.KAKAO_NATIVE_APP_KEY)
         SharedPreferencesManager.init(this)
+        SharedPreferencesPromiseManager.init(this)
 
         Iamport.create(this)
     }

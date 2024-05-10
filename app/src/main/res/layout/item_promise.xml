@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_promise_edit_text"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLine_top"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLine_left"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.03" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLine_right"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.27" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLine_end"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.97" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLine_bottom"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="1" />
+
+        <TextView
+            android:id="@+id/textView_recipient_name_item_promise"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:paddingEnd="8dp"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/Suit.Medium16"
+            app:layout_constraintBottom_toBottomOf="@id/guideLine_bottom"
+            app:layout_constraintEnd_toEndOf="@id/guideLine_right"
+            app:layout_constraintStart_toStartOf="@id/guideLine_left"
+            app:layout_constraintTop_toBottomOf="@id/guideLine_top"
+            tools:text="이름" />
+
+        <View
+            android:id="@+id/textView_standard_item_promise"
+            android:layout_width="0.8dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="@color/black"
+            android:text="|"
+            app:layout_constraintBottom_toBottomOf="@id/guideLine_bottom"
+            app:layout_constraintStart_toStartOf="@id/guideLine_right"
+            app:layout_constraintTop_toBottomOf="@id/guideLine_top" />
+
+        <TextView
+            android:id="@+id/editText_recipient_phone_number_item_promise"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textAppearance="@style/Suit.Medium16"
+            app:layout_constraintBottom_toBottomOf="@id/guideLine_bottom"
+            app:layout_constraintEnd_toStartOf="@+id/imageView_clear_item_promise"
+            app:layout_constraintStart_toStartOf="@id/guideLine_right"
+            app:layout_constraintTop_toBottomOf="@id/guideLine_top"
+            tools:text="연락처" />
+
+        <ImageView
+            android:id="@+id/imageView_clear_item_promise"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_clear"
+            app:layout_constraintBottom_toBottomOf="@id/guideLine_bottom"
+            app:layout_constraintEnd_toEndOf="@+id/guideLine_end"
+            app:layout_constraintStart_toEndOf="@+id/editText_recipient_phone_number_item_promise"
+            app:layout_constraintTop_toBottomOf="@id/guideLine_top" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
