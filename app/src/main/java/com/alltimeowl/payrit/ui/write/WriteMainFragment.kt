@@ -7,9 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import coil.ImageLoader
-import coil.decode.SvgDecoder
-import coil.request.ImageRequest
 import com.alltimeowl.payrit.BuildConfig
 import com.alltimeowl.payrit.R
 import com.alltimeowl.payrit.data.model.SharedPreferencesManager
@@ -59,33 +56,6 @@ class WriteMainFragment : Fragment() {
         binding.run {
 
             mainActivity.showBottomNavigationView()
-
-            // 사진 불러오기
-            val imageLoader = ImageLoader.Builder(requireContext())
-                .components {
-                    add(SvgDecoder.Factory())
-                }
-                .build()
-
-            val request = ImageRequest.Builder(requireContext())
-                .data("https://github.com/wjdwntjd55/Blog/assets/73345198/b1b7c422-0946-4cfe-8f86-ac00fdc1f06c")
-                .target(imageViewWritePayRit)
-                .build()
-
-            imageLoader.enqueue(request)
-
-            val imageLoaderTwo = ImageLoader.Builder(requireContext())
-                .components {
-                    add(SvgDecoder.Factory())
-                }
-                .build()
-
-            val requestTwo = ImageRequest.Builder(requireContext())
-                .data("https://github.com/wjdwntjd55/Blog/assets/73345198/8e916403-3661-46e8-b14c-7c99348bcb0a")
-                .target(imageViewWritePromise)
-                .build()
-
-            imageLoaderTwo.enqueue(requestTwo)
 
             // 차용증 작성하기 클릭
             cardViewWriteIouWriteMain.setOnClickListener {

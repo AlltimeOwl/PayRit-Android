@@ -20,15 +20,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import coil.ImageLoader
-import coil.decode.SvgDecoder
-import coil.request.ImageRequest
 import com.alltimeowl.payrit.data.model.RepaymentRequest
 import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.FragmentIouDetailBinding
 import com.alltimeowl.payrit.databinding.ItemAlarmBinding
 import com.alltimeowl.payrit.databinding.ItemDocumentBinding
 import com.alltimeowl.payrit.databinding.ItemEntireRecordBinding
+import com.alltimeowl.payrit.databinding.ItemNotificationBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -96,33 +94,6 @@ class IouDetailFragment : Fragment() {
                     mainActivity.removeFragment(MainActivity.IOU_DETAIL_FRAGMENT)
                 }
             }
-
-            // 사진 불러오기
-            val imageLoader = ImageLoader.Builder(requireContext())
-                .components {
-                    add(SvgDecoder.Factory())
-                }
-                .build()
-
-            val request = ImageRequest.Builder(requireContext())
-                .data("https://github.com/wjdwntjd55/Blog/assets/73345198/77a61fb6-3143-47c9-a218-11584efed32e")
-                .target(imageViewEntireRecordIouDetail)
-                .build()
-
-            imageLoader.enqueue(request)
-
-            val imageLoaderTwo = ImageLoader.Builder(requireContext())
-                .components {
-                    add(SvgDecoder.Factory())
-                }
-                .build()
-
-            val requestTwo = ImageRequest.Builder(requireContext())
-                .data("https://github.com/wjdwntjd55/Blog/assets/73345198/e250b629-9c80-486c-b21e-ded56a21cd04")
-                .target(imageViewPartRecordIouDetail)
-                .build()
-
-            imageLoaderTwo.enqueue(requestTwo)
 
             // 전체 상환 기록 클릭
             constraintLayoutEntireRecordIouDetail.setOnClickListener {
@@ -478,9 +449,22 @@ class IouDetailFragment : Fragment() {
         // 추가 알림 전송 - 네
         itemAlarmBinding.textViewYesAlarm.setOnClickListener {
             dialog.dismiss()
+            notificationAlertDialog()
         }
 
         dialog.show()
     }
 
+    private fun notificationAlertDialog() {
+        val itemNotificationBinding = ItemNotificationBinding.inflate(layoutInflater)
+        val builder = MaterialAlertDialogBuilder(mainActivity)
+        builder.setView(itemNotificationBinding.root)
+        val dialog = builder.create()
+
+        itemNotificationBinding.textViewNotification.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
 }
