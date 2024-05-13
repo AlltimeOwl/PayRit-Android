@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.ActivityLoginBinding
 import com.alltimeowl.payrit.ui.main.MainActivity
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.kakao.sdk.auth.model.OAuthToken
@@ -77,6 +79,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     val TAG = "LoginActivity1"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,12 +90,19 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+        firebaseAnalytics = Firebase.analytics
 
         moveToHome()
     }
 
     private fun moveToHome() {
         binding.buttonKakaotalkLogin.setOnClickListener {
+
+            // 이벤트 번들 생성
+            val bundle = Bundle()
+
+            // 이벤트 기록
+            firebaseAnalytics.logEvent("kakao_signIn_AOS", bundle)
 
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
                 // 카카오톡으로 로그인

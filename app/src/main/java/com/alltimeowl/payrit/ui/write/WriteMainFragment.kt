@@ -16,6 +16,9 @@ import com.alltimeowl.payrit.databinding.ItemUserCertificationBinding
 import com.alltimeowl.payrit.ui.home.HomeViewModel
 import com.alltimeowl.payrit.ui.main.MainActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.iamport.sdk.data.sdk.IamPortCertification
 import com.iamport.sdk.domain.core.Iamport
 import java.util.UUID
@@ -28,6 +31,8 @@ class WriteMainFragment : Fragment() {
     private lateinit var viewModel: WriteMainViewModel
     private lateinit var homeViewModel: HomeViewModel
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     val TAG = "WriteMainFragment"
 
     override fun onCreateView(
@@ -37,6 +42,7 @@ class WriteMainFragment : Fragment() {
 
         mainActivity = activity as MainActivity
         binding = FragmentWriteMainBinding.inflate(layoutInflater)
+        firebaseAnalytics = Firebase.analytics
 
         viewModel = ViewModelProvider(this)[WriteMainViewModel::class.java]
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
@@ -60,6 +66,9 @@ class WriteMainFragment : Fragment() {
             // 차용증 작성하기 클릭
             cardViewWriteIouWriteMain.setOnClickListener {
 
+                val bundle = Bundle()
+                firebaseAnalytics.logEvent("write_PayRit_AOS", bundle)
+
                 val accessToken = SharedPreferencesManager.getAccessToken()
                 viewModel.checkCertification(
                     accessToken,
@@ -75,6 +84,10 @@ class WriteMainFragment : Fragment() {
 
             // 약속 카드 만들기 클릭
             cardViewWritePromiseWriteMain.setOnClickListener {
+
+                val bundle = Bundle()
+                firebaseAnalytics.logEvent("write_Promise_AOS", bundle)
+
                 mainActivity.replaceFragment(MainActivity.PROMISE_MAIN_FRAGMENT, true, null)
             }
 

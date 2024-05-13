@@ -10,17 +10,26 @@ import com.alltimeowl.payrit.data.model.SharedPreferencesManager
 import com.alltimeowl.payrit.databinding.ActivitySplashBinding
 import com.alltimeowl.payrit.ui.login.LoginActivity
 import com.alltimeowl.payrit.ui.main.MainActivity
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 
 
 class SplashActivity : AppCompatActivity() {
 
     lateinit var binding: ActivitySplashBinding
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivitySplashBinding.inflate(layoutInflater)
+        firebaseAnalytics = Firebase.analytics
         setContentView(binding.root)
+
+        val bundle = Bundle()
+        firebaseAnalytics.logEvent("visit_PayRit_AOS", bundle)
 
         Handler(Looper.getMainLooper()).postDelayed({
 

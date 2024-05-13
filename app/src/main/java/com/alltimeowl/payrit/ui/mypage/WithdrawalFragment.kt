@@ -20,6 +20,9 @@ import com.alltimeowl.payrit.databinding.ItemUserWithdrawalCompleteBinding
 import com.alltimeowl.payrit.ui.login.LoginActivity
 import com.alltimeowl.payrit.ui.main.MainActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.user.UserApiClient
 
 class WithdrawalFragment : Fragment() {
@@ -30,6 +33,8 @@ class WithdrawalFragment : Fragment() {
 
     private lateinit var myPageViewModel: MyPageViewModel
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     val TAG = "WithdrawalFragment"
 
     override fun onCreateView(
@@ -39,6 +44,7 @@ class WithdrawalFragment : Fragment() {
 
         mainActivity = activity as MainActivity
         binding = FragmentWithdrawalBinding.inflate(layoutInflater)
+        firebaseAnalytics = Firebase.analytics
 
         myPageViewModel = ViewModelProvider(this)[MyPageViewModel::class.java]
 
@@ -107,6 +113,9 @@ class WithdrawalFragment : Fragment() {
 
         // 회원탈퇴 - 네
         itemUserWithdrawalBinding.textViewYesWithdrawal.setOnClickListener {
+            val bundle = Bundle()
+            firebaseAnalytics.logEvent("withdrawal_PayRit_AOS", bundle)
+
             dialog.dismiss()
 
             // 연결 끊기

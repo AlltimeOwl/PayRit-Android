@@ -82,6 +82,9 @@ dependencies {
     // firebase-messaging
     implementation("com.google.firebase:firebase-messaging-ktx")
 
+    // firebase-analytics
+    implementation("com.google.firebase:firebase-analytics-ktx")
+
     // glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
