@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".ui.card.CardSettingFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar_card_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="랜덤 결제하기"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/Suit.SemiBold18"
+        app:titleTextColor="@color/black100" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/textView_title_card_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="인원 수를 정해주세요"
+            android:textAlignment="center"
+            android:textAppearance="@style/Suit.Bold22"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.2" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linearLayout_card_setting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/button_minus_card_setting"
+                android:layout_width="0dp"
+                android:layout_height="87dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_minus_box_off" />
+
+            <EditText
+                android:id="@+id/editText_card_setting"
+                android:layout_width="0dp"
+                android:layout_height="87dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:inputType="number"
+                android:text="1"
+                android:textAlignment="center"
+                android:textAppearance="@style/Suit.Bold22"
+                android:textSize="64dp" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/button_plus_card_setting"
+                android:layout_width="0dp"
+                android:layout_height="87dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_add_box" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_next_card_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_gray_scale07_r12"
+        android:stateListAnimator="@null"
+        android:enabled="false"
+        android:text="다음"
+        android:textAppearance="@style/Typography.Bold20"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -16,6 +16,8 @@ import com.alltimeowl.payrit.databinding.ActivityMainBinding
 import com.alltimeowl.payrit.databinding.ItemCancelBinding
 import com.alltimeowl.payrit.databinding.ItemModifyCancelBinding
 import com.alltimeowl.payrit.ui.approval.RecipientApprovalFragment
+import com.alltimeowl.payrit.ui.card.CardSelectFragment
+import com.alltimeowl.payrit.ui.card.CardSettingFragment
 import com.alltimeowl.payrit.ui.home.HomeFragment
 import com.alltimeowl.payrit.ui.home.HomePromiseInfoFragment
 import com.alltimeowl.payrit.ui.home.IouBorrowDetailFragment
@@ -152,6 +154,8 @@ class MainActivity : AppCompatActivity() {
             PROMISE_INFORMATION_FRAGMENT -> PromiseInformationFragment()
             PROMISE_MAKE_FRAGMENT -> PromiseMakeFragment()
             HOME_PROMISE_INFO_FRAGMENT -> HomePromiseInfoFragment()
+            CARD_SETTING_FRAGMENT -> CardSettingFragment()
+            CARD_SELECT_FRAGMENT -> CardSelectFragment()
 
             else -> Fragment()
         }
@@ -410,5 +414,7 @@ class MainActivity : AppCompatActivity() {
         const val PROMISE_INFORMATION_FRAGMENT = "PromiseInformationFragment"
         const val PROMISE_MAKE_FRAGMENT = "PromiseMakeFragment"
         const val HOME_PROMISE_INFO_FRAGMENT = "HomePromiseInfoFragment"
+        const val CARD_SETTING_FRAGMENT = "CardSettingFragment"
+        const val CARD_SELECT_FRAGMENT = "CardSelectFragment"
     }
 }
