@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/motionLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    app:layoutDescription="@xml/item_odd_card_scene">
+
+    <ImageView
+        android:id="@+id/imageView_odd_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_mint_card" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

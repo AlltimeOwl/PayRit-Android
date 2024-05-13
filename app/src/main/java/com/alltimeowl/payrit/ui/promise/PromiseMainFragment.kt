@@ -41,6 +41,11 @@ class PromiseMainFragment : Fragment() {
                 mainActivity.replaceFragment(MainActivity.PROMISE_CONTACT_FRAGMENT, true, null)
             }
 
+            // 결제 카드 뽑기 클릭
+            cardViewSelectCardPromiseMain.setOnClickListener {
+                mainActivity.replaceFragment(MainActivity.CARD_SETTING_FRAGMENT, true, null)
+            }
+
         }
     }
 
